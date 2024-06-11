@@ -14,7 +14,7 @@ import ProfilePic from '../../../../../assets/images/settings/driver-profile.png
 
 import React from "react";
 
-const CustomCard = ({ driver }) => {
+const CustomCard = ({ driver, handleOpenEditModal }) => {
   return (
     <>
       <Card
@@ -250,6 +250,7 @@ const CustomCard = ({ driver }) => {
             }}
           >
             <Button
+              onClick={handleOpenEditModal}
               size="small"
               sx={{
                 background: "#006BCE33",

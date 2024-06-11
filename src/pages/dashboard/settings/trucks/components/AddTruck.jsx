@@ -6,8 +6,9 @@ import InputField from './InputField'
 import { roles } from '../../../../../data/data'
 import { regions } from '../../../../../data/data'
 import CameraIcon from '../../../../../assets/svgs/modal/CameraIcon'
+import SaveIcon from '../../../../../assets/svgs/settings/SaveIcon'
 
-const EditUser = ({ onClose, label, maxLength, type }) => {
+const AddTruck = ({ onClose, label, maxLength, type }) => {
     const [imageSrc, setImageSrc] = useState('');
 
     const handleImageSrc = (e) => {
@@ -43,7 +44,7 @@ const EditUser = ({ onClose, label, maxLength, type }) => {
                 <Box sx={{cursor: 'pointer', height: '25px'}} onClick={onClose}>
                     <BackIcon />
                 </Box>
-                EDIT USER
+                ADD TRUCK
              </Box>
              <Box sx={{cursor: 'pointer'}} onClick={onClose}>
                 <CloseIcon onClick={onClose} />
@@ -56,57 +57,45 @@ const EditUser = ({ onClose, label, maxLength, type }) => {
                 lg: '2.5rem',
             }
         }}>
-            <Grid container spacing='16'>
-                <Grid item xs='12' lg='6'>
-                    <InputField type='text' label='First Name' maxLength='20' />
+            <Typography sx={{
+                fontWeight: 700,
+                fontSize: '20px',
+                marginBottom: '2rem'
+            }}>
+                General Info
+            </Typography>
+            <Grid container spacing='2rem'>
+                <Grid item xs='12' lg='8'>
+                    <Grid container spacing='14'>
+                        <Grid item xs='12' lg='6'>
+                            <InputField type='text' label='Truck Name' maxLength='20' />
+                        </Grid>
+                        <Grid item xs='12' lg='6'>
+                            <InputField type='number' label='Truck Number' maxLength='20' />
+                        </Grid>
+                        <Grid item xs='12' lg='6'>
+                            <InputField type='number' label='Plate Number' maxLength='20' />
+                        </Grid>
+                        <Grid item xs='12' lg='6'>
+                            <InputField type='number' label='Device ID' maxLength='20' />
+                        </Grid>
+                    </Grid>
                 </Grid>
-                <Grid item xs='12' lg='6'>
-                    <InputField type='text' label='Last Name' maxLength='20' />
-                </Grid>
-                <Grid item xs='12' lg='6'>
-                    <InputField type='email' label='Email' maxLength='30' />
-                </Grid>
-                <Grid item xs='12' lg='6'>
-                    <InputField type='tel' label='Phone' maxLength='20' />
-                </Grid>
-                <Grid item xs='12' lg='6'>
-                    <TextField 
-                        select
-                        fullWidth
-                        label='Role'
-                    >
-                        {roles.map((role, i) => (
-                            <MenuItem key={i} value={role.role}>
-                                {role.role}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <TextField 
-                        select
-                        fullWidth
-                        label='Region'
-                        sx={{ marginTop: '1rem' }}
-                    >
-                        {regions.map((region, i) => (
-                            <MenuItem key={i} value={region.region}>
-                                {region.region}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                </Grid>
-                <Grid item xs='12' lg='6' display='flex' flexDirection='column' alignItems='flex-end'>
+                <Grid item xs='12' lg='4'>
                     <Typography sx={{
                         color: 'rgba(113, 117, 121, 1)',
                         fontSize: '18px',
                         fontWeight: 600
                     }}>
-                        PROFILE PICTURE
+                        Truck PICTURE
                     </Typography>
                     <Image src={imageSrc} />
                     <ChangeButton startIcon={ <CameraIcon /> }>
                         CHANGE PHOTOS
                         <FileInput type='file' onChange={handleImageSrc} />
                     </ChangeButton>
+                </Grid>
+                <Grid item xs='12'>
                     <Box sx={{
                         display: 'flex',
                         alignItems: 'center',
@@ -115,7 +104,9 @@ const EditUser = ({ onClose, label, maxLength, type }) => {
                         justifyContent: 'center'
                     }}>
                         <CancelBtn onClick={onClose}>Cancel</CancelBtn>
-                        <Button sx={{
+                        <Button
+                        startIcon={ <SaveIcon /> } 
+                        sx={{
                             color: '#fff',
                             borderRadius: '16px',
                             width: '137px',
@@ -131,7 +122,7 @@ const EditUser = ({ onClose, label, maxLength, type }) => {
   )
 }
 
-export default EditUser
+export default AddTruck
 
 const ChangeButton = styled(Button)({
     border: '1px solid rgba(0, 107, 206, 1)',

@@ -15,7 +15,7 @@ import {
   import Profile from '../../../../../assets/images/settings/vehicle-pic.png'
 
   
-const TruckCard = ({truck}) => {
+const TruckCard = ({truck, handleOpenEditModal}) => {
   return (
     <>
     <Card
@@ -311,6 +311,7 @@ const TruckCard = ({truck}) => {
             }}
           >
             <Button
+              onClick={handleOpenEditModal}
               size="small"
               sx={{
                 background: "#006BCE33",

@@ -5,20 +5,20 @@ const Modal = ({ children, onClose }) => {
   return (
     <>
         <ModalOuter onClick={onClose}>
-            <MOdalInner onClick={(e) => e.stopPropagation()} sx={{
+            <ModalInner onClick={(e) => e.stopPropagation()} sx={{
                padding: {
                 xs: '1rem',
                 md: '1.2rem'
                 },
                 width: {
                     xs: '300px',
-                    md: '600px',
+                    sm: '600px',
                     lg: '900px',
                     xl: '1000px'
                 }
             }}>
                 {children}
-            </MOdalInner>
+            </ModalInner>
         </ModalOuter>
     </>
   )
@@ -37,10 +37,13 @@ const ModalOuter = styled('div')({
     padding: '30px 16px'
 })
 
-const MOdalInner = styled('div')({
+const ModalInner = styled('div')({
     background: 'rgba(245, 244, 244, 1)',
     borderRadius: '24px',
     maxWidth: '100%',
     overflow: 'auto',
-    height: '100%'
+    height: '100%',
+    '&::-webkit-scrollbar': {
+        width: '0'
+    }
 })
