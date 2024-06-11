@@ -13,7 +13,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone'
 import ProfilePic from '../../../../../assets/images/settings/driver-profile.png'
 import React from 'react'
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, handleOpenEditModal }) => {
   return (
     <>
       <Card
@@ -248,6 +248,7 @@ const UserCard = ({ user }) => {
             }}
           >
             <Button
+              onClick={handleOpenEditModal}
               size="small"
               sx={{
                 background: '#006BCE33',

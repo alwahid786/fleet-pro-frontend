@@ -7,7 +7,7 @@ import { roles } from '../../../../../data/data'
 import { regions } from '../../../../../data/data'
 import CameraIcon from '../../../../../assets/svgs/modal/CameraIcon'
 
-const EditUser = ({ onClose, label, maxLength, type }) => {
+const AddUser = ({ onClose, label, maxLength, type }) => {
     const [imageSrc, setImageSrc] = useState('');
 
     const handleImageSrc = (e) => {
@@ -43,7 +43,7 @@ const EditUser = ({ onClose, label, maxLength, type }) => {
                 <Box sx={{cursor: 'pointer', height: '25px'}} onClick={onClose}>
                     <BackIcon />
                 </Box>
-                EDIT USER
+                ADD USER
              </Box>
              <Box sx={{cursor: 'pointer'}} onClick={onClose}>
                 <CloseIcon onClick={onClose} />
@@ -131,7 +131,7 @@ const EditUser = ({ onClose, label, maxLength, type }) => {
   )
 }
 
-export default EditUser
+export default AddUser
 
 const ChangeButton = styled(Button)({
     border: '1px solid rgba(0, 107, 206, 1)',
