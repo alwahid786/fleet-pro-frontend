@@ -54,7 +54,6 @@ const rows = [
   },
 ];
 
-
 const AlertType = () => {
   const [modalType, setModalType] = useState(null);
   

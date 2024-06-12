@@ -26,6 +26,7 @@ const Aside = ({ toggleNav }) => {
     setOpenPage(openPage === page ? null : page)
     setIsActivePage(page)
   }
+  
   const handleLogout = () => {
     navigate('/login')
   }

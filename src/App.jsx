@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -13,6 +13,8 @@ import Otp from "./pages/auth/otp/Otp";
 import ForgotPassword from "./pages/auth/forgot-password/ForgotPassword";
 import ResetPassword from "./pages/auth/reset-password/ResetPassword";
 import GlobalLoader from "./components/loader/Loader";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = lazy(() => import("./pages/auth/login"));
 const Home = lazy(() => import("./pages/dashboard/Home/Home"));
@@ -151,7 +153,9 @@ function App() {
           <Route path="map" element={<RealTimeMap />} />
         </Route>
       </Routes>
+      <ToastContainer/>
     </Router>
+
   );
 }
 
