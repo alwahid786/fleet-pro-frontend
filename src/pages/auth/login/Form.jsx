@@ -1,23 +1,29 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import { Box, TextField, Button, Typography, IconButton } from '@mui/material'
 import EmailIcon from '../../../assets/svgs/login/EmailIcon'
 import EyeIconOpen from '../../../assets/svgs/login/EyeIconOpen'
 import EyeIconCLose from '../../../assets/svgs/login/EyeIconCLose'
 import { useNavigate } from 'react-router-dom'
+import { useLoginMutation } from '../../../redux/api/authApi'
 
 const Form = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const dispatch = useDispatch()
+  const [login] = useLoginMutation()
   const navigate = useNavigate()
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
   }
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    if(!password || !email) return alert("All field are required frontend")
     event.preventDefault()
+
+    const res = await login({email, password});
+
+    console.log(res);
+
   }
 
   return (
