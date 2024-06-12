@@ -1,6 +1,6 @@
 import { Box, Grid, styled } from '@mui/material'
 import React from 'react'
-import Header from './navigation/Header'
+import Header from './navigation/header/Header'
 import Aside from './navigation/Aside'
 import Main from './navigation/Main'
 

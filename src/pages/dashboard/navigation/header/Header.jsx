@@ -1,9 +1,10 @@
 import { Box, Drawer, Typography, styled } from '@mui/material';
 import React, { useState } from 'react';
-import HeaderBgImg from '../../../assets/images/header-bg-img.png'
-import SaudiLogo from '../../../assets/images/saudi-arabia-logo.png'
+import HeaderBgImg from '../../../../assets/images/header-bg-img.png'
+import SaudiLogo from '../../../../assets/images/saudi-arabia-logo.png'
 import { MenuRounded } from '@mui/icons-material';
-import Aside from './Aside';
+import Aside from '../Aside';
+import Notification from './components/Notification';
 
 
 const Header = () => {
@@ -12,6 +13,7 @@ const Header = () => {
   const toggleNav = (newOpen) => {
     setOpenNav(newOpen);
   }
+  
 
   return (
     <>
@@ -41,6 +43,7 @@ const Header = () => {
         <SaudiLogoDiv>
             <img src={SaudiLogo} alt="saudi logo" style={{width: '92px', height: 'auto'}} />
         </SaudiLogoDiv>
+        <Notification />
         <Box 
           onClick={() => toggleNav(true)}
           sx={{
