@@ -1,45 +1,43 @@
-import React, { lazy, Suspense } from "react";
-import "./App.css";
+import { lazy, Suspense } from 'react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import './App.css'
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
-} from "react-router-dom";
-import Dashboard from "./pages/dashboard";
+} from 'react-router-dom'
+import Dashboard from './pages/dashboard'
 // import ProtectedRoute from "./utils/ProtectedRoute";
-import RealTimeMap from "./pages/dashboard/RealTimeMap/RealTimeMap";
-import Otp from "./pages/auth/otp/Otp";
-import ForgotPassword from "./pages/auth/forgot-password/ForgotPassword";
-import ResetPassword from "./pages/auth/reset-password/ResetPassword";
-import GlobalLoader from "./components/loader/Loader";
+import RealTimeMap from './pages/dashboard/RealTimeMap/RealTimeMap'
+import Otp from './pages/auth/otp/Otp'
+import ForgotPassword from './pages/auth/forgot-password/ForgotPassword'
+import ResetPassword from './pages/auth/reset-password/ResetPassword'
+import GlobalLoader from './components/loader/Loader'
 
-const Login = lazy(() => import("./pages/auth/login"));
-const Home = lazy(() => import("./pages/dashboard/Home/Home"));
-const TruckReport = lazy(() =>
-  import("./pages/dashboard/report/truckreport/TruckReport")
-);
-const DailyOperations = lazy(() =>
-  import("./pages/dashboard/report/operations/DailyOperations")
-);
-const SOS = lazy(() => import("./pages/dashboard/report/sos/SOS"));
-const VideoEvidence = lazy(() =>
-  import("./pages/dashboard/report/video/VideoEvidence")
-);
-const AlertType = lazy(() =>
-  import("./pages/dashboard/settings/alert/AlertType")
-);
-const Drivers = lazy(() =>
-  import("./pages/dashboard/settings/drivers/Drivers")
-);
-const Trucks = lazy(() => import("./pages/dashboard/settings/trucks/Trucks"));
-const Devices = lazy(() =>
-  import("./pages/dashboard/settings/devices/Devices")
-);
-const Users = lazy(() => import("./pages/dashboard/settings/users/Users"));
+const Login = lazy(() => import('./pages/auth/login'))
+const Home = lazy(() => import('./pages/dashboard/Home/Home'))
+const TruckReport = lazy(
+  () => import('./pages/dashboard/report/truckreport/TruckReport'),
+)
+const DailyOperations = lazy(
+  () => import('./pages/dashboard/report/operations/DailyOperations'),
+)
+const SOS = lazy(() => import('./pages/dashboard/report/sos/SOS'))
+const VideoEvidence = lazy(
+  () => import('./pages/dashboard/report/video/VideoEvidence'),
+)
+const AlertType = lazy(
+  () => import('./pages/dashboard/settings/alert/AlertType'),
+)
+const Drivers = lazy(() => import('./pages/dashboard/settings/drivers/Drivers'))
+const Trucks = lazy(() => import('./pages/dashboard/settings/trucks/Trucks'))
+const Devices = lazy(() => import('./pages/dashboard/settings/devices/Devices'))
+const Users = lazy(() => import('./pages/dashboard/settings/users/Users'))
 
 function App() {
-  const loader = <GlobalLoader />;
+  const loader = <GlobalLoader />
 
   return (
     <Router>
@@ -48,8 +46,8 @@ function App() {
           path="/login"
           element={
             <Suspense fallback={loader}>
-              {" "}
-              <Login />{" "}
+              {' '}
+              <Login />{' '}
             </Suspense>
           }
         />
@@ -151,8 +149,20 @@ function App() {
           <Route path="map" element={<RealTimeMap />} />
         </Route>
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
