@@ -8,9 +8,9 @@ import { regions } from '../../../../../data/data'
 const EditAlert = ({ onClose, label, maxLength, type }) => {
     const [selected, setSelected] = useState('On Platform');
 
-  const handleChange = (event) => {
-    setSelected(event.target.name);
-  };
+    const handleChange = (event) => {
+        setSelected(event.target.name);
+    };
 
   return (
     <>
