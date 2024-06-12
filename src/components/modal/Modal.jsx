@@ -43,6 +43,8 @@ const ModalInner = styled('div')({
     maxWidth: '100%',
     overflow: 'auto',
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     '&::-webkit-scrollbar': {
         width: '0'
     }
