@@ -20,12 +20,12 @@ const Dashboard = () => {
             height: '100%',
           }}
         >
-          <AsideGrid item lg={2}>
+          <AsideGrid item xl={2}>
             <Box
               sx={{
                 display: {
                   xs: 'none',
-                  lg: 'block',
+                  xl: 'block',
                 },
               }}
             >
@@ -35,7 +35,7 @@ const Dashboard = () => {
           <Grid
             item
             xs={12}
-            lg={10}
+            xl={10}
             sx={{ overflowY: 'scroll', background: '#f3f8ff' }}
           >
             <Header />

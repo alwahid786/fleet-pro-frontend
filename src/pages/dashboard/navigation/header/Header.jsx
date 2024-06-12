@@ -53,7 +53,7 @@ const Header = () => {
             left: '14px',
             display: {
               sm: 'block',
-              lg: 'none'
+              xl: 'none'
             }
           }}>
           <MenuRounded sx={{
@@ -87,9 +87,9 @@ export default Header;
 
 const HeaderBg = styled(Box)({
     background: `url(${HeaderBgImg}) no-repeat center / cover`,
-    padding: '78px 16px 90px 18px',
+    padding: '92px 34px 149px 34px',
     '@media (min-width: 960px)': { 
-      padding: '68px 34px 149px 34px',
+      padding: '92px 34px 149px 34px',
     },
     position: 'relative'
 });

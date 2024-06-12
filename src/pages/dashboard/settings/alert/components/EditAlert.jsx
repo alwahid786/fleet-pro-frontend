@@ -1,19 +1,16 @@
-import { Box, Button, Grid, styled, MenuItem, TextField, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Button, Grid, styled, MenuItem, TextField, Typography, FormControlLabel, Checkbox, FormGroup } from '@mui/material'
+import React, { useState } from 'react'
 import BackIcon from '../../../../../assets/svgs/modal/BackIcon'
 import CloseIcon from '../../../../../assets/svgs/modal/CloseIcon'
 import { roles } from '../../../../../data/data'
 import { regions } from '../../../../../data/data'
 
 const EditAlert = ({ onClose, label, maxLength, type }) => {
-<<<<<<< HEAD
-=======
     const [selected, setSelected] = useState('On Platform');
 
     const handleChange = (event) => {
         setSelected(event.target.name);
     };
->>>>>>> a152627ca696b2645793fc427dab193839e18411
 
   return (
     <>
@@ -36,7 +33,7 @@ const EditAlert = ({ onClose, label, maxLength, type }) => {
                 <Box sx={{cursor: 'pointer', height: '25px'}} onClick={onClose}>
                     <BackIcon />
                 </Box>
-                EDIT USER
+                EDIT ALERT
              </Box>
              <Box sx={{cursor: 'pointer'}} onClick={onClose}>
                 <CloseIcon onClick={onClose} />
@@ -44,45 +41,83 @@ const EditAlert = ({ onClose, label, maxLength, type }) => {
         </Box>
         {/* Form  */}
         <Box sx={{
+            display: 'flex',
+            flexGrow: 1,
             marginTop: {
                 xs: '1rem',
                 lg: '2.5rem',
             }
         }}>
-            <Grid container spacing='16'>
-                <Grid item xs='12' lg='6'>
-                    <TextField 
-                        select
-                        fullWidth
-                        label='Role'
-                    >
-                        {roles.map((role, i) => (
-                            <MenuItem key={i} value={role.role}>
-                                {role.role}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <TextField 
-                        select
-                        fullWidth
-                        label='Region'
-                        sx={{ marginTop: '1rem' }}
-                    >
-                        {regions.map((region, i) => (
-                            <MenuItem key={i} value={region.region}>
-                                {region.region}
-                            </MenuItem>
-                        ))}
-                    </TextField>
+            <Box sx={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+                <Grid container spacing='16'>
+                    <Grid item xs='12' lg='6'>
+                        <TextField 
+                            select
+                            fullWidth
+                            label='Role'
+                        >
+                            {roles.map((role, i) => (
+                                <MenuItem key={i} value={role.role}>
+                                    {role.role}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs='12' lg='6'>
+                        <TextField 
+                            select
+                            fullWidth
+                            label='Region'
+                        >
+                            {regions.map((region, i) => (
+                                <MenuItem key={i} value={region.region}>
+                                    {region.region}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs='12' mt={3}>
+                        <Typography sx={{
+                            color: 'rgba(17, 17, 17, 1)',
+                            fontSize: '16px',
+                            fontWeight: 600
+                        }}>
+                            NOTIFICATION TYPE*
+                        </Typography>
+                        <FormGroup row>
+                            <FormControlLabel
+                                sx={{color: 'rgba(17, 17, 17, 1)', fontWeight: 600}}
+                                control={
+                                    <Checkbox
+                                    checked={selected === 'Email'}
+                                    onChange={handleChange}
+                                    name="Email"
+                                    />
+                                }
+                                label="Email"
+                            />
+                            <FormControlLabel
+                                sx={{color: 'rgba(17, 17, 17, 1)', fontWeight: 600}}
+                                control={
+                                    <Checkbox
+                                    checked={selected === 'On Platform'}
+                                    onChange={handleChange}
+                                    name="On Platform"
+                                    />
+                                }
+                                label="On Platform"
+                                />
+                        </FormGroup>
+                    </Grid>
                 </Grid>
-                <Grid item xs='12' lg='6' display='flex' flexDirection='column' alignItems='flex-end'>
-                    <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem',
-                        width: '255px',
-                        justifyContent: 'center'
-                    }}>
+                <Box sx={{
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    gap: '1rem',
+                    justifyContent: 'flex-end',
+                    flexGrow: 1,
+                }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                         <CancelBtn onClick={onClose}>Cancel</CancelBtn>
                         <Button sx={{
                             color: '#fff',
@@ -93,8 +128,8 @@ const EditAlert = ({ onClose, label, maxLength, type }) => {
                             Save
                         </Button>
                     </Box>
-                </Grid>
-            </Grid>
+                </Box>
+            </Box>
         </Box>
     </>
   )
@@ -106,5 +141,5 @@ const CancelBtn = styled('span')({
     fontsize: '16px',
     fontWeight: 600,
     color: 'rgba(17, 17, 17, 1)',
-    cursor: 'pointer'  
+    cursor: 'pointer',
 })
