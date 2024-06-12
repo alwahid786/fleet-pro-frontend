@@ -6,6 +6,14 @@ import { roles } from '../../../../../data/data'
 import { regions } from '../../../../../data/data'
 
 const EditAlert = ({ onClose, label, maxLength, type }) => {
+<<<<<<< HEAD
+=======
+    const [selected, setSelected] = useState('On Platform');
+
+    const handleChange = (event) => {
+        setSelected(event.target.name);
+    };
+>>>>>>> a152627ca696b2645793fc427dab193839e18411
 
   return (
     <>
