@@ -4,26 +4,35 @@ import EmailIcon from '../../../assets/svgs/login/EmailIcon'
 import EyeIconOpen from '../../../assets/svgs/login/EyeIconOpen'
 import EyeIconCLose from '../../../assets/svgs/login/EyeIconCLose'
 import { useNavigate } from 'react-router-dom'
-import { useLoginMutation } from '../../../redux/api/authApi'
+import { useLoginMutation, useResetPasswordMutation } from '../../../redux/api/authApi'
 
 const Form = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [login] = useLoginMutation()
-  const navigate = useNavigate()
+  const [resetPassword] = useResetPasswordMutation()
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+  const togglePasswordVisibility = () => {setShowPassword(!showPassword)}
+
+
   const handleSubmit = async (event) => {
+
     if(!password || !email) return alert("All field are required frontend")
+
     event.preventDefault()
 
     const res = await login({email, password});
-
     console.log(res);
+  }
 
+  const resetPasswordHandle = async(event)=>{
+
+    event.preventDefault();
+    console.log("Reset")
+    const res = await resetPassword({email})
+
+    console.log(res)
   }
 
   return (
@@ -107,7 +116,7 @@ const Form = () => {
               color: 'rgba(0, 107, 206, 1)',
               cursor: 'pointer',
             }}
-            onClick={() => navigate('/forgot-password')}
+            onClick={resetPasswordHandle}
           >
             Forget Password?
           </Typography>

@@ -8,8 +8,7 @@ const store = configureStore({
     },
 
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware()
-            .concat(authApiPoint.middleware)
+        getDefaultMiddleware().concat([authApiPoint.middleware])
            
   });
   
