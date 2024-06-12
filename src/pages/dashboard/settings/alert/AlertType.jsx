@@ -4,6 +4,7 @@ import { Box, FormControlLabel, Switch, Typography } from "@mui/material";
 import DownloadIcon from "../../../../assets/svgs/reports/DownloadIcon";
 import EditIcon from '../../../../assets/svgs/settings/EditIcon'
 import Modal from "../../../../components/modal/Modal";
+import EditAlert from "./components/EditAlert";
 
 const rows = [
   {
@@ -53,108 +54,109 @@ const rows = [
   },
 ];
 
-const columns = [
-  { field: "alertType", headerName: "ALERT TYPE", headerAlign: 'center', align: 'center', width: 250 },
-  { 
-    field: "severity", 
-    headerName: "SEVERITY", 
-    width: 150,
-    headerAlign: 'center', 
-    align: 'center',
-    renderCell: (params) => (
-      <Box sx={{
-        height: '50px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '80%',
-        margin: 'auto'
-      }}>
-        <Box sx={{
-          background: '#ff6554',
-          borderRadius: '8px',
-          color: '#fff',
-          height: '42px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%'
-        }}>
-          {params.value}
-        </Box>
-      </Box>
-    )
-  },
-  { field: "notificationType", headerName: "NOTIFICATION TYPE", headerAlign: 'center', align: 'center', width: 250 },
-  { 
-    field: "status", 
-    headerName: "STATUS", 
-    width: 250, 
-    headerAlign: 'center', 
-    align: 'center',
-    renderCell: (params) => (
-      <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '0.5rem',
-        height: '100%'
-      }}>
-        <Typography>
-          {params.value}
-         </Typography>
-         <FormControlLabel 
-            control={
-              <Switch
-                checked={params.value === 'Enabled'}
-                onChange={(e) => {
-                  const newValue = e.target.checked ? 'Enabled' : 'Disabled';
-                const updatedRows = rows.map(row => row.id === params.id ? { ...row, status: newValue } : row);
-                params.api.updateRows([{ id: params.id, status: newValue }]);
-                }}
-               />
-            }
-            label=""
-         />
-      </Box>
-    )
-  },
-  { 
-    field: "actions", 
-    headerName: "ACTIONS", 
-    width: 250,
-    headerAlign: 'center', 
-    align: 'center',
-    renderCell: () => (
-      <Box 
-        onClick={handleOpenEditModal}
-        sx={{ 
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-          cursor: 'pointer',
-          height: '100%'
-        }}>
-        <EditIcon />
-      </Box>
-    )
-  },
-];
 
 const AlertType = () => {
   const [modalType, setModalType] = useState(null);
-
+  
   const handleOpenEditModal = () => {
     setModalType('edit');
-  }
-
+    }
+    
   const handleCloseModal = () => {
     setModalType(null);
-  }
+    }
+      
+  const columns = [
+    { field: "alertType", headerName: "ALERT TYPE", headerAlign: 'center', align: 'center', width: 250 },
+    { 
+      field: "severity", 
+      headerName: "SEVERITY", 
+      width: 150,
+      headerAlign: 'center', 
+      align: 'center',
+      renderCell: (params) => (
+        <Box sx={{
+          height: '50px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '80%',
+          margin: 'auto'
+        }}>
+          <Box sx={{
+            background: '#ff6554',
+            borderRadius: '8px',
+            color: '#fff',
+            height: '42px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%'
+          }}>
+            {params.value}
+          </Box>
+        </Box>
+      )
+    },
+    { field: "notificationType", headerName: "NOTIFICATION TYPE", headerAlign: 'center', align: 'center', width: 250 },
+    { 
+      field: "status", 
+      headerName: "STATUS", 
+      width: 250, 
+      headerAlign: 'center', 
+      align: 'center',
+      renderCell: (params) => (
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.5rem',
+          height: '100%'
+        }}>
+          <Typography>
+            {params.value}
+            </Typography>
+            <FormControlLabel 
+              control={
+                <Switch
+                  checked={params.value === 'Enabled'}
+                  onChange={(e) => {
+                    const newValue = e.target.checked ? 'Enabled' : 'Disabled';
+                  const updatedRows = rows.map(row => row.id === params.id ? { ...row, status: newValue } : row);
+                  params.api.updateRows([{ id: params.id, status: newValue }]);
+                  }}
+                  />
+              }
+              label=""
+            />
+        </Box>
+      )
+    },
+    { 
+      field: "actions", 
+      headerName: "ACTIONS", 
+      width: 250,
+      headerAlign: 'center', 
+      align: 'center',
+      renderCell: () => (
+        <Box 
+          onClick={handleOpenEditModal}
+          sx={{ 
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            cursor: 'pointer',
+            height: '100%'
+          }}>
+          <EditIcon />
+        </Box>
+      )
+    },
+  ];
 
-  return (
-    <>
+      return (
+        <>
       <Box
         sx={{
           width: "100%",
@@ -245,7 +247,7 @@ const AlertType = () => {
       </Box>
       {modalType === 'edit' && (
         <Modal onClose={handleCloseModal}>
-          <EditUser onClose={handleCloseModal} />
+          <EditAlert onClose={handleCloseModal} />
         </Modal>
       )}
     </>
