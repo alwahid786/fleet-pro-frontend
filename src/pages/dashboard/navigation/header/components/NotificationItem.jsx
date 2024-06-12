@@ -10,7 +10,7 @@ const NotificationItem = ({name, time, type}) => {
     const {backgroundColor, icon} = getNotificationDetails(type);
 
     const truncateName = name.length > 18 ? `${name.substring(0, 18)}...` : name;
-  return (
+  return ( 
     <Box sx={{ 
             display: 'flex', 
             gap: '1rem', 

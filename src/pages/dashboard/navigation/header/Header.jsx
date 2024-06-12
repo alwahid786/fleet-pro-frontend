@@ -15,7 +15,7 @@ const Header = () => {
   }
   
 
-  return (
+  return ( 
     <>
       <HeaderBg>
         <Typography variant="h1" sx={{

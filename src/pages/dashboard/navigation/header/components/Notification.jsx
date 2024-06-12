@@ -14,7 +14,7 @@ const Notification = () => {
         setNotiOpen(null)
     }
 
-  return (
+  return ( 
     <>
         <NotificationBox onClick={handleNotificationOpen}>
           <NotifictionIcon />

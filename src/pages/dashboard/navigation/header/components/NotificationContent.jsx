@@ -38,7 +38,7 @@ const NotificationContent = ({ notiOpen, handleNotificationClose }) => {
 export default NotificationContent
 
 const NotificationInnerContent = () => {
-    return (
+    return ( 
         <Box>
             <Box sx={{ display: 'flex', gap: '1.3rem', p: 2 }}>
                 <Typography sx={{ fontSize: '10px', color: 'rgba(65, 65, 65, 1)' }}>

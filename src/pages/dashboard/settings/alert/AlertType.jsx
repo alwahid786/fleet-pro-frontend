@@ -154,7 +154,7 @@ const AlertType = () => {
       )
     },
   ];
-
+  
       return (
         <>
       <Box
