@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import LoginBg from '../../../assets/images/login/loginbg.png'
 import Icon from '../../../assets/images/login/icon.png'
 import Form from './Form'
-import Loader from '../../../components/Loader'
+import Loader from '../../../components/loader/Loader'
 const Login = () => {
   return (
     <>

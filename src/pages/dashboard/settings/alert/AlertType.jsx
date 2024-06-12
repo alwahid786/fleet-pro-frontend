@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, FormControlLabel, Switch, Typography } from "@mui/material";
 import DownloadIcon from "../../../../assets/svgs/reports/DownloadIcon";
 import EditIcon from '../../../../assets/svgs/settings/EditIcon'
+import Modal from "../../../../components/modal/Modal";
 
 const rows = [
   {
@@ -125,14 +126,16 @@ const columns = [
     headerAlign: 'center', 
     align: 'center',
     renderCell: () => (
-      <Box sx={{ 
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        cursor: 'pointer',
-        height: '100%'
-       }}>
+      <Box 
+        onClick={handleOpenEditModal}
+        sx={{ 
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          cursor: 'pointer',
+          height: '100%'
+        }}>
         <EditIcon />
       </Box>
     )
@@ -140,95 +143,112 @@ const columns = [
 ];
 
 const AlertType = () => {
+  const [modalType, setModalType] = useState(null);
+
+  const handleOpenEditModal = () => {
+    setModalType('edit');
+  }
+
+  const handleCloseModal = () => {
+    setModalType(null);
+  }
+
   return (
-    <Box
-      sx={{
-        width: "100%",
-        background: "#ffffff",
-        borderRadius: "24px 24px 0 0",
-        marginTop: "-3.5rem",
-        height: "100%",
-        overflow: "hidden",
-      }}
-    >
+    <>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          padding: "16px",
+          width: "100%",
+          background: "#ffffff",
+          borderRadius: "24px 24px 0 0",
+          marginTop: "-3.5rem",
+          height: "100%",
+          overflow: "hidden",
         }}
       >
-        <DownloadIcon />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            padding: "16px",
+          }}
+        >
+          <DownloadIcon />
+        </Box>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5, 10, 20]}
+          headerClassName={(params) => {
+            return 'MuiDataGrid-colCell-center';
+          }}
+          cellClassName={(params) => {
+            return 'MuiDataGrid-cell-center';
+          }}
+          sx={{
+            "& .MuiDataGrid-row.even-row": {
+              backgroundColor: "#fafafa",
+            },
+            "& .MuiDataGrid-columnHeader .MuiDataGrid-columnHeaderTitle": {
+              fontSize: {
+                xs: "14px",
+                md: "16px",
+              },
+              fontWeight: 600,
+              color: "#111111",
+            },
+            "& .MuiDataGrid-row .MuiDataGrid-cell": {
+              fontSize: {
+                xs: "14px",
+                md: "16px",
+              },
+              background: "#fafafa",
+              fontWeight: 400,
+              color: "rgba(17, 17, 17, 0.6)",
+            },
+            "& .MuiDataGrid-root": {
+              borderTopLeftRadius: "24px !important",
+              borderTopRightRadius: "24px !important",
+              border: "0 !important",
+              overflow: "hidden",
+              width: "100%",
+            },
+            "& .MuiDataGrid-main": {
+              borderTopLeftRadius: "24px",
+              borderTopRightRadius: "24px",
+              width: "100%",
+              padding: "0 10px",
+            },
+            "& .MuiDataGrid-overlay": {
+              borderTopLeftRadius: "24px",
+              borderTopRightRadius: "24px",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              display: "none",
+            },
+            "& .MuiDataGrid-scrollbar": {
+              "&::-webkit-scrollbar": {
+                width: "6px",
+                height: "6px",
+              },
+              "&::-webkit-scrollbar-track": {
+                background: "#00193333",
+                borderRadius: "6px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#006bce",
+                borderRadius: "10px",
+              },
+            },
+          }}
+        />
       </Box>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5, 10, 20]}
-        headerClassName={(params) => {
-          return 'MuiDataGrid-colCell-center';
-        }}
-        cellClassName={(params) => {
-          return 'MuiDataGrid-cell-center';
-        }}
-        sx={{
-          "& .MuiDataGrid-row.even-row": {
-            backgroundColor: "#fafafa",
-          },
-          "& .MuiDataGrid-columnHeader .MuiDataGrid-columnHeaderTitle": {
-            fontSize: {
-              xs: "14px",
-              md: "16px",
-            },
-            fontWeight: 600,
-            color: "#111111",
-          },
-          "& .MuiDataGrid-row .MuiDataGrid-cell": {
-            fontSize: {
-              xs: "14px",
-              md: "16px",
-            },
-            background: "#fafafa",
-            fontWeight: 400,
-            color: "rgba(17, 17, 17, 0.6)",
-          },
-          "& .MuiDataGrid-root": {
-            borderTopLeftRadius: "24px !important",
-            borderTopRightRadius: "24px !important",
-            border: "0 !important",
-            overflow: "hidden",
-            width: "100%",
-          },
-          "& .MuiDataGrid-main": {
-            borderTopLeftRadius: "24px",
-            borderTopRightRadius: "24px",
-            width: "100%",
-            padding: "0 10px",
-          },
-          "& .MuiDataGrid-overlay": {
-            borderTopLeftRadius: "24px",
-            borderTopRightRadius: "24px",
-          },
-          "& .MuiDataGrid-footerContainer": {
-            display: "none",
-          },
-          "& .MuiDataGrid-scrollbar": {
-            "&::-webkit-scrollbar": {
-              width: "6px",
-              height: "6px",
-            },
-            "&::-webkit-scrollbar-track": {
-              background: "#00193333",
-              borderRadius: "6px",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              background: "#006bce",
-              borderRadius: "10px",
-            },
-          },
-        }}
-      />
-    </Box>
+      {modalType === 'edit' && (
+        <Modal onClose={handleCloseModal}>
+          <EditUser onClose={handleCloseModal} />
+        </Modal>
+      )}
+    </>
   );
 };
 
