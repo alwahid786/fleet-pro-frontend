@@ -36,7 +36,7 @@ const Dashboard = () => {
             item
             xs={12}
             xl={10}
-            sx={{ overflowY: 'scroll', background: '#f3f8ff' }}
+            sx={{ overflowY: 'scroll', background: '#f3f8ff', '&::-webkit-scrollbar': {width: 0} }}
           >
             <Header />
             <Main />

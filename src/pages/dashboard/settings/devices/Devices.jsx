@@ -1,10 +1,33 @@
 import { Box } from '@mui/material'
-import React from 'react'
-import { devices } from '../../../../data/data'
+import React, { useState } from 'react'
+import { devices as initialDevices } from '../../../../data/data'
 import DeviceCard from './components/DeviceCard'
+import { confirmAlert } from 'react-confirm-alert'
+import { toast } from 'react-toastify'
 
 
 const Devices = () => {
+  const [devices, setDevices] = useState(initialDevices);
+
+  const handleDeleteDevice = (deviceId) => {
+    confirmAlert({
+      title: 'Confirm to delete',
+      message: 'Are you sure you want to delete the user?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            setDevices(devices.filter(device => device.id !== deviceId));
+            toast.success('Device deleted successfully');
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => toast.info('Delete action cancelled')
+        }
+      ]
+    })
+  }
   return (
     <>
       <Box
@@ -22,7 +45,7 @@ const Devices = () => {
           }}
         >
           {devices.map((device, i)=>(
-            <DeviceCard key={i} device={device}/>
+            <DeviceCard key={i} device={device} handleDeleteDevice={handleDeleteDevice} />
           ))} 
         </Box>
       </Box>

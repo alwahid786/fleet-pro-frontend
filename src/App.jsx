@@ -15,6 +15,7 @@ import ResetPassword from "./pages/auth/reset-password/ResetPassword";
 import GlobalLoader from "./components/loader/Loader";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const Login = lazy(() => import("./pages/auth/login"));
 const Home = lazy(() => import("./pages/dashboard/Home/Home"));

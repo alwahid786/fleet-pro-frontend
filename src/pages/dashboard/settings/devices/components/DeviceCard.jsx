@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import DeleteIcon from '../../../../../assets/svgs/settings/DeleteIcon'
 
-const DeviceCard = ({ device }) => {
+const DeviceCard = ({ device, handleDeleteDevice }) => {
   return (
     <>
       <Box sx={{
@@ -57,7 +57,7 @@ const DeviceCard = ({ device }) => {
             </Typography>
            </Box>
         </Box>
-        <Button sx={{
+        <Button onClick={() => handleDeleteDevice(device.id)} sx={{
           marginTop: {
             xs: '1rem',
             md: '2rem'

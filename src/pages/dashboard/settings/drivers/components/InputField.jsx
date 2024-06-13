@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material'
 import React from 'react'
 
-const InputField = ({ type, label, maxLength }) => {
+const InputField = ({ type, label, maxLength, value, change, labelProps }) => {
   return (
     <>
         <TextField 
@@ -9,6 +9,11 @@ const InputField = ({ type, label, maxLength }) => {
             variant='outlined'
             fullWidth
             type={type}
+            value={value}
+            onChange={change}
+            InputLabelProps={{
+                shrink: labelProps,
+            }}
             inputProps={{ maxLength: maxLength }}
         />
     </>

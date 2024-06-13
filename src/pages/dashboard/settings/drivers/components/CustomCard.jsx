@@ -14,7 +14,7 @@ import ProfilePic from '../../../../../assets/images/settings/driver-profile.png
 
 import React from "react";
 
-const CustomCard = ({ driver, handleOpenEditModal }) => {
+const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
   return (
     <>
       <Card
@@ -145,7 +145,7 @@ const CustomCard = ({ driver, handleOpenEditModal }) => {
                   fontWeight: "400",
                 }}
               >
-                {driver.driverID}
+                {driver.id}
               </Typography>
             </Box>
           </Box>
@@ -250,7 +250,7 @@ const CustomCard = ({ driver, handleOpenEditModal }) => {
             }}
           >
             <Button
-              onClick={handleOpenEditModal}
+              onClick={() => handleOpenEditModal(driver)}
               size="small"
               sx={{
                 background: "#006BCE33",
@@ -264,6 +264,7 @@ const CustomCard = ({ driver, handleOpenEditModal }) => {
               Edit
             </Button>
             <Button
+              onClick={() => onDelete(driver.id)}
               size="small"
               color="error"
               sx={{

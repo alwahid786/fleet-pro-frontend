@@ -10,10 +10,9 @@ import {
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone'
-import ProfilePic from '../../../../../assets/images/settings/driver-profile.png'
 import React from 'react'
 
-const UserCard = ({ user, handleOpenEditModal }) => {
+const UserCard = ({ user, handleOpenEditModal, handleDeleteUser }) => {
   return (
     <>
       <Card
@@ -40,12 +39,12 @@ const UserCard = ({ user, handleOpenEditModal }) => {
         >
           <Avatar
             alt="Remy Sharp"
-            src={ProfilePic}
+            src={user.profile}
             sx={{
               width: '80px',
               height: '80px',
               position: 'relative',
-              overflow: 'visible',
+              overflow: 'hidden',
               borderRadius: '50%',
               objectFit: 'cover',
             }}
@@ -248,7 +247,7 @@ const UserCard = ({ user, handleOpenEditModal }) => {
             }}
           >
             <Button
-              onClick={handleOpenEditModal}
+              onClick={() => handleOpenEditModal(user)}
               size="small"
               sx={{
                 background: '#006BCE33',
@@ -262,6 +261,7 @@ const UserCard = ({ user, handleOpenEditModal }) => {
               Edit
             </Button>
             <Button
+              onClick={() => handleDeleteUser(user.id)}
               size="small"
               color="error"
               sx={{

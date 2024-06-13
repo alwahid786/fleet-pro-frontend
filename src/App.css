@@ -17,3 +17,8 @@ a {
     border: 0 !important;
     border-radius: 0 !important;
 }
+
+.react-confirm-alert-body {
+    background: rgba(0, 107, 206, 1) !important;
+    color: #fff !important;
+}
