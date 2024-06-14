@@ -1,43 +1,46 @@
-import { useState } from 'react'
-import { Box, TextField, Button, Typography, IconButton, CircularProgress } from '@mui/material'
+import { Box, TextField, Button, Typography, CircularProgress } from '@mui/material'
 import EmailIcon from '../../../assets/svgs/login/EmailIcon'
-import EyeIconOpen from '../../../assets/svgs/login/EyeIconOpen'
-import EyeIconClose from '../../../assets/svgs/login/EyeIconCLose'
-import { useNavigate } from 'react-router-dom'
-import {
-  useLoginMutation,
-  useResetPasswordMutation,
-} from '../../../redux/api/authApi'
+import { useNavigate } from 'react-router-dom';
+import { useLoginMutation} from '../../../redux/api/authApi';
 import { useFormik } from 'formik'
 import { loginSchema } from '../../../schemas'
+import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 const Form = () => {
-  const navigate = useNavigate()
-  const [showPassword, setShowPassword] = useState(false)
+
   const [login] = useLoginMutation()
-  const [resetPassword] = useResetPasswordMutation()
-  const [isLoading, setIsLoading] = useState(false) // Set initial loading state to false
+  const navigate = useNavigate()
+  const [isLoading , setisLoading] = useState(false);
 
-  const togglePasswordVisibility = () => {setShowPassword(!showPassword)}
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: { email: '', password: '' },
+      validationSchema: loginSchema,
+      onSubmit: async (values, actions) => {
+    
+        const res = await login(values)
+        console.log(res)
 
-  const initialValues = {
-    email: '',
-    password: ''
-  }
+        // if error show error
+        if (res.error) {
+          toast.error(res.error.data.message)
+        }
 
-  const {values, handleBlur, handleChange, handleSubmit, errors, touched} = useFormik({
-    initialValues,
-    validationSchema: loginSchema,
-    validateOnChange: true,
-    validateOnBlur: true,
-    onSubmit: (values, action) => {
-      action.resetForm();
-    },
-  })
+        // if success show success
+        if (res.data) {
+          toast.success(res.data.message)
 
-  const resetPasswordHandle = () => {
-    console.log('reset is called')
-  } 
+          setTimeout(() => {
+            navigate('/dashboard')
+          }, 1000)
+        }
+
+        // Reset the form
+        actions.resetForm()
+      },
+    })
+
 
   return (
     <>
@@ -107,21 +110,10 @@ const Form = () => {
               }}
               name="password"
               label="Enter your password"
-              type={showPassword ? 'text' : 'password'}
+             type='password'
               id="password"
               autoComplete="current-password"
               variant="outlined"
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={togglePasswordVisibility}
-                    edge="end"
-                  >
-                    {showPassword ? <EyeIconClose /> : <EyeIconOpen />}
-                  </IconButton>
-                ),
-              }}
             />
 
             <Typography
@@ -130,7 +122,6 @@ const Form = () => {
                 color: 'rgba(0, 107, 206, 1)',
                 cursor: 'pointer',
               }}
-              onClick={resetPasswordHandle}
             >
               Forget Password?
             </Typography>

@@ -6,7 +6,7 @@ export const authApiPoint= createApi({
 
     baseQuery: fetchBaseQuery({
 
-        baseUrl: "http://localhost:3000"
+        baseUrl: "https://fleet-pro-backend.onrender.com/"
     }),
 
     endpoints: (builder)=> ({
