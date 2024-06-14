@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material'
 import React from 'react'
 
-const InputField = ({ type, label, maxLength, value, change, labelProps }) => {
+const InputField = ({ type, label, maxLength, value, change, labelProps, blur }) => {
   return (
     <>
         <TextField 
@@ -11,6 +11,7 @@ const InputField = ({ type, label, maxLength, value, change, labelProps }) => {
             type={type}
             value={value}
             onChange={change}
+            onBlur={blur}
             InputLabelProps={{
                 shrink: labelProps,
             }}
