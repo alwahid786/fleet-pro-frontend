@@ -24,7 +24,6 @@ const Drivers = () => {
   const handleOpenEditModal = (driver) => {
     setModalType('edit');
     setSelectedDriver(driver)
-    console.log('selectedDriver', driver)
   }
 
   const handleCloseModal = () => {

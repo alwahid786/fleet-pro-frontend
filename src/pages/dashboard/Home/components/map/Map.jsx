@@ -84,7 +84,6 @@ const Map = () => {
     setLayerColor(blueShade)
   }
 
-  console.log('polygonCord', polygonCord)
   return (
     <>
       <Box

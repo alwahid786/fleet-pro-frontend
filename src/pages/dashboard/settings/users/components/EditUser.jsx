@@ -25,23 +25,21 @@ const EditUser = ({
   value,
   change,
 }) => {
-  const [name, setName] = useState(user.name)
+  const [firstName, setFirstName] = useState(user.firstName)
+  const [lastName, setLastName] = useState(user.lastName)
+  const [email, setEmail] = useState(user.email)
   const [phone, setPhone] = useState(user.phone)
-  const [assignedTruck, setAssignedTruck] = useState(user.assignedTruck)
-  const [creationDate, setCreationDate] = useState(user.creationDate)
-  const [licenseExpiry, setLicenseExpiry] = useState(user.licenseExpiry)
-  const [driverID, setDriverID] = useState(user.driverID)
+  const [role, setRole] = useState(user.role)
   const [profile, setProfile] = useState(user.profile)
 
   const handleSave = () => {
     onSave({
       ...user,
-      name,
+      firstName,
+      lastName,
+      email,
       phone,
-      assignedTruck,
-      creationDate,
-      licenseExpiry,
-      driverID,
+      role,
       profile
     })
   }
@@ -101,61 +99,52 @@ const EditUser = ({
           <Grid item xs="12" lg="6">
             <InputField
               type="text"
-              label="Full Name"
+              label="First Name"
               maxLength="20"
-              value={name}
-              change={(e) => setName(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs="12" lg="6">
-            <InputField
-              type="date"
-              label="Creation Date"
-              maxLength="30"
-              value={creationDate}
-              change={(e) => setCreationDate(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs="12" lg="6">
-            <InputField
-              type="number"
-              label="Driver ID"
-              maxLength="30"
-              value={driverID}
-              change={(e) => setDriverID(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs="12" lg="6">
-            <InputField
-              type="date"
-              label="Driver ID"
-              maxLength="30"
-              value={licenseExpiry}
-              change={(e) => setLicenseExpiry(e.target.value)}
+              value={firstName}
+              change={(e) => setFirstName(e.target.value)}
             />
           </Grid>
           <Grid item xs="12" lg="6">
             <InputField
               type="text"
-              label="Assign Truck"
+              label="Last Name"
+              maxLength="20"
+              value={lastName}
+              change={(e) => setLastName(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs="12" lg="6">
+            <InputField
+              type="email"
+              label="Email"
               maxLength="30"
-              value={assignedTruck}
-              change={(e) => setAssignedTruck(e.target.value)}
+              value={email}
+              change={(e) => setEmail(e.target.value)}
             />
           </Grid>
           <Grid item xs="12" lg="6">
             <InputField
               type="tel"
-              label="Phone"
-              maxLength="20"
+              label="Phone Number"
+              maxLength="30"
               value={phone}
               change={(e) => setPhone(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs="12" lg="6">
+            <InputField
+              type="text"
+              label="Role"
+              maxLength="30"
+              value={role}
+              change={(e) => setRole(e.target.value)}
             />
           </Grid>
           <Grid
             item
             xs="12"
-            lg="12"
+            lg="6"
             display="flex"
             flexDirection="column"
             alignItems="flex-end"

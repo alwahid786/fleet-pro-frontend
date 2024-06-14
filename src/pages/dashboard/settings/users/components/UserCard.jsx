@@ -77,7 +77,7 @@ const UserCard = ({ user, handleOpenEditModal, handleDeleteUser }) => {
                 fontWeight: '500',
               }}
             >
-              {user?.name}
+              {`${user.firstName} ${user.lastName}`}
             </Typography>
           </Box>
           <Box
@@ -100,7 +100,7 @@ const UserCard = ({ user, handleOpenEditModal, handleDeleteUser }) => {
                   fontWeight: '400',
                 }}
               >
-                Creation Date
+                First Name
               </Typography>
               <Typography
                 variant="body2"
@@ -113,7 +113,7 @@ const UserCard = ({ user, handleOpenEditModal, handleDeleteUser }) => {
                   fontWeight: '400',
                 }}
               >
-                {user.creationDate}
+                {user.firstName}
               </Typography>
             </Box>
             <Box>
@@ -129,7 +129,7 @@ const UserCard = ({ user, handleOpenEditModal, handleDeleteUser }) => {
                   fontWeight: '400',
                 }}
               >
-                Driver ID
+                Last Name
               </Typography>
               <Typography
                 variant="body2"
@@ -142,7 +142,7 @@ const UserCard = ({ user, handleOpenEditModal, handleDeleteUser }) => {
                   fontWeight: '400',
                 }}
               >
-                {user.driverID}
+                {user.lastName}
               </Typography>
             </Box>
           </Box>
@@ -166,7 +166,7 @@ const UserCard = ({ user, handleOpenEditModal, handleDeleteUser }) => {
                   fontWeight: '400',
                 }}
               >
-                License Expiry
+                Email
               </Typography>
               <Typography
                 variant="body2"
@@ -179,7 +179,7 @@ const UserCard = ({ user, handleOpenEditModal, handleDeleteUser }) => {
                   fontWeight: '400',
                 }}
               >
-                {user.licenseExpiry}
+                {user.email}
               </Typography>
             </Box>
             <Box
@@ -201,7 +201,7 @@ const UserCard = ({ user, handleOpenEditModal, handleDeleteUser }) => {
                   fontWeight: '400',
                 }}
               >
-                Assign Truck
+                Role
               </Typography>
               <Typography
                 variant="body2"
@@ -214,7 +214,7 @@ const UserCard = ({ user, handleOpenEditModal, handleDeleteUser }) => {
                   fontWeight: '400',
                 }}
               >
-                {user.assignedTruck}
+                {user.role}
               </Typography>
             </Box>
           </Box>

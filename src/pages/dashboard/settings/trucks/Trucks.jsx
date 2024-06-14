@@ -13,18 +13,15 @@ const Trucks = () => {
   const [modalType, setModalType] = useState(null);
 
   const handleOpenAddUserModal = () => {
-    console.log('add user click')
     setModalType('add');
   }
 
   const handleOpenEditModal = () => {
     setModalType('edit');
-    console.log('edit user click')
   }
 
   const handleCloseModal = () => {
     setModalType(null);
-    console.log('modal is off')
   }
 
   return (

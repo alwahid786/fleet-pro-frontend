@@ -1,7 +1,6 @@
 import React from 'react'
 
 const ReportsIcon = ({ isActivePage }) => {
-  console.log('reports', isActivePage)
 
   const iconFill = isActivePage === 'reports' ? '#000' : '#fff'
 

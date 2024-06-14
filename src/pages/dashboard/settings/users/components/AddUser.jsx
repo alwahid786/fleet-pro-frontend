@@ -8,23 +8,21 @@ import { regions } from '../../../../../data/data'
 import CameraIcon from '../../../../../assets/svgs/modal/CameraIcon'
 
 const AddUser = ({ onClose, onSave, label, maxLength, type, value, change, labelProps }) => {
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [assignedTruck, setAssignedTruck] = useState('');
-    const [creationDate, setCreationDate] = useState('');
-    const [licenseExpiry, setLicenseExpiry] = useState('');
-    const [driverID, setDriverID] = useState('');
-    const [profile, setProfile] = useState('')    
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [role, setRole] = useState('')
+  const [profile, setProfile] = useState('') 
 
     const handleSave = () => {
         const newUser = {
           id: Date.now().toString(),
-          name,
+          firstName,
+          lastName,
+          email,
           phone,
-          assignedTruck,
-          creationDate,
-          licenseExpiry,
-          driverID,
+          role,
           profile
         };
         onSave(newUser);
@@ -41,7 +39,6 @@ const AddUser = ({ onClose, onSave, label, maxLength, type, value, change, label
             };
             reader.readAsDataURL(file)
         }
-        console.log('file', file)
     }
 
   return (
@@ -78,108 +75,97 @@ const AddUser = ({ onClose, onSave, label, maxLength, type, value, change, label
                 lg: '2.5rem',
             }
         }}>
-            <Grid container spacing='16'>
-            <Grid item xs="12" lg="6">
-            <InputField
-              type="text"
-              label="Full Name"
-              maxLength="20"
-              value={name}
-              change={(e) => setName(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs="12" lg="6">
-            <InputField
-              type="date"
-              label="Creation Date"
-              maxLength="30"
-              labelProps={true}
-              value={creationDate}
-              change={(e) => setCreationDate(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs="12" lg="6">
-            <InputField
-              type="number"
-              label="Driver ID"
-              maxLength="30"
-              value={driverID}
-              change={(e) => setDriverID(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs="12" lg="6">
-            <InputField
-              type="date"
-              label="License Expirey"
-              maxLength="30"
-              labelProps={true}
-              value={licenseExpiry}
-              change={(e) => setLicenseExpiry(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs="12" lg="6">
-            <InputField
-              type="text"
-              label="Assign Truck"
-              maxLength="30"
-              value={assignedTruck}
-              change={(e) => setAssignedTruck(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs="12" lg="6">
-            <InputField
-              type="tel"
-              label="Phone"
-              maxLength="20"
-              value={phone}
-              change={(e) => setPhone(e.target.value)}
-            />
-          </Grid>
-          <Grid
-            item
-            xs="12"
-            lg="12"
-            display="flex"
-            flexDirection="column"
-            alignItems="flex-end"
-          >
-            <Typography
-              sx={{
-                color: 'rgba(113, 117, 121, 1)',
-                fontSize: '18px',
-                fontWeight: 600,
-              }}
-            >
-              PROFILE PICTURE
-            </Typography>
-            <Image src={profile} />
-            <ChangeButton startIcon={<CameraIcon />}>
-              CHANGE PHOTOS
-              <FileInput type="file" onChange={handleImageSrc} />
-            </ChangeButton>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-                width: '255px',
-                justifyContent: 'center',
-              }}
-            >
-              <CancelBtn onClick={onClose}>Cancel</CancelBtn>
-              <Button
-                onClick={handleSave}
-                sx={{
-                  color: '#fff',
-                  borderRadius: '16px',
-                  width: '137px',
-                  padding: '16px',
-                }}
+            <Grid container spacing="16">
+              <Grid item xs="12" lg="6">
+                <InputField
+                  type="text"
+                  label="First Name"
+                  maxLength="20"
+                  value={firstName}
+                  change={(e) => setFirstName(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs="12" lg="6">
+                <InputField
+                  type="text"
+                  label="Last Name"
+                  maxLength="20"
+                  value={lastName}
+                  change={(e) => setLastName(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs="12" lg="6">
+                <InputField
+                  type="email"
+                  label="Email"
+                  maxLength="30"
+                  value={email}
+                  change={(e) => setEmail(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs="12" lg="6">
+                <InputField
+                  type="tel"
+                  label="Phone Number"
+                  maxLength="30"
+                  value={phone}
+                  change={(e) => setPhone(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs="12" lg="6">
+                <InputField
+                  type="text"
+                  label="Role"
+                  maxLength="30"
+                  value={role}
+                  change={(e) => setRole(e.target.value)}
+                />
+              </Grid>
+              <Grid
+                item
+                xs="12"
+                lg="6"
+                display="flex"
+                flexDirection="column"
+                alignItems="flex-end"
               >
-                Save
-              </Button>
-            </Box>
-          </Grid>
+                <Typography
+                  sx={{
+                    color: 'rgba(113, 117, 121, 1)',
+                    fontSize: '18px',
+                    fontWeight: 600,
+                  }}
+                >
+                  PROFILE PICTURE
+                </Typography>
+                <Image src={profile} />
+                <ChangeButton startIcon={<CameraIcon />}>
+                  CHANGE PHOTOS
+                  <FileInput type="file" onChange={handleImageSrc} />
+                </ChangeButton>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    width: '255px',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CancelBtn onClick={onClose}>Cancel</CancelBtn>
+                  <Button
+                    onClick={handleSave}
+                    sx={{
+                      color: '#fff',
+                      borderRadius: '16px',
+                      width: '137px',
+                      padding: '16px',
+                    }}
+                  >
+                    Save
+                  </Button>
+                </Box>
+              </Grid>
             </Grid>
         </Box>
     </>

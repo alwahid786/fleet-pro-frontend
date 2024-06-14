@@ -20,7 +20,6 @@ const EditTruck = ({ onClose, label, maxLength, type }) => {
             };
             reader.readAsDataURL(file)
         }
-        console.log('file', file)
     }
 
   return (

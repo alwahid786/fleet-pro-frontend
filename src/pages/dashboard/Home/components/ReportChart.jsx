@@ -26,16 +26,19 @@ const data = [
 const ReportChart = () => {
   return (
     <Box>
-      <Typography variant='h3' sx={{
-            fontSize: {
-                xs: '16px',
-                md: '24px'
-            },
-            fontWeight: '600',
-            textTransform: 'uppercase',
-            padding: '1rem'
-        }}>
-            Reported Crashes on the Road
+      <Typography 
+        variant='h3' 
+        sx={{
+          fontSize: {
+            xs: '16px',
+            md: '24px'
+          },
+          fontWeight: '600',
+          textTransform: 'uppercase',
+          padding: '1rem'
+        }}
+      >
+        Reported Crashes on the Road
       </Typography>
       <ResponsiveContainer width="100%" height={250}>
         <AreaChart data={data} margin={{ top: 20, right: 20, left: -20, bottom: 20 }}>
@@ -73,6 +76,6 @@ const ReportChart = () => {
       </ResponsiveContainer>
     </Box>
   );
-}
+};
 
 export default ReportChart;

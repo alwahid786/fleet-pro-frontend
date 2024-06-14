@@ -13,7 +13,6 @@ const Geocoder = ({ setNewPlace, mapRef }) => {
   ctrl.on("result", (e) => {
     const coords = e.result.geometry.coordinates;
     setNewPlace({ lng: coords[0], lat: coords[1] });
-    console.log("nnnnn", e);
     mapRef.current.flyTo({
       center: e.result.geometry.coordinates,
       zoom: 16,
