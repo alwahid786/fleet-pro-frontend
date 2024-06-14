@@ -21,7 +21,7 @@ const AddTruck = ({ onClose }) => {
     image: '',
   };
 
-  const formik = useFormik({
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues,
     validationSchema: truckSchema,
     validateOnChange: true,
@@ -38,7 +38,7 @@ const AddTruck = ({ onClose }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageSrc(reader.result);
-        formik.setFieldValue('image', file);
+        setFieldValue('image', file);
       };
       reader.readAsDataURL(file);
     }
@@ -61,7 +61,7 @@ const AddTruck = ({ onClose }) => {
         <Typography sx={{ fontWeight: 700, fontSize: '20px', marginBottom: '2rem' }}>
           General Info
         </Typography>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} lg={8}>
               <Grid container spacing={2}>
@@ -69,52 +69,52 @@ const AddTruck = ({ onClose }) => {
                   <TextField
                     type="text"
                     label="Truck Name"
-                    value={formik.values.truckName}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    value={values.truckName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     fullWidth
                     name="truckName"
-                    error={formik.touched.truckName && Boolean(formik.errors.truckName)}
-                    helperText={formik.touched.truckName && formik.errors.truckName}
+                    error={touched.truckName && Boolean(errors.truckName)}
+                    helperText={touched.truckName && errors.truckName}
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>
                   <TextField
                     type="number"
                     label="Fleet Number"
-                    value={formik.values.fleetNumber}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    value={values.fleetNumber}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     fullWidth
                     name="fleetNumber"
-                    error={formik.touched.fleetNumber && Boolean(formik.errors.fleetNumber)}
-                    helperText={formik.touched.fleetNumber && formik.errors.fleetNumber}
+                    error={touched.fleetNumber && Boolean(errors.fleetNumber)}
+                    helperText={touched.fleetNumber && errors.fleetNumber}
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>
                   <TextField
                     type="number"
                     label="Plate Number"
-                    value={formik.values.plateNumber}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    value={values.plateNumber}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     fullWidth
                     name="plateNumber"
-                    error={formik.touched.plateNumber && Boolean(formik.errors.plateNumber)}
-                    helperText={formik.touched.plateNumber && formik.errors.plateNumber}
+                    error={touched.plateNumber && Boolean(errors.plateNumber)}
+                    helperText={touched.plateNumber && errors.plateNumber}
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>
                   <TextField
                     type="number"
                     label="Device ID"
-                    value={formik.values.deviceID}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    value={values.deviceID}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     fullWidth
                     name="deviceID"
-                    error={formik.touched.deviceID && Boolean(formik.errors.deviceID)}
-                    helperText={formik.touched.deviceID && formik.errors.deviceID}
+                    error={touched.deviceID && Boolean(errors.deviceID)}
+                    helperText={touched.deviceID && errors.deviceID}
                   />
                 </Grid>
               </Grid>
@@ -128,8 +128,8 @@ const AddTruck = ({ onClose }) => {
                 CHANGE PHOTOS
                 <FileInput type="file" onChange={handleImageSrc} />
               </ChangeButton>
-              {formik.touched.image && formik.errors.image && (
-                <Typography color="error">{formik.errors.image}</Typography>
+              {touched.image && errors.image && (
+                <Typography color="error">{errors.image}</Typography>
               )}
             </Grid>
             <Grid item xs={12}>
