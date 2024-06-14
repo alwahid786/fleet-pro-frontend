@@ -7,12 +7,11 @@ export const loginSchema = Yup.object({
 
 export const truckSchema = Yup.object({
     truckName: Yup.string().required('Truck name is required'),
-    fleetNumber: Yup.number().integer().required('Fleet Number is required'),
-    plateNumber: Yup.number().integer().required('Plate Number is required'),
+    fleetNumber: Yup.string().required('Fleet Number is required'),
+    plateNumber: Yup.string().required('Plate Number is required'),
     status: Yup.string().required('Status is required'),
     driver: Yup.string().required('Driver is required'),
-    lastUpdate: Yup.date().typeError('Invalid date format').required('Last Update is required'),
-    deviceID: Yup.number().integer().required('Device ID is required'),
+    deviceID: Yup.string().required('Device ID is required'),
     image: Yup.mixed()
       .required('Image is required')
       .test('fileFormat', 'Unsupported file format', (value) =>

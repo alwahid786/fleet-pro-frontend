@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import { Box, Button, Grid, styled, Typography, TextField } from '@mui/material'
-import BackIcon from '../../../../../assets/svgs/modal/BackIcon'
-import CloseIcon from '../../../../../assets/svgs/modal/CloseIcon'
-import CameraIcon from '../../../../../assets/svgs/modal/CameraIcon'
-import SaveIcon from '../../../../../assets/svgs/settings/SaveIcon'
-import { useFormik } from 'formik'
-import { truckSchema } from '../../../../../schemas'
+import React, { useState } from 'react';
+import { Box, Button, Grid, styled, Typography, TextField } from '@mui/material';
+import BackIcon from '../../../../../assets/svgs/modal/BackIcon';
+import CloseIcon from '../../../../../assets/svgs/modal/CloseIcon';
+import CameraIcon from '../../../../../assets/svgs/modal/CameraIcon';
+import SaveIcon from '../../../../../assets/svgs/settings/SaveIcon';
+import { useFormik } from 'formik';
+import { truckSchema } from '../../../../../schemas';
 
 const AddTruck = ({ onClose }) => {
-  const [imageSrc, setImageSrc] = useState('')
+  const [imageSrc, setImageSrc] = useState('');
 
   const initialValues = {
     truckName: '',
@@ -16,34 +16,31 @@ const AddTruck = ({ onClose }) => {
     plateNumber: '',
     status: '',
     driver: '',
-    lastUpdate: '',
     deviceID: '',
     image: '',
-  }
+  };
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } =
     useFormik({
       initialValues,
       validationSchema: truckSchema,
-      validateOnChange: true,
-      validateOnBlur: true,
       onSubmit: (values, { resetForm }) => {
-        console.log('Form values:', values)
-        resetForm()
+        console.log('Form values:', values);
+        resetForm();
       },
-    })
+    });
 
   const handleImageSrc = (e) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onloadend = () => {
-        setImageSrc(reader.result)
-        setFieldValue('image', file)
-      }
-      reader.readAsDataURL(file)
+        setImageSrc(reader.result);
+        setFieldValue('image', file);
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   return (
     <>
@@ -92,6 +89,7 @@ const AddTruck = ({ onClose }) => {
                     onBlur={handleBlur}
                     fullWidth
                     name="truckName"
+                    id="truckName"
                     error={touched.truckName && Boolean(errors.truckName)}
                     helperText={touched.truckName && errors.truckName}
                   />
@@ -105,6 +103,7 @@ const AddTruck = ({ onClose }) => {
                     onBlur={handleBlur}
                     fullWidth
                     name="fleetNumber"
+                    id="fleetNumber"
                     error={touched.fleetNumber && Boolean(errors.fleetNumber)}
                     helperText={touched.fleetNumber && errors.fleetNumber}
                   />
@@ -118,6 +117,7 @@ const AddTruck = ({ onClose }) => {
                     onBlur={handleBlur}
                     fullWidth
                     name="plateNumber"
+                    id="plateNumber"
                     error={touched.plateNumber && Boolean(errors.plateNumber)}
                     helperText={touched.plateNumber && errors.plateNumber}
                   />
@@ -131,8 +131,37 @@ const AddTruck = ({ onClose }) => {
                     onBlur={handleBlur}
                     fullWidth
                     name="deviceID"
+                    id="deviceID"
                     error={touched.deviceID && Boolean(errors.deviceID)}
                     helperText={touched.deviceID && errors.deviceID}
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <TextField
+                      type="text"
+                      label="Status"
+                      value={values.status}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      fullWidth
+                      name="status"
+                      id="status"
+                      error={touched.status && Boolean(errors.status)}
+                      helperText={touched.status && errors.status}
+                    />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <TextField
+                    type="text"
+                    label="Driver"
+                    value={values.driver}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    fullWidth
+                    name="driver"
+                    id="driver"
+                    error={touched.driver && Boolean(errors.driver)}
+                    helperText={touched.driver && errors.driver}
                   />
                 </Grid>
               </Grid>
@@ -150,7 +179,7 @@ const AddTruck = ({ onClose }) => {
               <Image src={imageSrc} />
               <ChangeButton startIcon={<CameraIcon />}>
                 CHANGE PHOTOS
-                <FileInput type="file" onChange={handleImageSrc} />
+                <FileInput type="file" name='file' id='file' onChange={handleImageSrc} />
               </ChangeButton>
               {touched.image && errors.image && (
                 <Typography color="error">{errors.image}</Typography>
@@ -185,10 +214,10 @@ const AddTruck = ({ onClose }) => {
         </form>
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default AddTruck
+export default AddTruck;
 
 const ChangeButton = styled(Button)({
   border: '1px solid rgba(0, 107, 206, 1)',
@@ -204,14 +233,14 @@ const ChangeButton = styled(Button)({
     background: 'transparent',
   },
   marginBottom: '2rem',
-})
+});
 
 const FileInput = styled('input')({
   position: 'absolute',
   inset: 0,
   opacity: '0',
   cursor: 'pointer',
-})
+});
 
 const Image = styled('img')({
   maxWidth: '100%',
@@ -222,11 +251,11 @@ const Image = styled('img')({
   borderRadius: '14px',
   margin: '10px 0 20px',
   clipPath: 'inset(0)',
-})
+});
 
 const CancelBtn = styled('span')({
   fontSize: '16px',
   fontWeight: 600,
   color: 'rgba(17, 17, 17, 1)',
   cursor: 'pointer',
-})
+});

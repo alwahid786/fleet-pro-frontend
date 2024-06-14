@@ -18,6 +18,7 @@ const Form = () => {
       initialValues: { email: '', password: '' },
       validationSchema: loginSchema,
       onSubmit: async (values, { resetForm }) => {
+        console.log('values:', values);
         setisLoading(true);
         try {
           const res = await login(values);

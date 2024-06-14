@@ -16,12 +16,11 @@ const EditTruck = ({ onClose }) => {
     plateNumber: '',
     status: '',
     driver: '',
-    lastUpdate: '',
     deviceID: '',
     image: '',
   }
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } =
     useFormik({
       initialValues,
       validationSchema: truckSchema,
@@ -133,6 +132,34 @@ const EditTruck = ({ onClose }) => {
                     name="deviceID"
                     error={touched.deviceID && Boolean(errors.deviceID)}
                     helperText={touched.deviceID && errors.deviceID}
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <TextField
+                      type="text"
+                      label="Status"
+                      value={values.status}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      fullWidth
+                      name="status"
+                      id="status"
+                      error={touched.status && Boolean(errors.status)}
+                      helperText={touched.status && errors.status}
+                    />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <TextField
+                    type="text"
+                    label="Driver"
+                    value={values.driver}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    fullWidth
+                    name="driver"
+                    id="driver"
+                    error={touched.driver && Boolean(errors.driver)}
+                    helperText={touched.driver && errors.driver}
                   />
                 </Grid>
               </Grid>
