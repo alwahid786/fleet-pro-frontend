@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Box, Button, Grid, styled, Typography, TextField } from '@mui/material';
 import BackIcon from '../../../../../assets/svgs/modal/BackIcon';
 import CloseIcon from '../../../../../assets/svgs/modal/CloseIcon';
@@ -6,9 +6,13 @@ import CameraIcon from '../../../../../assets/svgs/modal/CameraIcon';
 import SaveIcon from '../../../../../assets/svgs/settings/SaveIcon';
 import { useFormik } from 'formik';
 import { truckSchema } from '../../../../../schemas';
+import { useCreateTruckMutation } from '../../../../../redux/api/truckApi';
+import { toast } from 'react-toastify';
 
 const AddTruck = ({ onClose }) => {
   const [imageSrc, setImageSrc] = useState('');
+
+  const [createTruck] = useCreateTruckMutation();
 
   const initialValues = {
     truckName: '',
@@ -24,8 +28,17 @@ const AddTruck = ({ onClose }) => {
     useFormik({
       initialValues,
       validationSchema: truckSchema,
-      onSubmit: (values, { resetForm }) => {
-        console.log('Form values:', values);
+      onSubmit: async(values, { resetForm }) => {
+        const res = await createTruck(values);
+
+        console.log("Response", res)
+
+        if (res.error) {
+          toast.error(res.error.data.message);
+        } else if (res.data) {
+          toast.success(res.data.message);
+          resetForm();
+        }
         resetForm();
       },
     });

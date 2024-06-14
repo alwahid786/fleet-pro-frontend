@@ -6,7 +6,12 @@ export const authApiPoint= createApi({
 
     baseQuery: fetchBaseQuery({
 
-        baseUrl: "https://fleet-pro-backend.onrender.com/"
+        baseUrl: "https://fleet-pro-backend.onrender.com/",
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json',
+            // 'Authorization': `Bearer ${yourToken}`, // Replace yourToken with the token obtained during login
+          },
     }),
 
     endpoints: (builder)=> ({
