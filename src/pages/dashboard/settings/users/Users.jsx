@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 const Users = () => {
   const [modalType, setModalType] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [users, setUsers] = (useStateinitialUsers);
+  const [users, setUsers] = useState(Array.isArray(initialUsers) ? initialUsers : []);
 
   const handleOpenAddUserModal = () => {
     setModalType('add');
@@ -22,7 +22,6 @@ const Users = () => {
   const handleOpenEditModal = (user) => {
     setModalType('edit');
     setSelectedUser(user)
-    console.log('user:', user)
   }
 
   const handleCloseModal = () => {
