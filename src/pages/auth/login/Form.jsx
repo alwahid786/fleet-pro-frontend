@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Box, TextField, Button, Typography, IconButton, CircularProgress } from '@mui/material' // Added CircularProgress for loader
+import { Box, TextField, Button, Typography, IconButton, CircularProgress } from '@mui/material'
 import EmailIcon from '../../../assets/svgs/login/EmailIcon'
 import EyeIconOpen from '../../../assets/svgs/login/EyeIconOpen'
 import EyeIconClose from '../../../assets/svgs/login/EyeIconCLose'
@@ -8,12 +8,11 @@ import {
   useLoginMutation,
   useResetPasswordMutation,
 } from '../../../redux/api/authApi'
-import { toast } from 'react-toastify'
+import { useFormik } from 'formik'
+import { loginSchema } from '../../../schemas'
 
 const Form = () => {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [login] = useLoginMutation()
   const [resetPassword] = useResetPasswordMutation()
@@ -21,46 +20,24 @@ const Form = () => {
 
   const togglePasswordVisibility = () => {setShowPassword(!showPassword)}
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-
-    if (!email || !password) {return toast.error('Please fill in all fields')}
-
-    setIsLoading(true) // Show loader while logging in
-
-    try {
-
-      const res = await login({ email, password })
-
-      if (res.error) {
-        toast.error(res.error.data.message)
-      } else if (res.data.success === true) {
-        navigate('/dashboard')
-      }
-    } catch (error) {
-      toast.error('An error occurred while logging in.')
-    } finally {
-      setIsLoading(false) // Hide loader after login process is complete
-    }
+  const initialValues = {
+    email: '',
+    password: ''
   }
 
-  const resetPasswordHandle = async (event) => {
-    event.preventDefault()
-    if (!email) {
-      return toast.error('Please enter your email to reset the password')
-    }
+  const {values, handleBlur, handleChange, handleSubmit, errors, touched} = useFormik({
+    initialValues,
+    validationSchema: loginSchema,
+    validateOnChange: true,
+    validateOnBlur: true,
+    onSubmit: (values, action) => {
+      action.resetForm();
+    },
+  })
 
-    try {
-      const res = await resetPassword({ email })
-      if (res.error) {
-        toast.error(res.error.data.message)
-      } else {
-        toast.success('Password reset link sent to your email')
-      }
-    } catch (error) {
-      toast.error('An error occurred while resetting the password.')
-    }
-  }
+  const resetPasswordHandle = () => {
+    console.log('reset is called')
+  } 
 
   return (
     <>
@@ -92,15 +69,19 @@ const Form = () => {
             }}
           >
             <TextField
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              margin="normal"
               sx={{
                 width: {
                   xs: '100%',
                   md: '38vw',
                 },
               }}
+              type='email'
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
+              margin="normal"
               id="email"
               label="Enter your email"
               name="email"
@@ -112,8 +93,11 @@ const Form = () => {
               }}
             />
             <TextField
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.password && Boolean(errors.password)}
+              helperText={touched.password && errors.password}
               margin="normal"
               sx={{
                 width: {
