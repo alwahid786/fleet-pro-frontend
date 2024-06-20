@@ -6,13 +6,11 @@ import CameraIcon from '../../../../../assets/svgs/modal/CameraIcon';
 import SaveIcon from '../../../../../assets/svgs/settings/SaveIcon';
 import { useFormik } from 'formik';
 import { truckSchema } from '../../../../../schemas';
-import { useCreateTruckMutation } from '../../../../../redux/api/truckApi';
 import { toast } from 'react-toastify';
 
 const AddTruck = ({ onClose }) => {
   const [imageSrc, setImageSrc] = useState('');
 
-  const [createTruck] = useCreateTruckMutation();
 
   const initialValues = {
     truckName: '',
@@ -29,17 +27,8 @@ const AddTruck = ({ onClose }) => {
       initialValues,
       validationSchema: truckSchema,
       onSubmit: async(values, { resetForm }) => {
-        const res = await createTruck(values);
 
-        console.log("Response", res)
-
-        if (res.error) {
-          toast.error(res.error.data.message);
-        } else if (res.data) {
-          toast.success(res.data.message);
-          resetForm();
-        }
-        resetForm();
+       return resetForm();
       },
     });
 
