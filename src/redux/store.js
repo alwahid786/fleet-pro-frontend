@@ -1,19 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authApiPoint } from "./api/authApi";
-import { truckApiPoint } from "./api/truckApi";
+import userSlice from "./slices/user.slice";
+import getEnv from "../config/getEnv";
 
+const baseUrl = getEnv("VITE_SERVER_URL");
 
 const store = configureStore({
     reducer: {
-      [authApiPoint.reducerPath]: authApiPoint.reducer,
-      [truckApiPoint.reducerPath]: truckApiPoint.reducer
+        [userSlice.name]: userSlice.reducer,
     },
+});
 
-    middleware: (getDefaultMiddleware) =>
-
-        getDefaultMiddleware().concat([authApiPoint.middleware, truckApiPoint.middleware]),
-           
-  });
-  
-  
-  export default store;
+export default store;
+export { baseUrl };
