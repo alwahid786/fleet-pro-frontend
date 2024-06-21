@@ -125,7 +125,11 @@ const Form = () => {
                         <Button
                             type="submit"
                             variant="contained"
-                            sx={{ width: "100%", maxWidth: "20vw", mb: 2 }}
+                            sx={{ width: "100%", maxWidth: "20vw", mb: 2 ,"&:disabled": {
+                                            color: "#fff",
+                                            opacity: "0.2",
+                                            cursor: "not-allowed",
+                                        },}}
                             disabled={isLoading}
                         >
                             Sign in
