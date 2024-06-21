@@ -1,4 +1,4 @@
-import customAxios from "../../utils/customAxios";
+import { customAxios } from "../../utils/customAxios";
 import {
     forgetPasswordFailure,
     forgetPasswordStart,
@@ -14,7 +14,7 @@ import {
     resetPasswordSuccess,
 } from "../slices/user.slice";
 
-// login slice
+// login Action
 // -----------
 const loginUserAction = (email, password) => async (dispatch) => {
     dispatch(loginUserStart());

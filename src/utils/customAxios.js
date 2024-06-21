@@ -8,5 +8,11 @@ const customAxios = axios.create({
     },
     withCredentials: true,
 });
-
-export default customAxios;
+const customFormAxios = axios.create({
+    baseURL: baseUrl,
+    headers: {
+        "Content-Type": "multipart/form-data",
+    },
+    withCredentials: true,
+});
+export { customFormAxios, customAxios };

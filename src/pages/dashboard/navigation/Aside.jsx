@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Box, Button, Stack, Typography, styled } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import React, { useState } from "react";
