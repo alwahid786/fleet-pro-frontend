@@ -1,26 +1,24 @@
 import { Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
-import EmailIcon from "../../../assets/svgs/login/EmailIcon";
-// import { useLoginMutation, useResetPasswordMutation } from '../../../redux/api/authApi';
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import EmailIcon from "../../../assets/svgs/login/EmailIcon";
 import useShowMessageError from "../../../hooks/useShowMessageError";
-import { forgetPasswordAction, loginUserAction } from "../../../redux/actions/user.actions";
+import { loginUserAction } from "../../../redux/actions/user.actions";
 import { clearUserError, clearUserMessage } from "../../../redux/slices/user.slice";
 import { loginSchema } from "../../../schemas";
 
 const Form = () => {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const { message, error } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-    const [requestName, setRequestName] = useState(false);
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: { email: "", password: "" },
         validationSchema: loginSchema,
         onSubmit: (values, { resetForm }) => {
-            setRequestName(true);
             setIsLoading(true);
             dispatch(loginUserAction(values.email, values.password));
             resetForm();
@@ -28,16 +26,8 @@ const Form = () => {
         },
     });
 
-    // Forget password handler
-    const handleForget = (e) => {
-        e.preventDefault();
-        setRequestName(false);
-        if (!values.email) return toast.error("Please enter your email to reset the password");
-        dispatch(forgetPasswordAction(values.email));
-    };
-
     // show message and error
-    useShowMessageError(message, clearUserMessage, error, clearUserError, requestName ? "/dashboard" : "");
+    useShowMessageError(message, clearUserMessage, error, clearUserError, "/dashboard");
     return (
         <>
             {isLoading ? (
@@ -111,7 +101,9 @@ const Form = () => {
                             sx={{ width: "100%", mb: 2 }}
                         />
                         <Typography
-                            onClick={handleForget} // Updated to onClick
+                            onClick={() => {
+                                navigate("/forget-password");
+                            }}
                             variant="body2"
                             sx={{
                                 alignSelf: "start",

@@ -5,7 +5,7 @@ import Dashboard from "./pages/dashboard";
 // import ProtectedRoute from "./utils/ProtectedRoute";
 import RealTimeMap from "./pages/dashboard/RealTimeMap/RealTimeMap";
 import Otp from "./pages/auth/otp/Otp";
-import ForgotPassword from "./pages/auth/forgot-password/ForgotPassword";
+import ForgetPassword from "./pages/auth/forget-password/ForgetPassword";
 import ResetPassword from "./pages/auth/reset-password/ResetPassword";
 import GlobalLoader from "./components/loader/Loader";
 import { ToastContainer } from "react-toastify";
@@ -39,7 +39,7 @@ function App() {
                     }
                 />
                 <Route path="/verify-otp" element={<Otp />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/forget-password" element={<ForgetPassword />} />
                 <Route path="/reset-password/:reset-token" element={<ResetPassword />} />
                 <Route path="/" element={<Navigate replace to="/login" />} />
                 <Route
