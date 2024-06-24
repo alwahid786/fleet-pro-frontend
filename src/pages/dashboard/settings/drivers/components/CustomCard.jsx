@@ -38,7 +38,7 @@ const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
                             width: "80px",
                             height: "80px",
                             position: "relative",
-                            overflow: "visible",
+                            overflow: "hidden",
                             borderRadius: "50%",
                             objectFit: "cover",
                         }}

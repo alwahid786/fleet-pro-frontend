@@ -18,25 +18,18 @@ const EditTruck = ({ onClose, singleTruck }) => {
         truckName: singleTruck?.truckName,
         fleetNumber: singleTruck?.fleetNumber,
         plateNumber: singleTruck?.plateNumber,
-        status: singleTruck?.status,
-        driver: singleTruck?.driver ? singleTruck?.driver : "",
         deviceID: singleTruck?.deviceID ? singleTruck?.deviceID : "",
         image: "",
     };
 
     const { values, errors, touched, handleChange, handleSubmit, setFieldValue } = useFormik({
         initialValues,
-        // validationSchema: truckSchema,
-        // validateOnChange: true,
-        // validateOnBlur: true,
         onSubmit: async (values, { resetForm }) => {
             setIsLoading(true);
             const formData = new FormData();
             formData.append("truckName", values.truckName);
             formData.append("fleetNumber", values.fleetNumber);
             formData.append("plateNumber", values.plateNumber);
-            // formData.append("status", values.status);
-            // formData.append("driver", values.driver);
             formData.append("deviceID", values.deviceID);
             if (values.image) formData.append("file", values.image);
             await dispatch(updateTruckAction(singleTruck?._id, formData));
@@ -148,34 +141,6 @@ const EditTruck = ({ onClose, singleTruck }) => {
                                         name="deviceID"
                                         error={touched.deviceID && Boolean(errors.deviceID)}
                                         // helperText={touched.deviceID && errors.deviceID}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} lg={6}>
-                                    <TextField
-                                        type="text"
-                                        label="Status"
-                                        value={values.status}
-                                        onChange={handleChange}
-                                        // onBlur={handleBlur}
-                                        fullWidth
-                                        name="status"
-                                        id="status"
-                                        error={touched.status && Boolean(errors.status)}
-                                        // helperText={touched.status && errors.status}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} lg={6}>
-                                    <TextField
-                                        type="text"
-                                        label="Driver"
-                                        value={values.driver}
-                                        onChange={handleChange}
-                                        // onBlur={handleBlur}
-                                        fullWidth
-                                        name="driver"
-                                        id="driver"
-                                        error={touched.driver && Boolean(errors.driver)}
-                                        // helperText={touched.driver && errors.driver}
                                     />
                                 </Grid>
                             </Grid>

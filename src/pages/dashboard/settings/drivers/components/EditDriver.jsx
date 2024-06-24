@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Box, Button, Grid, styled, Typography } from "@mui/material";
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, styled, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
@@ -8,6 +8,17 @@ import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
 import { updateDriverAction } from "../../../../../redux/actions/driver.actions";
 import InputField from "./InputField";
+
+const trucksData = [
+    {
+        _id: '234',
+        truckName: 'Truck One'
+    },
+    {
+        _id: '235',
+        truckName: 'Truck Two'
+    },
+]
 
 const EditDriver = ({ driver, onClose }) => {
     const dispatch = useDispatch();
@@ -127,24 +138,22 @@ const EditDriver = ({ driver, onClose }) => {
                                     change={(e) => setLicenseExpiry(e.target.value)}
                                 />
                             </Grid>
-                            {/* <Grid item xs={12} lg={6}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="assign-truck-label">Assign Truck</InputLabel>
-                                    <Select
-                                        fullWidth
-                                        labelId="assign-truck-label"
-                                        value={truckId}
-                                        label="Assign Truck"
-                                        onChange={(e) => setTruckId(e.target.value)}
-                                    >
-                                        {trucks?.map((truck) => (
-                                            <MenuItem key={truck._id} value={truck._id}>
-                                                {truck.truckName}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Grid> */}
+                            <Grid item xs={12} lg={6}>
+                            <FormControl fullWidth>
+                                <InputLabel id="truck-select-label">Select Truck</InputLabel>
+                                <Select
+                                    labelId="truck-select-label"
+                                    label="Select Truck"
+                                    sx={{ width: '100%' }}
+                                >
+                                    {trucksData.map((truck) => (
+                                        <MenuItem key={truck._id} value={truck._id}>
+                                            {truck.truckName}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            </Grid>
                             <Grid item xs="12">
                                 <Typography
                                     sx={{

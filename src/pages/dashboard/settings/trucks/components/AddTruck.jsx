@@ -19,8 +19,6 @@ const AddTruck = ({ onClose }) => {
         truckName: "",
         fleetNumber: "",
         plateNumber: "",
-        status: "",
-        driver: "",
         deviceID: "",
         image: "",
     };
@@ -34,8 +32,6 @@ const AddTruck = ({ onClose }) => {
             formData.append("truckName", values.truckName);
             formData.append("fleetNumber", values.fleetNumber);
             formData.append("plateNumber", values.plateNumber);
-            // formData.append("status", values.status);
-            // formData.append("driver", values.driver);
             formData.append("deviceId", values.deviceID);
             formData.append("file", values.image);
             await dispatch(addTruckAction(formData));
@@ -147,34 +143,6 @@ const AddTruck = ({ onClose }) => {
                                         id="deviceID"
                                         error={touched.deviceID && Boolean(errors.deviceID)}
                                         helperText={touched.deviceID && errors.deviceID}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} lg={6}>
-                                    <TextField
-                                        type="text"
-                                        label="Status"
-                                        value={values.status}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        fullWidth
-                                        name="status"
-                                        id="status"
-                                        error={touched.status && Boolean(errors.status)}
-                                        helperText={touched.status && errors.status}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} lg={6}>
-                                    <TextField
-                                        type="text"
-                                        label="Driver"
-                                        value={values.driver}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        fullWidth
-                                        name="driver"
-                                        id="driver"
-                                        error={touched.driver && Boolean(errors.driver)}
-                                        helperText={touched.driver && errors.driver}
                                     />
                                 </Grid>
                             </Grid>

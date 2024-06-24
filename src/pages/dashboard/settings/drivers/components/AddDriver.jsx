@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography, styled } from "@mui/material";
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography, styled } from "@mui/material";
 import { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
@@ -7,6 +7,19 @@ import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
 import { addDriverAction } from "../../../../../redux/actions/driver.actions";
 import InputField from "./InputField";
+import { useFormik } from "formik";
+import { addDriverSchema } from "../../../../../schemas";
+
+const trucksData = [
+    {
+        _id: '234',
+        truckName: 'Truck One'
+    },
+    {
+        _id: '235',
+        truckName: 'Truck Two'
+    },
+]
 
 // eslint-disable-next-line react/prop-types
 const AddDriver = ({ onClose }) => {
@@ -42,6 +55,19 @@ const AddDriver = ({ onClose }) => {
             reader.readAsDataURL(file);
         }
     };
+
+    const initialValues = {
+        firstName: '',
+        lastName: '',
+        fleetNumber: '',
+        licenseExpirey: '',
+        phoneNumber: ''
+    }
+
+    const {values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue} = useFormik({
+        initialValues,
+        validationSchema: addDriverSchema,
+    })
 
     return (
         <Fragment>
@@ -129,7 +155,24 @@ const AddDriver = ({ onClose }) => {
                                     maxLength="30"
                                     value={licenseExpiry}
                                     change={(e) => setLicenseExpiry(e.target.value)}
+                                    labelProps={true}
                                 />
+                            </Grid>
+                            <Grid item xs={12} lg={6}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="truck-select-label">Select Truck</InputLabel>
+                                    <Select
+                                        labelId="truck-select-label"
+                                        label="Select Truck"
+                                        sx={{ width: '100%' }}
+                                    >
+                                        {trucksData.map((truck) => (
+                                            <MenuItem key={truck._id} value={truck._id}>
+                                                {truck.truckName}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs="12">
                                 <Typography

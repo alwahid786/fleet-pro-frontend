@@ -214,7 +214,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                {truck.driver ? truck.driver : "Not Assigned"}
+                                {truck?.assignedTo ? `${truck.assignedTo.firstName} ${truck.assignedTo.lastName}` : "Not Assigned"}
                             </Typography>
                         </Box>
                     </Box>
