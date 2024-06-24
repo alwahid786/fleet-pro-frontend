@@ -1,6 +1,16 @@
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography, styled } from "@mui/material";
-import { Fragment, useState } from "react";
-import { useDispatch } from "react-redux";
+import {
+    Box,
+    Button,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    Typography,
+    styled,
+} from "@mui/material";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CameraIcon from "../../../../../assets/svgs/modal/CameraIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
@@ -9,17 +19,7 @@ import { addDriverAction } from "../../../../../redux/actions/driver.actions";
 import InputField from "./InputField";
 import { useFormik } from "formik";
 import { addDriverSchema } from "../../../../../schemas";
-
-const trucksData = [
-    {
-        _id: '234',
-        truckName: 'Truck One'
-    },
-    {
-        _id: '235',
-        truckName: 'Truck Two'
-    },
-]
+import { getAllTrucksAction } from "../../../../../redux/actions/truck.actions";
 
 // eslint-disable-next-line react/prop-types
 const AddDriver = ({ onClose }) => {
@@ -32,6 +32,8 @@ const AddDriver = ({ onClose }) => {
     const [phone, setPhone] = useState("");
     const [licenseExpiry, setLicenseExpiry] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [truckId, setTruckId] = useState("");
+    const { trucks } = useSelector((state) => state.truck);
 
     const handleSave = async () => {
         setIsLoading(true);
@@ -42,6 +44,7 @@ const AddDriver = ({ onClose }) => {
         formData.append("phoneNumber", phone);
         formData.append("licenseExpiry", licenseExpiry);
         formData.append("file", image);
+        if (truckId) formData.append("assignedTruck", truckId);
         await dispatch(addDriverAction(formData));
         setIsLoading(false);
     };
@@ -57,17 +60,21 @@ const AddDriver = ({ onClose }) => {
     };
 
     const initialValues = {
-        firstName: '',
-        lastName: '',
-        fleetNumber: '',
-        licenseExpirey: '',
-        phoneNumber: ''
-    }
+        firstName: "",
+        lastName: "",
+        fleetNumber: "",
+        licenseExpirey: "",
+        phoneNumber: "",
+    };
 
-    const {values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue} = useFormik({
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } = useFormik({
         initialValues,
         validationSchema: addDriverSchema,
-    })
+    });
+
+    useEffect(() => {
+        dispatch(getAllTrucksAction());
+    }, [dispatch]);
 
     return (
         <Fragment>
@@ -164,11 +171,13 @@ const AddDriver = ({ onClose }) => {
                                     <Select
                                         labelId="truck-select-label"
                                         label="Select Truck"
-                                        sx={{ width: '100%' }}
+                                        value={truckId}
+                                        onChange={(e) => setTruckId(e.target.value)}
+                                        sx={{ width: "100%" }}
                                     >
-                                        {trucksData.map((truck) => (
-                                            <MenuItem key={truck._id} value={truck._id}>
-                                                {truck.truckName}
+                                        {trucks?.map((truck) => (
+                                            <MenuItem key={truck?._id} value={truck?._id}>
+                                                {truck?.truckName}
                                             </MenuItem>
                                         ))}
                                     </Select>

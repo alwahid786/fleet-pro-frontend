@@ -1,35 +1,36 @@
 /* eslint-disable react/prop-types */
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, styled, Typography } from "@mui/material";
-import { Fragment, useState } from "react";
-import { useDispatch } from "react-redux";
+import {
+    Box,
+    Button,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    styled,
+    Typography,
+} from "@mui/material";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CameraIcon from "../../../../../assets/svgs/modal/CameraIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
 import { updateDriverAction } from "../../../../../redux/actions/driver.actions";
 import InputField from "./InputField";
-
-const trucksData = [
-    {
-        _id: '234',
-        truckName: 'Truck One'
-    },
-    {
-        _id: '235',
-        truckName: 'Truck Two'
-    },
-]
+import { getAllTrucksAction } from "../../../../../redux/actions/truck.actions";
 
 const EditDriver = ({ driver, onClose }) => {
     const dispatch = useDispatch();
     const [firstName, setFirstName] = useState(driver?.firstName);
     const [lastName, setLastName] = useState(driver?.lastName);
     const [phoneNumber, setPhoneNumber] = useState(driver?.phoneNumber);
-    const [assignedTruck, setAssignedTruck] = useState(driver?.assignedTruck);
     const [licenseExpiry, setLicenseExpiry] = useState(driver?.licenseExpiry?.split("T")[0]);
     const [image, setImage] = useState(null);
     const [profile, setProfile] = useState(driver?.image?.url);
     const [isLoading, setIsLoading] = useState(false);
+    const [truckId, setTruckId] = useState(driver?.assignedTruck);
+    const { trucks } = useSelector((state) => state.truck);
 
     // const { trucks } = useSelector((state) => state.truck);
 
@@ -40,8 +41,8 @@ const EditDriver = ({ driver, onClose }) => {
         formData.append("firstName", firstName);
         formData.append("lastName", lastName);
         formData.append("phoneNumber", phoneNumber);
-        formData.append("assignedTruck", assignedTruck);
         formData.append("licenseExpiry", licenseExpiry);
+        if (truckId && truckId != driver?.assignedTruck) formData.append("assignedTruck", truckId);
         await dispatch(updateDriverAction(driver?._id, formData));
         setIsLoading(false);
     };
@@ -56,9 +57,9 @@ const EditDriver = ({ driver, onClose }) => {
         }
     };
 
-    // useEffect(() => {
-    //     dispatch(getAllTrucksAction());
-    // }, [dispatch]);
+    useEffect(() => {
+        dispatch(getAllTrucksAction());
+    }, [dispatch]);
     return (
         <Fragment>
             <Box
@@ -139,20 +140,22 @@ const EditDriver = ({ driver, onClose }) => {
                                 />
                             </Grid>
                             <Grid item xs={12} lg={6}>
-                            <FormControl fullWidth>
-                                <InputLabel id="truck-select-label">Select Truck</InputLabel>
-                                <Select
-                                    labelId="truck-select-label"
-                                    label="Select Truck"
-                                    sx={{ width: '100%' }}
-                                >
-                                    {trucksData.map((truck) => (
-                                        <MenuItem key={truck._id} value={truck._id}>
-                                            {truck.truckName}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
+                                <FormControl fullWidth>
+                                    <InputLabel id="truck-select-label">Select Truck</InputLabel>
+                                    <Select
+                                        labelId="truck-select-label"
+                                        label="Select Truck"
+                                        value={truckId}
+                                        onChange={(e) => setTruckId(e.target.value)}
+                                        sx={{ width: "100%" }}
+                                    >
+                                        {trucks?.map((truck) => (
+                                            <MenuItem key={truck?._id} value={truck?._id}>
+                                                {truck?.truckName}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs="12">
                                 <Typography
