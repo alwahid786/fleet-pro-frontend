@@ -6,9 +6,15 @@ import ReviewCard from './components/ReviewCard'
 
 const SubscriptionPlan = () => {
   const [selectedTab, setSelectedTab] = useState('plans')
+  const [selectedCard, setSelectedCard] = useState(null)
 
   const handleChangeTabs = (event, newValue) => {
     setSelectedTab(newValue)
+  }
+
+  const handleCardClick = (card) => {
+    setSelectedCard(card)
+    setSelectedTab('reviews')
   }
 
   return (
@@ -79,8 +85,12 @@ const SubscriptionPlan = () => {
               bg={card.bg}
               btnBg={card.btnBg}
               key={i}
+<<<<<<< Updated upstream
               card={card}
               click={handleChangeTabs}
+=======
+              click={() => handleCardClick(card)}
+>>>>>>> Stashed changes
             />
           ))}
         {selectedTab === 'reviews' && (

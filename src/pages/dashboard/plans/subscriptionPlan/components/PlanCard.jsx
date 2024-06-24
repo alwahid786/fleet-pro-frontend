@@ -86,7 +86,11 @@ const PlanCard = ({
       <Typography sx={{ fontSize: "14px", marginTop: "10px" }}>
         {description}
       </Typography>
+<<<<<<< Updated upstream
       <CustomBtn onClick={click} variant="contained" sx={{ background: btnBg }}>
+=======
+      <CustomBtn onClick={click} variant='contained' sx={{ background: btnBg }}>
+>>>>>>> Stashed changes
         Subscribe Now
       </CustomBtn>
     </Card>
