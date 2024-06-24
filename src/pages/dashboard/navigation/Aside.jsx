@@ -21,6 +21,9 @@ import { logoutUserAction } from "../../../redux/actions/user.actions";
 import useShowMessageError from "../../../hooks/useShowMessageError";
 import { clearUserError, clearUserMessage } from "../../../redux/slices/user.slice";
 import GeofenceIcon from '../../../assets/svgs/geofence/GeofenceIcon'
+import PricingIcon from "../../../assets/svgs/plans/PricingIcon";
+import PlanIcon from "../../../assets/svgs/plans/PlanIcon";
+import ReceiptIcon from '../../../assets/svgs/plans/ReceiptIcon'
 
 const Aside = ({ toggleNav }) => {
     const [openPage, setOpenPage] = useState(null);
@@ -142,19 +145,19 @@ const Aside = ({ toggleNav }) => {
           ],
         },
         {
-          icon: <SettingIcon isActivePage={isActivePage} />,
-          title: 'Plans and Pricing',
+          icon: <PricingIcon isActivePage={isActivePage} />,
+          title: 'Pricing Plan',
           page: 'plans',
           subPages: [
             {
-              icon: <SettingNestedIcon />,
-              title: 'Subscription Plan',
+              icon: <PlanIcon />,
+              title: 'Plans',
               route: '/dashboard/plans/subscription-plan',
               page: 'subscription-plan',
             },
             {
-              icon: <SettingNestedIcon />,
-              title: 'Subscription History',
+              icon: <ReceiptIcon />,
+              title: 'Receipt',
               route: '/dashboard/plans/subscription-history',
               page: 'subscription-history',
             },

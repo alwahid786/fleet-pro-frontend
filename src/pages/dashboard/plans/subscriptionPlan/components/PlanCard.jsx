@@ -10,10 +10,8 @@ const PlanCard = ({
   description,
   key,
   btnBg,
-  click,
-  card,
+  onClick,
 }) => {
-  console.log('card', card);
   return (
     <Card
       key={key}
@@ -49,7 +47,7 @@ const PlanCard = ({
       >
         {price}
         <Typography sx={{ fontSize: "18px", fontWeight: 400 }} variant="span">
-          Month
+          /Month
         </Typography>
       </Typography>
       {/* Features list */}
@@ -86,11 +84,7 @@ const PlanCard = ({
       <Typography sx={{ fontSize: "14px", marginTop: "10px" }}>
         {description}
       </Typography>
-<<<<<<< Updated upstream
-      <CustomBtn onClick={click} variant="contained" sx={{ background: btnBg }}>
-=======
-      <CustomBtn onClick={click} variant='contained' sx={{ background: btnBg }}>
->>>>>>> Stashed changes
+      <CustomBtn onClick={onClick} variant="contained" sx={{ background: btnBg }}>
         Subscribe Now
       </CustomBtn>
     </Card>

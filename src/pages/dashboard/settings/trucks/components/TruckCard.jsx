@@ -33,15 +33,15 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                 >
                     <Avatar
                         alt={truck?.truckName}
+                        src={truck?.image?.url}
                         sx={{
                             width: "80px",
                             height: "80px",
                             position: "relative",
-                            overflow: "visible",
+                            overflow: "hidden",
                             borderRadius: "50%",
                             objectFit: "cover",
                         }}
-                        src={truck?.image?.url}
                     />
                     <Box
                         sx={{

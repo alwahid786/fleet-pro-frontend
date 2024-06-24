@@ -68,7 +68,7 @@ const SubscriptionPlan = () => {
               transform: 'rotate(90deg)',
             }}
           />
-          <Tab label="REVIEW" value="reviews" />
+          <Tab label="REVIEW" value="reviews" disabled={!selectedCard} />
         </Tabs>
       </Box>
       <Typography sx={{ color: '#000', fontSize: '20px', fontWeight: 600, marginTop: '3rem' }}>
@@ -85,16 +85,11 @@ const SubscriptionPlan = () => {
               bg={card.bg}
               btnBg={card.btnBg}
               key={i}
-<<<<<<< Updated upstream
-              card={card}
-              click={handleChangeTabs}
-=======
-              click={() => handleCardClick(card)}
->>>>>>> Stashed changes
+              onClick={() => handleCardClick(card)}
             />
           ))}
         {selectedTab === 'reviews' && (
-          <ReviewCard />
+          <ReviewCard card={selectedCard} />
         )}
       </Box>
     </Box>

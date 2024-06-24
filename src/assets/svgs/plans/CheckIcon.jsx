@@ -1,10 +1,11 @@
 import React from 'react'
 
-const CheckIcon = () => {
+const CheckIcon = ({ width }) => {
+const iconWidth = width !== undefined ? width : 23;
   return (
     <>
       <svg
-        width="23"
+        width={iconWidth}
         height="22"
         viewBox="0 0 23 22"
         fill="none"

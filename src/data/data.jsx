@@ -259,7 +259,7 @@ export const drivers = [
   export const planCards = [
     {
       title: 'Basic Plan',
-      price: '$9.99/',
+      price: '$9.99',
       featuresList: [
         'Access to basic content library',
         'Standard video quality',
@@ -273,7 +273,7 @@ export const drivers = [
     },
     {
       title: 'Standard Plan',
-      price: '$19.99/',
+      price: '$19.99',
       featuresList: [
         'Access to basic content library',
         'Standard video quality',
@@ -287,7 +287,7 @@ export const drivers = [
     },
     {
       title: 'Premium Plan',
-      price: '$29.99/',
+      price: '$29.99',
       featuresList: [
         'Access to basic content library',
         'Standard video quality',

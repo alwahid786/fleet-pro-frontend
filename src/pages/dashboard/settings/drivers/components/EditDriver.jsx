@@ -190,9 +190,9 @@ const EditDriver = ({ driver, onClose }) => {
                                                 cursor: "not-allowed",
                                             },
                                         }}
-                                        disabled={!isLoading}
+                                        disabled={isLoading}
                                     >
-                                        {!isLoading ? "Saving..." : "SAVE Driver"}
+                                        {isLoading ? "Saving..." : "SAVE Driver"}
                                     </Button>
                                 </Box>
                             </Grid>
