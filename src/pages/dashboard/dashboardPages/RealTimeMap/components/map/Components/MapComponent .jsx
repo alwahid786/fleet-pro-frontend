@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, styled } from '@mui/material';
 import ReactMapGL, { NavigationControl, GeolocateControl, FullscreenControl } from 'react-map-gl';
 import MapMarkers from './MapMarkers';
-import TruckIcon from '../../../../../../assets/svgs/map/TruckIcon.svg';
+import TruckIcon from '../../../../../../../assets/svgs/map/TruckIcon.svg';
 
 const TOKEN = import.meta.env.VITE_APP_MAP_TOKEN;
 

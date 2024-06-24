@@ -255,5 +255,50 @@ export const drivers = [
       region: 'Central America'
     },
   ]
+
+  export const planCards = [
+    {
+      title: 'Basic Plan',
+      price: '$9.99/',
+      featuresList: [
+        'Access to basic content library',
+        'Standard video quality',
+        'Single device streaming',
+        'Community support',
+        'Advance Security'
+      ],
+      description: 'Perfect for individuals looking to explore our content without committing to a higher tier. Enjoy standard quality streaming and a variety of basic features.',
+      bg: 'linear-gradient(180deg, #3AA357 0%, #257300 100%)',
+      btnBg: 'linear-gradient(180deg, #00FF46 0%, #0D742A 165.71%)'
+    },
+    {
+      title: 'Standard Plan',
+      price: '$19.99/',
+      featuresList: [
+        'Access to basic content library',
+        'Standard video quality',
+        'Single device streaming',
+        'Community support',
+        'Advance Security'
+      ],
+      description: 'Perfect for individuals looking to explore our content without committing to a higher tier. Enjoy standard quality streaming and a variety of basic features.',
+      bg: 'linear-gradient(180deg, #40C8A1 0%, #195F9D 100%)',
+      btnBg: 'linear-gradient(180deg, #3DC1A1 0%, #1A639D 100%)'
+    },
+    {
+      title: 'Premium Plan',
+      price: '$29.99/',
+      featuresList: [
+        'Access to basic content library',
+        'Standard video quality',
+        'Single device streaming',
+        'Community support',
+        'Advance Security'
+      ],
+      description: 'Perfect for individuals looking to explore our content without committing to a higher tier. Enjoy standard quality streaming and a variety of basic features.',
+      bg: 'linear-gradient(180deg, #FFB827 0%, #EE4967 100%)',
+      btnBg: 'linear-gradient(180deg, #FFC24A 0%, #EF4C66 161.43%)'
+    },
+  ]
   
   

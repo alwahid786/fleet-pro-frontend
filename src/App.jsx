@@ -3,7 +3,6 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
 // import ProtectedRoute from "./utils/ProtectedRoute";
-import RealTimeMap from "./pages/dashboard/RealTimeMap/RealTimeMap";
 import Otp from "./pages/auth/otp/Otp";
 import ForgetPassword from "./pages/auth/forget-password/ForgetPassword";
 import ResetPassword from "./pages/auth/reset-password/ResetPassword";
@@ -23,6 +22,17 @@ const Drivers = lazy(() => import("./pages/dashboard/settings/drivers/Drivers"))
 const Trucks = lazy(() => import("./pages/dashboard/settings/trucks/Trucks"));
 const Devices = lazy(() => import("./pages/dashboard/settings/devices/Devices"));
 const Users = lazy(() => import("./pages/dashboard/settings/users/Users"));
+const GeoFence = lazy(() => import('./pages/dashboard/dashboardPages/geofence/GeoFence'))
+const RealTimeMap = lazy(
+    () => import('./pages/dashboard/dashboardPages/RealTimeMap/RealTimeMap'),
+  )
+const SubscriptionPlan = lazy(
+    () => import('./pages/dashboard/plans/subscriptionPlan/SubscriptionPlan'),
+  )
+  const SubscriptionHistory = lazy(
+    () =>
+      import('./pages/dashboard/plans/subscriptionHistory/SubscriptionHistory'),
+  )
 
 function App() {
     const loader = <GlobalLoader />;
@@ -62,7 +72,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="reports/truckreport"
+                        path="reports/truck-report"
                         element={
                             <Suspense fallback={loader}>
                                 <TruckReport />
@@ -110,7 +120,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="setting/truck"
+                        path="setting/trucks"
                         element={
                             <Suspense fallback={loader}>
                                 <Trucks />
@@ -133,7 +143,38 @@ function App() {
                             </Suspense>
                         }
                     />
-                    <Route path="map" element={<RealTimeMap />} />
+                    <Route
+                        path="real-time-map"
+                        element={
+                        <Suspense fallback={loader}>
+                            <RealTimeMap />
+                        </Suspense>
+                        }
+                    />
+                    <Route
+                        path="geofence"
+                        element={
+                        <Suspense fallback={loader}>
+                            <GeoFence />
+                        </Suspense>
+                        }
+                    />
+                    <Route
+                        path="plans/subscription-plan"
+                        element={
+                        <Suspense fallback={loader}>
+                            <SubscriptionPlan />
+                        </Suspense>
+                        }
+                    />
+                    <Route
+                        path="plans/subscription-history"
+                        element={
+                        <Suspense fallback={loader}>
+                            <SubscriptionHistory />
+                        </Suspense>
+                        }
+                    />
                 </Route>
             </Routes>
             <ToastContainer />

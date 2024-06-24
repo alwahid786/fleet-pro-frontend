@@ -20,6 +20,7 @@ import SettingNestedIcon from "../../../assets/svgs/SettingNestedIcon";
 import { logoutUserAction } from "../../../redux/actions/user.actions";
 import useShowMessageError from "../../../hooks/useShowMessageError";
 import { clearUserError, clearUserMessage } from "../../../redux/slices/user.slice";
+import GeofenceIcon from '../../../assets/svgs/geofence/GeofenceIcon'
 
 const Aside = ({ toggleNav }) => {
     const [openPage, setOpenPage] = useState(null);
@@ -45,96 +46,121 @@ const Aside = ({ toggleNav }) => {
 
     const pages = [
         {
-            icon: <HomeIcon isActivePage={isActivePage} />,
-            title: "Home",
-            route: "/dashboard/home",
-            page: "home",
+          icon: <HomeIcon isActivePage={isActivePage} />,
+          title: 'Home',
+          route: '/dashboard/home',
+          page: 'home',
         },
         {
-            icon: <DashboardIcon isActivePage={isActivePage} />,
-            title: "Dashboard",
-            // route: '/dashboard/map',
-            page: "dashboard",
-            subPages: [
-                {
-                    icon: <RealTimeMapIcon isActivePage={isActivePage} />,
-                    title: "Real Time Map",
-                    route: "/dashboard/map",
-                    page: "real-time-map",
-                },
-            ],
+          icon: <DashboardIcon isActivePage={isActivePage} />,
+          title: 'Dashboard',
+          // route: '/dashboard/map',
+          page: 'dashboard',
+          subPages: [
+            {
+              icon: <RealTimeMapIcon isActivePage={isActivePage} />,
+              title: 'Real Time Map',
+              route: '/dashboard/real-time-map',
+              page: 'real-time-map',
+            },
+            {
+              icon: <GeofenceIcon isActivePage={isActivePage} />,
+              title: 'Geofence',
+              route: '/dashboard/geofence',
+              page: 'geofence',
+            },
+          ],
         },
         {
-            icon: <ReportsIcon isActivePage={isActivePage} />,
-            title: "Reports",
-            // route: '/dashboard/reports/truckreport',
-            page: "reports",
-            subPages: [
-                {
-                    icon: <ReportNestedIcon />,
-                    title: "Truck Report",
-                    route: "/dashboard/reports/truckreport",
-                    page: "truck-report",
-                },
-                {
-                    icon: <ReportNestedIcon />,
-                    title: "Daily Operation",
-                    route: "/dashboard/reports/operations",
-                    page: "daily-operation",
-                },
-                {
-                    icon: <ReportNestedIcon />,
-                    title: "Video Evidence",
-                    route: "/dashboard/reports/video",
-                    page: "video-evidence",
-                },
-                {
-                    icon: <ReportNestedIcon />,
-                    title: "SOS",
-                    route: "/dashboard/reports/sos",
-                    page: "sos",
-                },
-            ],
+          icon: <ReportsIcon isActivePage={isActivePage} />,
+          title: 'Reports',
+          // route: '/dashboard/reports/truckreport',
+          page: 'reports',
+          subPages: [
+            {
+              icon: <ReportNestedIcon />,
+              title: 'Truck Report',
+              route: '/dashboard/reports/truck-report',
+              page: 'truck-report',
+            },
+            {
+              icon: <ReportNestedIcon />,
+              title: 'Daily Operation',
+              route: '/dashboard/reports/operations',
+              page: 'daily-operation',
+            },
+            {
+              icon: <ReportNestedIcon />,
+              title: 'Video Evidence',
+              route: '/dashboard/reports/video',
+              page: 'video-evidence',
+            },
+            {
+              icon: <ReportNestedIcon />,
+              title: 'SOS',
+              route: '/dashboard/reports/sos',
+              page: 'sos',
+            },
+          ],
         },
         {
-            icon: <SettingIcon isActivePage={isActivePage} />,
-            title: "Settings",
-            route: "/dashboard/setting/alert",
-            page: "settings",
-            subPages: [
-                {
-                    icon: <SettingNestedIcon />,
-                    title: "Alerts Type",
-                    route: "/dashboard/setting/alert",
-                    page: "alerts-type",
-                },
-                {
-                    icon: <SettingNestedIcon />,
-                    title: "Drivers",
-                    route: "/dashboard/setting/driver",
-                    page: "drivers",
-                },
-                {
-                    icon: <SettingNestedIcon />,
-                    title: "Trucks",
-                    route: "/dashboard/setting/truck",
-                    page: "trucks",
-                },
-                {
-                    icon: <SettingNestedIcon />,
-                    title: "Devices",
-                    route: "/dashboard/setting/devices",
-                    page: "devices",
-                },
-                {
-                    icon: <SettingNestedIcon />,
-                    title: "Users",
-                    route: "/dashboard/setting/users",
-                    page: "users",
-                },
-            ],
+          icon: <SettingIcon isActivePage={isActivePage} />,
+          title: 'Settings',
+          route: '/dashboard/setting/alert',
+          page: 'settings',
+          subPages: [
+            {
+              icon: <SettingNestedIcon />,
+              title: 'Alerts Type',
+              route: '/dashboard/setting/alert',
+              page: 'alerts-type',
+            },
+            {
+              icon: <SettingNestedIcon />,
+              title: 'Drivers',
+              route: '/dashboard/setting/driver',
+              page: 'drivers',
+            },
+            {
+              icon: <SettingNestedIcon />,
+              title: 'Trucks',
+              route: '/dashboard/setting/trucks',
+              page: 'trucks',
+            },
+            {
+              icon: <SettingNestedIcon />,
+              title: 'Devices',
+              route: '/dashboard/setting/devices',
+              page: 'devices',
+            },
+            {
+              icon: <SettingNestedIcon />,
+              title: 'Users',
+              route: '/dashboard/setting/users',
+              page: 'users',
+            },
+          ],
         },
-    ];
+        {
+          icon: <SettingIcon isActivePage={isActivePage} />,
+          title: 'Plans and Pricing',
+          page: 'plans',
+          subPages: [
+            {
+              icon: <SettingNestedIcon />,
+              title: 'Subscription Plan',
+              route: '/dashboard/plans/subscription-plan',
+              page: 'subscription-plan',
+            },
+            {
+              icon: <SettingNestedIcon />,
+              title: 'Subscription History',
+              route: '/dashboard/plans/subscription-history',
+              page: 'subscription-history',
+            },
+          ],
+        },
+      ]
 
     return (
         <>

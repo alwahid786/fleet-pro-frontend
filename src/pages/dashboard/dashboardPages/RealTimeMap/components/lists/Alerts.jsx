@@ -9,7 +9,7 @@ import {
   styled,
 } from '@mui/material'
 import React, { useState } from 'react'
-import CancelIcon from '../../../../../assets/svgs/map/CancelIcon'
+import CancelIcon from '../../../../../../assets/svgs/map/CancelIcon'
 
 const Alerts = () => {
   const [showAlerts, setShowAlerts] = useState(false);
