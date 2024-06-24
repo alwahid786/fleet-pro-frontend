@@ -18,7 +18,7 @@ const driverSlice = createSlice({
         },
         addDriverSuccess: (state, action) => {
             state.loading = false;
-            state.message = action.payload;
+            state.message = action.payload.message;
         },
         addDriverFailure: (state, action) => {
             state.loading = false;
@@ -32,7 +32,7 @@ const driverSlice = createSlice({
         },
         updateDriverSuccess: (state, action) => {
             state.loading = false;
-            state.message = action.payload;
+            state.message = action.payload.message;
         },
         updateDriverFailure: (state, action) => {
             state.loading = false;
@@ -46,7 +46,7 @@ const driverSlice = createSlice({
         },
         deleteDriverSuccess: (state, action) => {
             state.loading = false;
-            state.message = action.payload;
+            state.message = action.payload.message;
         },
         deleteDriverFailure: (state, action) => {
             state.loading = false;
@@ -60,7 +60,7 @@ const driverSlice = createSlice({
         },
         getAllDriversSuccess: (state, action) => {
             state.loading = false;
-            state.drivers = action.payload;
+            state.drivers = action.payload.drivers;
         },
         getAllDriversFailure: (state, action) => {
             state.loading = false;

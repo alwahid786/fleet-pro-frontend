@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Avatar, Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import Loader from "../../../../../assets/svgs/Loader";
+import { Fragment } from "react";
 
 const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
-    return (
-        <>
+    return truck ? (
+        <Fragment>
             <Card
                 sx={{
                     position: "relative",
@@ -333,7 +334,9 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                     </Box>
                 </CardActions>
             </Card>
-        </>
+        </Fragment>
+    ) : (
+        <Loader />
     );
 };
 

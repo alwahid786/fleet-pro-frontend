@@ -24,7 +24,9 @@ const addDriverAction = (formData) => async (dispatch) => {
         dispatch(addDriverSuccess(res.data));
     } catch (error) {
         console.log("add driver error", error);
-        dispatch(addDriverFailure(error));
+        dispatch(
+            addDriverFailure(error?.response?.data?.message || "Something went wrong while adding driver")
+        );
     }
 };
 
@@ -38,7 +40,11 @@ const updateDriverAction = (driverId, formData) => async (dispatch) => {
         dispatch(updateDriverSuccess(res.data));
     } catch (error) {
         console.log("update driver error", error);
-        dispatch(updateDriverFailure(error));
+        dispatch(
+            updateDriverFailure(
+                error?.response?.data?.message || "Something went wrong while updating driver"
+            )
+        );
     }
 };
 
@@ -47,12 +53,16 @@ const updateDriverAction = (driverId, formData) => async (dispatch) => {
 const deleteDriverAction = (driverId) => async (dispatch) => {
     dispatch(deleteDriverStart());
     try {
-        const res = await customAxios.delete(`/driver/delete/${driverId}`);
+        const res = await customAxios.delete(`/driver/single/${driverId}`);
         console.log("delete driver success", res);
         dispatch(deleteDriverSuccess(res.data));
     } catch (error) {
         console.log("delete driver error", error);
-        dispatch(deleteDriverFailure(error));
+        dispatch(
+            deleteDriverFailure(
+                error?.response?.data?.message || "Something went wrong while deleting driver"
+            )
+        );
     }
 };
 
@@ -66,7 +76,11 @@ const getAllDriversAction = () => async (dispatch) => {
         dispatch(getAllDriversSuccess(res.data));
     } catch (error) {
         console.log("get all drivers error", error);
-        dispatch(getAllDriversFailure(error));
+        dispatch(
+            getAllDriversFailure(
+                error?.response?.data?.message || "Something went wrong while getting drivers"
+            )
+        );
     }
 };
 
