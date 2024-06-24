@@ -68,7 +68,7 @@ const Header = () => {
           onClose={() => toggleNav(false)}
           PaperProps={{
             sx: {
-              width: '270px',
+              width: '310px',
               '&::-webkit-scrollbar': {
                 width: 0,
                 height: 0,
