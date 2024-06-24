@@ -11,8 +11,6 @@ import useShowMessageError from "../../../hooks/useShowMessageError";
 const ForgotPassword = () => {
     const [email, setEmail] = useState();
     const dispatch = useDispatch();
-    const handleChange = (value) => setEmail(value);
-
     const { message, error } = useSelector((state) => state.user);
 
     const handleForget = (e) => {
@@ -67,7 +65,7 @@ const ForgotPassword = () => {
                         </Typography>
                         <TextField
                             required
-                            onChange={(e) => handleChange(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                             sx={{
                                 width: {
                                     xs: "100%",

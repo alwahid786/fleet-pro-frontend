@@ -4,6 +4,7 @@ const initialState = {
     loading: false,
     error: null,
     message: null,
+    trucks: [],
 };
 
 const truckSlice = createSlice({
