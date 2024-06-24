@@ -1,21 +1,18 @@
 import { Box, Button, Grid, TextField, Typography, styled } from "@mui/material";
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CameraIcon from "../../../../../assets/svgs/modal/CameraIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
 import { addTruckAction, getAllTrucksAction } from "../../../../../redux/actions/truck.actions";
-import { clearTruckError, clearTruckMessage } from "../../../../../redux/slices/truck.slice";
 import { truckSchema } from "../../../../../schemas";
 
+// eslint-disable-next-line react/prop-types
 const AddTruck = ({ onClose }) => {
     const [imageSrc, setImageSrc] = useState("");
-    const [image, setImage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const { message, error } = useSelector((state) => state.truck);
     const dispatch = useDispatch();
 
     const initialValues = {
@@ -50,7 +47,6 @@ const AddTruck = ({ onClose }) => {
 
     const handleImageSrc = (e) => {
         const file = e.target.files[0];
-        setImage(file);
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -61,18 +57,6 @@ const AddTruck = ({ onClose }) => {
         }
     };
 
-    // show success and error message
-    useEffect(() => {
-        if (message) {
-            toast.success(message);
-            dispatch(clearTruckMessage());
-            onClose();
-        }
-        if (error) {
-            toast.error(error);
-            dispatch(clearTruckError());
-        }
-    }, [message, error, dispatch, onClose]);
     return (
         <>
             <Box

@@ -1,7 +1,8 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import TruckCard from "./components/TruckCard";
 // import { trucks } from "../../../../data/data";
 import { Box } from "@mui/material";
+import { confirmAlert } from "react-confirm-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import DownloadIcon from "../../../../assets/svgs/reports/DownloadIcon";
@@ -10,6 +11,7 @@ import Modal from "../../../../components/modal/Modal";
 import { deleteTruckAction, getAllTrucksAction } from "../../../../redux/actions/truck.actions";
 import AddTruck from "./components/AddTruck";
 import EditTruck from "./components/EditTruck";
+import { clearTruckError, clearTruckMessage } from "../../../../redux/slices/truck.slice";
 
 const Trucks = () => {
     const [modalType, setModalType] = useState(null);
@@ -28,21 +30,48 @@ const Trucks = () => {
         setSingleTruck(truck);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = useCallback(() => {
         setModalType(null);
-    };
+    }, []);
 
     const deleteTruckHandler = async (id) => {
-        if (id) {
-            await dispatch(deleteTruckAction(id));
-            toast.success("Truck deleted successfully");
-            dispatch(getAllTrucksAction());
-        }
+        confirmAlert({
+            title: "Confirm delete Trucks",
+            message: "Are you sure you want to delete the Truck?",
+            buttons: [
+                {
+                    label: "Yes",
+                    onClick: async () => {
+                        if (id) {
+                            await dispatch(deleteTruckAction(id));
+                            dispatch(getAllTrucksAction());
+                        }
+                    },
+                },
+                {
+                    label: "No",
+                    onClick: () => toast.info("Delete action cancelled", { autoClose: 2000 }),
+                },
+            ],
+        });
     };
 
     useEffect(() => {
         dispatch(getAllTrucksAction());
     }, [dispatch]);
+
+    // show success and error message
+    useEffect(() => {
+        if (message) {
+            toast.success(message);
+            dispatch(clearTruckMessage());
+            handleCloseModal();
+        }
+        if (error) {
+            toast.error(error);
+            dispatch(clearTruckError());
+        }
+    }, [message, error, dispatch, handleCloseModal]);
 
     return (
         <Fragment>

@@ -1,20 +1,17 @@
 /* eslint-disable react/prop-types */
 import { Box, Button, Grid, TextField, Typography, styled } from "@mui/material";
 import { useFormik } from "formik";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Fragment, useState } from "react";
+import { useDispatch } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CameraIcon from "../../../../../assets/svgs/modal/CameraIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
-import useShowMessageError from "../../../../../hooks/useShowMessageError";
 import { getAllTrucksAction, updateTruckAction } from "../../../../../redux/actions/truck.actions";
-import { clearTruckError, clearTruckMessage } from "../../../../../redux/slices/truck.slice";
 
 const EditTruck = ({ onClose, singleTruck }) => {
     const [imageSrc, setImageSrc] = useState(singleTruck?.image?.url);
     const [isLoading, setIsLoading] = useState(false);
-    const { message, error } = useSelector((state) => state.truck);
     const dispatch = useDispatch();
 
     const initialValues = {
@@ -27,7 +24,7 @@ const EditTruck = ({ onClose, singleTruck }) => {
         image: "",
     };
 
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } = useFormik({
+    const { values, errors, touched, handleChange, handleSubmit, setFieldValue } = useFormik({
         initialValues,
         // validationSchema: truckSchema,
         // validateOnChange: true,
@@ -63,10 +60,10 @@ const EditTruck = ({ onClose, singleTruck }) => {
     };
 
     // show message and errors
-    useShowMessageError(message, clearTruckMessage, error, clearTruckError);
+    // useShowMessageError(message, clearTruckMessage, error, clearTruckError);
 
     return (
-        <>
+        <Fragment>
             <Box
                 sx={{
                     display: "flex",
@@ -236,7 +233,7 @@ const EditTruck = ({ onClose, singleTruck }) => {
                     </Grid>
                 </form>
             </Box>
-        </>
+        </Fragment>
     );
 };
 
