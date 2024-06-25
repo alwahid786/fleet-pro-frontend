@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ChevronIconUp = () => {
+const ChevronIconUp = ({ isActivePage }) => {
   return (
     <>
       <svg
@@ -13,7 +13,7 @@ const ChevronIconUp = () => {
       >
         <path
           d="M4 6L8 10L12 6"
-          stroke="#000"
+          stroke={isActivePage ? '#000' : '#fff'}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"

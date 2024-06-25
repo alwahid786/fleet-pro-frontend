@@ -5,11 +5,15 @@ import SaudiLogo from '../../../../assets/images/saudi-arabia-logo.png'
 import { MenuRounded } from '@mui/icons-material';
 import Aside from '../Aside';
 import Notification from './components/Notification';
+import { useLocation } from 'react-router-dom';
 
 
 const Header = () => {
   const [openNav, setOpenNav] = useState(false);
-
+  const location = useLocation();
+  let urlArr = location.pathname.split('/');
+  let pageTitle = urlArr[urlArr.length - 1].replaceAll('-', ' ');
+  
   const toggleNav = (newOpen) => {
     setOpenNav(newOpen);
   }
@@ -36,9 +40,10 @@ const Header = () => {
             },
             fontWeight: '500',
             lineHeight: 'normal',
-            color: '#ffffff'
+            color: '#ffffff',
+            textTransform: 'uppercase'
         }}>
-            Overview
+            {pageTitle}
         </Typography>
         <SaudiLogoDiv>
             <img src={SaudiLogo} alt="saudi logo" style={{width: '92px', height: 'auto'}} />

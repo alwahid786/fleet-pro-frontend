@@ -5,7 +5,7 @@ const ChevronIcon = ({ isActivePage }) => {
   const active = pages.includes(isActivePage)
   return (
     <>
-      <svg
+      <svg style={{mixBlendMode: isActivePage ? 'difference': ''}}
         width="16"
         height="16"
         viewBox="0 0 16 16"

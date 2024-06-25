@@ -112,7 +112,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="setting/driver"
+                        path="setting/drivers"
                         element={
                             <Suspense fallback={loader}>
                                 <Drivers />

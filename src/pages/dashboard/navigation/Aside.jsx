@@ -3,7 +3,7 @@ import { Box, Button, Stack, Typography, styled } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AsideTruckBgImg from "../../../assets/images/asidetrucksec.png";
 import AsideTruckIcon from "../../../assets/svgs/AsideTruckIcon";
 import ChevronIcon from "../../../assets/svgs/ChevronIcon";
@@ -26,15 +26,23 @@ import PlanIcon from "../../../assets/svgs/plans/PlanIcon";
 import ReceiptIcon from '../../../assets/svgs/plans/ReceiptIcon'
 
 const Aside = ({ toggleNav }) => {
+    const location = useLocation();
+    let urlArr = location.pathname.split('/');
+    let path = urlArr[2];
     const [openPage, setOpenPage] = useState(null);
-    const [isActivePage, setIsActivePage] = useState("home");
+    const [isActivePage, setIsActivePage] = useState(path);
     const [isLoading, setIsLoading] = useState(false);
-
+    
     const { message, error } = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
+    
     const handlePages = (page) => {
-        setOpenPage(openPage === page ? null : page);
+        if(page.subPages) {
+            setOpenPage(page.page)
+        } else {
+            setOpenPage(openPage === page ? null : page);
+        }
         setIsActivePage(page);
     };
 
@@ -121,7 +129,7 @@ const Aside = ({ toggleNav }) => {
             {
               icon: <SettingNestedIcon />,
               title: 'Drivers',
-              route: '/dashboard/setting/driver',
+              route: '/dashboard/setting/drivers',
               page: 'drivers',
             },
             {
@@ -230,7 +238,7 @@ const Aside = ({ toggleNav }) => {
                                     </Typography>
                                     {page.subPages &&
                                         (openPage === page.page ? (
-                                            <ChevronIconUp />
+                                            <ChevronIconUp isActivePage={isActivePage === page.page} />
                                         ) : (
                                             <ChevronIcon isActivePage={isActivePage === page.page} />
                                         ))}
