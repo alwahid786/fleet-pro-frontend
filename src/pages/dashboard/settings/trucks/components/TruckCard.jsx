@@ -47,7 +47,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                         sx={{
                             width: "15px",
                             height: "15px",
-                            backgroundColor: "#00A389",
+                            backgroundColor: truck?.status === "connected" ? "#00A389" : "#FF0000",
                             borderRadius: "100%",
                             position: "absolute",
                             border: "2px solid white",
@@ -214,7 +214,9 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                {truck?.assignedTo ? `${truck.assignedTo.firstName} ${truck.assignedTo.lastName}` : "Not Assigned"}
+                                {truck?.assignedTo
+                                    ? `${truck.assignedTo.firstName} ${truck.assignedTo.lastName}`
+                                    : "Not Assigned"}
                             </Typography>
                         </Box>
                     </Box>

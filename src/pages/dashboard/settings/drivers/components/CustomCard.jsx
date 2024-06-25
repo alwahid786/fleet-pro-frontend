@@ -3,12 +3,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { Avatar, Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
-
-import React from "react";
+import { Fragment } from "react";
 
 const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
     return (
-        <>
+        <Fragment>
             <Card
                 sx={{
                     position: "relative",
@@ -209,7 +208,9 @@ const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                {driver?.assignedTruck ? driver?.assignedTruck : "Not Assigned"}
+                                {driver?.assignedTruck
+                                    ? driver?.assignedTruckDetails?.truckName
+                                    : "Not Assigned"}
                             </Typography>
                         </Box>
                     </Box>
@@ -273,7 +274,7 @@ const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
                     </Box>
                 </CardActions>
             </Card>
-        </>
+        </Fragment>
     );
 };
 

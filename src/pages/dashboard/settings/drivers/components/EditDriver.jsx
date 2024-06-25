@@ -42,7 +42,13 @@ const EditDriver = ({ driver, onClose }) => {
         formData.append("lastName", lastName);
         formData.append("phoneNumber", phoneNumber);
         formData.append("licenseExpiry", licenseExpiry);
-        if (truckId && truckId != driver?.assignedTruck) formData.append("assignedTruck", truckId);
+        if (String(truckId) !== String(driver?.assignedTruck) && truckId !== "remove-truck") {
+            formData.append("assignedTruck", truckId);
+        }
+        if (truckId === "remove-truck") {
+            formData.append("removeAssignedTruck", driver?.assignedTruck);
+            console.log("remove truck ", formData);
+        }
         await dispatch(updateDriverAction(driver?._id, formData));
         setIsLoading(false);
     };
@@ -149,6 +155,9 @@ const EditDriver = ({ driver, onClose }) => {
                                         onChange={(e) => setTruckId(e.target.value)}
                                         sx={{ width: "100%" }}
                                     >
+                                        <MenuItem key={"default"} value={"remove-truck"}>
+                                            {"Remove Truck"}
+                                        </MenuItem>
                                         {trucks?.map((truck) => (
                                             <MenuItem key={truck?._id} value={truck?._id}>
                                                 {truck?.truckName}

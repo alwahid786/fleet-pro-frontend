@@ -67,8 +67,10 @@ const Drivers = () => {
             toast.error(error);
             dispatch(clearDriverError());
         }
-        dispatch(getAllDriversAction());
     }, [message, error, dispatch, handleCloseModal]);
+    useEffect(() => {
+        dispatch(getAllDriversAction());
+    }, [dispatch]);
     return (
         <Fragment>
             <Box
