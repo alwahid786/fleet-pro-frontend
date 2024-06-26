@@ -10,6 +10,7 @@ import {
 } from '@mui/material'
 import React, { useState } from 'react'
 import CancelIcon from '../../../../../../assets/svgs/map/CancelIcon'
+import ListOfTrucks from './ListOfTrucks';
 
 const Alerts = () => {
   const [showAlerts, setShowAlerts] = useState(false);
@@ -86,6 +87,7 @@ const Alerts = () => {
         </Box>
         )}
       </Box>
+      <ListOfTrucks />
     </Box>
   )
 }
