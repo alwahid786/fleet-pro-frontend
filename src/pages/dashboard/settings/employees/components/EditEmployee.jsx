@@ -8,7 +8,7 @@ import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import InputField from "./InputField";
 import { updateEmployAction } from "../../../../../redux/actions/employees.action";
 
-const EditUser = ({ onClose, employ }) => {
+const EditEmployee = ({ onClose, employ }) => {
     const dispatch = useDispatch();
     const [firstName, setFirstName] = useState(employ?.firstName);
     const [lastName, setLastName] = useState(employ?.lastName);
@@ -69,7 +69,7 @@ const EditUser = ({ onClose, employ }) => {
                     <Box sx={{ cursor: "pointer", height: "25px" }} onClick={onClose}>
                         <BackIcon />
                     </Box>
-                    EDIT USER
+                    EDIT EMPLOYEE
                 </Box>
                 <Box sx={{ cursor: "pointer" }} onClick={onClose}>
                     <CloseIcon onClick={onClose} />
@@ -180,7 +180,7 @@ const EditUser = ({ onClose, employ }) => {
     );
 };
 
-export default EditUser;
+export default EditEmployee;
 
 const ChangeButton = styled(Button)({
     border: "1px solid rgba(0, 107, 206, 1)",

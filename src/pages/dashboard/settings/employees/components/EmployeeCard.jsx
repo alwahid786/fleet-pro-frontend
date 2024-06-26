@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { Fragment } from "react";
 
-const UserCard = ({ employ, handleOpenEditModal, handleDeleteUser }) => {
+const EmployeeCard = ({ employ, handleOpenEditModal, handleDeleteUser }) => {
     return (
         <Fragment>
             <Card
@@ -275,4 +275,4 @@ const UserCard = ({ employ, handleOpenEditModal, handleDeleteUser }) => {
     );
 };
 
-export default UserCard;
+export default EmployeeCard;

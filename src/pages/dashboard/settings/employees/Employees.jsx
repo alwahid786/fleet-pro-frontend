@@ -1,17 +1,17 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import AddIcon from "../../../../assets/svgs/settings/AddIcon";
-import UserCard from "./components/UserCard";
+import EmployeeCard from "./components/EmployeeCard";
 import Modal from "../../../../components/modal/Modal";
-import EditUser from "./components/EditUser";
-import AddUser from "./components/AddUser";
+import EditUser from "./components/EditEmployee";
+import AddUser from "./components/AddEmployee";
 import { confirmAlert } from "react-confirm-alert";
 import { toast } from "react-toastify";
 import { clearEmployError, clearEmployMessage } from "../../../../redux/slices/employees.slice";
 import { deleteEmployAction, getAllEmployeesAction } from "../../../../redux/actions/employees.action";
 import { useDispatch, useSelector } from "react-redux";
 
-const Users = () => {
+const Employees = () => {
     const dispatch = useDispatch();
     const [modalType, setModalType] = useState(null);
     const [selectedEmploy, setSelectedEmploy] = useState(null);
@@ -81,7 +81,7 @@ const Users = () => {
                     }}
                 >
                     {employees?.map((employ, i) => (
-                        <UserCard
+                        <EmployeeCard
                             key={i}
                             employ={employ}
                             handleOpenEditModal={handleOpenEditModal}
@@ -104,4 +104,4 @@ const Users = () => {
     );
 };
 
-export default Users;
+export default Employees;

@@ -21,7 +21,7 @@ const AlertType = lazy(() => import("./pages/dashboard/settings/alert/AlertType"
 const Drivers = lazy(() => import("./pages/dashboard/settings/drivers/Drivers"));
 const Trucks = lazy(() => import("./pages/dashboard/settings/trucks/Trucks"));
 const Devices = lazy(() => import("./pages/dashboard/settings/devices/Devices"));
-const Users = lazy(() => import("./pages/dashboard/settings/users/Users"));
+const Employees = lazy(() => import("./pages/dashboard/settings/employees/Employees"));
 const GeoFence = lazy(() => import('./pages/dashboard/dashboardPages/geofence/GeoFence'))
 const RealTimeMap = lazy(
     () => import('./pages/dashboard/dashboardPages/RealTimeMap/RealTimeMap'),
@@ -136,10 +136,10 @@ function App() {
                         }
                     />
                     <Route
-                        path="setting/users"
+                        path="setting/employees"
                         element={
                             <Suspense fallback={loader}>
-                                <Users />
+                                <Employees />
                             </Suspense>
                         }
                     />

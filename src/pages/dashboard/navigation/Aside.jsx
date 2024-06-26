@@ -146,9 +146,9 @@ const Aside = ({ toggleNav }) => {
             },
             {
               icon: <SettingNestedIcon />,
-              title: 'Users',
-              route: '/dashboard/setting/users',
-              page: 'users',
+              title: 'Employees',
+              route: '/dashboard/setting/employees',
+              page: 'employees',
             },
           ],
         },
