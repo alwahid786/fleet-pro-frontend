@@ -24,7 +24,30 @@ export const truckSchema = Yup.object({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
     fleetNumber: Yup.string().required('Fleet number is required'),
-    licenseExpirey: Yup.string().required('License Expirey is required'),
-    phoneNumber: Yup.string().required('Phone number is required')
+    licenseExpiry: Yup.string().required('License Expirey is required'),
+    phoneNumber: Yup.string().required('Phone number is required'),
+    image: Yup.mixed()
+      .required('Image is required')
+      .test('fileFormat', 'Unsupported file format', (value) =>
+        value && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type)
+      )
+      .test('fileSize', 'File is too large', (value) =>
+        value && value.size <= 1024 * 1024 // 1MB limit
+      ),
   }) 
+
+  export const addEmployeeSchema = Yup.object({
+    firstName: Yup.string().required('First name is required'),
+    lastName: Yup.string().required('Last name is required'),
+    email: Yup.string().required('Email is required'),
+    phoneNumber: Yup.string().required('Phone number is required'),
+    image: Yup.mixed()
+      .required('Image is required')
+      .test('fileFormat', 'Unsupported file format', (value) =>
+        value && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type)
+      )
+      .test('fileSize', 'File is too large', (value) =>
+        value && value.size <= 1024 * 1024 // 1MB limit
+      ),
+  })
   

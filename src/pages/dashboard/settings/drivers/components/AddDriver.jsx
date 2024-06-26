@@ -6,6 +6,7 @@ import {
     InputLabel,
     MenuItem,
     Select,
+    TextField,
     Typography,
     styled,
 } from "@mui/material";
@@ -20,6 +21,7 @@ import InputField from "./InputField";
 import { useFormik } from "formik";
 import { addDriverSchema } from "../../../../../schemas";
 import { getAllTrucksAction } from "../../../../../redux/actions/truck.actions";
+import { boolean } from "yup";
 
 // eslint-disable-next-line react/prop-types
 const AddDriver = ({ onClose }) => {
@@ -35,20 +37,6 @@ const AddDriver = ({ onClose }) => {
     const [truckId, setTruckId] = useState("");
     const { trucks } = useSelector((state) => state.truck);
 
-    const handleSave = async () => {
-        setIsLoading(true);
-        const formData = new FormData();
-        formData.append("firstName", firstName);
-        formData.append("lastName", lastName);
-        formData.append("fleetNumber", fleetNumber);
-        formData.append("phoneNumber", phone);
-        formData.append("licenseExpiry", licenseExpiry);
-        formData.append("file", image);
-        if (truckId) formData.append("assignedTruck", truckId);
-        await dispatch(addDriverAction(formData));
-        setIsLoading(false);
-    };
-
     const handleImageSrc = (e) => {
         const file = e.target.files[0];
         setImage(file);
@@ -63,13 +51,27 @@ const AddDriver = ({ onClose }) => {
         firstName: "",
         lastName: "",
         fleetNumber: "",
-        licenseExpirey: "",
+        licenseExpiry: "",
         phoneNumber: "",
+        image: '',
     };
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } = useFormik({
         initialValues,
         validationSchema: addDriverSchema,
+        onSubmit: async (values) => {
+            setIsLoading(true);
+            const formData = new FormData();
+            formData.append("firstName", values.firstName);
+            formData.append("lastName", values.lastName);
+            formData.append("fleetNumber", values.fleetNumber);
+            formData.append("phoneNumber", values.phone);
+            formData.append("licenseExpiry", values.licenseExpiry);
+            formData.append("file", values.image);
+            if (truckId) formData.append("assignedTruck", truckId);
+            await dispatch(addDriverAction(formData));
+            setIsLoading(false);
+        },
     });
 
     useEffect(() => {
@@ -125,134 +127,171 @@ const AddDriver = ({ onClose }) => {
                 >
                     General Info
                 </Typography>
-                <Grid container spacing="2rem">
-                    <Grid item xs="12" lg="8">
-                        <Grid container spacing="14">
-                            <Grid item xs="12" lg="6">
-                                <InputField
-                                    type="text"
-                                    label="First Name"
-                                    maxLength="20"
-                                    value={firstName}
-                                    change={(e) => setFirstName(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item xs="12" lg="6">
-                                <InputField
-                                    type="text"
-                                    label="Last Name"
-                                    maxLength="20"
-                                    value={lastName}
-                                    change={(e) => setLastName(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item xs="12" lg="6">
-                                <InputField
-                                    type="number"
-                                    label="Fleet Number"
-                                    maxLength="30"
-                                    value={fleetNumber}
-                                    change={(e) => setFleetNumber(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item xs="12" lg="6">
-                                <InputField
-                                    type="date"
-                                    label="License Expiry"
-                                    maxLength="30"
-                                    value={licenseExpiry}
-                                    change={(e) => setLicenseExpiry(e.target.value)}
-                                    labelProps={true}
-                                />
-                            </Grid>
-                            <Grid item xs={12} lg={6}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="truck-select-label">Select Truck</InputLabel>
-                                    <Select
-                                        labelId="truck-select-label"
-                                        label="Select Truck"
-                                        value={truckId}
-                                        onChange={(e) => setTruckId(e.target.value)}
-                                        sx={{ width: "100%" }}
-                                    >
-                                        {trucks?.map((truck) => (
-                                            <MenuItem key={truck?._id} value={truck?._id}>
-                                                {truck?.truckName}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs="12">
-                                <Typography
-                                    sx={{
-                                        fontWeight: 700,
-                                        fontSize: "20px",
-                                        margin: "2rem 0",
-                                    }}
-                                >
-                                    Contacts
-                                </Typography>
-                            </Grid>
-                            <Grid item xs="12" lg="6">
-                                <InputField
-                                    type="tel"
-                                    label="Phone Number"
-                                    maxLength="20"
-                                    value={phone}
-                                    change={(e) => setPhone(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item xs="12" mt={3}>
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "1rem",
-                                        width: "255px",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    <CancelBtn onClick={onClose}>Cancel</CancelBtn>
-                                    <Button
-                                        onClick={handleSave}
-                                        startIcon={<SaveIcon />}
-                                        sx={{
-                                            color: "#fff",
-                                            borderRadius: "16px",
-                                            width: "157px",
-                                            padding: "16px",
-                                            "&:disabled": {
-                                                opacity: "0.3",
-                                                color: "white",
-                                                cursor: "not-allowed",
-                                            },
+                <form onSubmit={handleSubmit}>
+                    <Grid container spacing="2rem">
+                        <Grid item xs="12" lg="8">
+                            <Grid container spacing="14">
+                                <Grid item xs="12" lg="6">
+                                    <TextField
+                                        type="text"
+                                        label="First Name"
+                                        maxLength="20"
+                                        fullWidth
+                                        name="firstName"
+                                        id="firstName"
+                                        value={values.firstName}
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        error={touched.firstName && Boolean(errors.firstName)}
+                                        helperText={touched.firstName && errors.firstName}
+                                    />
+                                </Grid>
+                                <Grid item xs="12" lg="6">
+                                    <TextField
+                                        type="text"
+                                        label="Last Name"
+                                        fullWidth
+                                        maxLength="20"
+                                        name="lastName"
+                                        id="lastName"
+                                        value={values.lastName}
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        error={touched.lastName && Boolean(errors.lastName)}
+                                        helperText={touched.lastName && errors.lastName}
+                                    />
+                                </Grid>
+                                <Grid item xs="12" lg="6">
+                                    <TextField
+                                        type="number"
+                                        name="fleetNumber"
+                                        id="fleetNumber"
+                                        fullWidth
+                                        label="Fleet Number"
+                                        maxLength="30"
+                                        value={values.fleetNumber}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={touched.fleetNumber && boolean(errors.fleetNumber)}
+                                        helperText={touched.fleetNumber && errors.fleetNumber}
+                                    />
+                                </Grid>
+                                <Grid item xs="12" lg="6">
+                                    <TextField
+                                        type="date"
+                                        label="License Expiry"
+                                        maxLength="30"
+                                        fullWidth
+                                        name="licenseExpiry"
+                                        id="licenseExpiry"
+                                        value={values.licenseExpiry}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={touched.licenseExpiry && Boolean(errors.licenseExpiry)}
+                                        helperText={touched.licenseExpiry && errors.licenseExpiry}
+                                        InputLabelProps={{
+                                            shrink: true
                                         }}
-                                        disabled={isLoading}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} lg={6}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="truck-select-label">Select Truck</InputLabel>
+                                        <Select
+                                            labelId="truck-select-label"
+                                            label="Select Truck"
+                                            value={truckId}
+                                            onChange={(e) => setTruckId(e.target.value)}
+                                            sx={{ width: "100%" }}
+                                        >
+                                            {trucks?.map((truck) => (
+                                                <MenuItem key={truck?._id} value={truck?._id}>
+                                                    {truck?.truckName}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs="12">
+                                    <Typography
+                                        sx={{
+                                            fontWeight: 700,
+                                            fontSize: "20px",
+                                            margin: "2rem 0",
+                                        }}
                                     >
-                                        {isLoading ? "Saving..." : "SAVE Driver"}
-                                    </Button>
-                                </Box>
+                                        Contacts
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs="12" lg="6">
+                                    <TextField
+                                        type="tel"
+                                        label="Phone Number"
+                                        maxLength="20"
+                                        name="phoneNumber"
+                                        id="phoneNumber"
+                                        fullWidth
+                                        value={values.phoneNumber}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={touched.phoneNumber && Boolean(errors.phoneNumber)}
+                                        helperText={touched.phoneNumber && errors.phoneNumber}
+                                    />
+                                </Grid>
+                                <Grid item xs="12" mt={3}>
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "1rem",
+                                            width: "255px",
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        <CancelBtn onClick={onClose}>Cancel</CancelBtn>
+                                        <Button
+                                            type="submit"
+                                            startIcon={<SaveIcon />}
+                                            sx={{
+                                                color: "#fff",
+                                                borderRadius: "16px",
+                                                width: "157px",
+                                                padding: "16px",
+                                                "&:disabled": {
+                                                    opacity: "0.3",
+                                                    color: "white",
+                                                    cursor: "not-allowed",
+                                                },
+                                            }}
+                                            disabled={isLoading}
+                                        >
+                                            {isLoading ? "Saving..." : "SAVE Driver"}
+                                        </Button>
+                                    </Box>
+                                </Grid>
                             </Grid>
                         </Grid>
+                        <Grid item xs="12" lg="4">
+                            <Typography
+                                sx={{
+                                    color: "rgba(113, 117, 121, 1)",
+                                    fontSize: "18px",
+                                    fontWeight: 600,
+                                }}
+                            >
+                                Driver PICTURE
+                            </Typography>
+                            <Image src={profile} />
+                            <ChangeButton startIcon={<CameraIcon />}>
+                                CHANGE PHOTOS
+                                <FileInput type="file" onChange={handleImageSrc} />
+                            </ChangeButton>
+                            {touched.image && errors.image && (
+                                <Typography sx={{fontSize: '12px'}} color="error">{errors.image}</Typography>
+                            )}
+                        </Grid>
                     </Grid>
-                    <Grid item xs="12" lg="4">
-                        <Typography
-                            sx={{
-                                color: "rgba(113, 117, 121, 1)",
-                                fontSize: "18px",
-                                fontWeight: 600,
-                            }}
-                        >
-                            Driver PICTURE
-                        </Typography>
-                        <Image src={profile} />
-                        <ChangeButton startIcon={<CameraIcon />}>
-                            CHANGE PHOTOS
-                            <FileInput type="file" onChange={handleImageSrc} />
-                        </ChangeButton>
-                    </Grid>
-                </Grid>
+                </form>
             </Box>
         </Fragment>
     );
