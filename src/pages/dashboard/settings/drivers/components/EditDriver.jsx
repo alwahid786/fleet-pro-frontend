@@ -29,10 +29,10 @@ const EditDriver = ({ driver, onClose }) => {
     const [image, setImage] = useState(null);
     const [profile, setProfile] = useState(driver?.image?.url);
     const [isLoading, setIsLoading] = useState(false);
-    const [truckId, setTruckId] = useState(driver?.assignedTruck);
-    const { trucks } = useSelector((state) => state.truck);
 
-    // const { trucks } = useSelector((state) => state.truck);
+    const { trucks } = useSelector((state) => state.truck);
+    const [selectedTrucks, setSelectedTrucks] = useState([]);
+    const [truckId, setTruckId] = useState(driver?.assignedTruck || "");
 
     const handleSave = async () => {
         setIsLoading(true);
@@ -66,6 +66,16 @@ const EditDriver = ({ driver, onClose }) => {
     useEffect(() => {
         dispatch(getAllTrucksAction());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (trucks) {
+            const newTrucks = trucks.filter((truck) => {
+                if (truck.status !== "connected" || truck._id.toString() === driver?.assignedTruck)
+                    return truck;
+            });
+            setSelectedTrucks(newTrucks);
+        }
+    }, [trucks, setSelectedTrucks, driver?.assignedTruck]);
     return (
         <Fragment>
             <Box
@@ -158,7 +168,7 @@ const EditDriver = ({ driver, onClose }) => {
                                         <MenuItem key={"default"} value={"remove-truck"}>
                                             {"Remove Truck"}
                                         </MenuItem>
-                                        {trucks?.map((truck) => (
+                                        {selectedTrucks?.map((truck) => (
                                             <MenuItem key={truck?._id} value={truck?._id}>
                                                 {truck?.truckName}
                                             </MenuItem>

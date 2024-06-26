@@ -163,9 +163,9 @@ const EditEmployee = ({ onClose, employ }) => {
                                     borderRadius: "16px",
                                     width: "137px",
                                     padding: "16px",
-                                    "&:disable": {
-                                        color: "#fff",
+                                    "&:disabled": {
                                         opacity: "0.3",
+                                        color: "white",
                                         cursor: "not-allowed",
                                     },
                                 }}

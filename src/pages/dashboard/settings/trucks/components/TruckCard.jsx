@@ -7,6 +7,7 @@ import Loader from "../../../../../assets/svgs/Loader";
 import { Fragment } from "react";
 
 const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
+    const { truckName, fleetNumber, plateNumber, status, image, assignedTo, _id, updatedAt } = truck;
     return truck ? (
         <Fragment>
             <Card
@@ -32,8 +33,8 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                     }}
                 >
                     <Avatar
-                        alt={truck?.truckName}
-                        src={truck?.image?.url}
+                        alt={truckName}
+                        src={image?.url}
                         sx={{
                             width: "80px",
                             height: "80px",
@@ -47,7 +48,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                         sx={{
                             width: "15px",
                             height: "15px",
-                            backgroundColor: truck?.status === "connected" ? "#00A389" : "#FF0000",
+                            backgroundColor: status === "connected" ? "#00A389" : "#FF0000",
                             borderRadius: "100%",
                             position: "absolute",
                             border: "2px solid white",
@@ -71,7 +72,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                 fontWeight: "500",
                             }}
                         >
-                            {truck?.truckName}
+                            {truckName}
                         </Typography>
                     </Box>
                     <Box
@@ -107,7 +108,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                {truck?.fleetNumber}
+                                {fleetNumber}
                             </Typography>
                         </Box>
                         <Box
@@ -142,7 +143,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                {truck?.plateNumber}
+                                {plateNumber}
                             </Typography>
                         </Box>
                     </Box>
@@ -179,7 +180,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                {truck?.status === "notConnected" ? "NOT CONNECTED" : "CONNECTED"}
+                                {status.toUpperCase()}
                             </Typography>
                         </Box>
                         <Box
@@ -214,8 +215,8 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                {truck?.assignedTo
-                                    ? `${truck.assignedTo.firstName} ${truck.assignedTo.lastName}`
+                                {assignedTo
+                                    ? `${assignedTo.firstName} ${assignedTo.lastName}`
                                     : "Not Assigned"}
                             </Typography>
                         </Box>
@@ -253,7 +254,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                {truck?.updatedAt?.split("T")[0]}
+                                {updatedAt?.split("T")[0]}
                             </Typography>
                         </Box>
                         <Box
@@ -328,7 +329,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                     background: "transparent",
                                 },
                             }}
-                            onClick={() => deleteTruckHandler(truck?._id)}
+                            onClick={() => deleteTruckHandler(_id)}
                             startIcon={<DeleteIcon sx={{ color: "#FF1900" }} />}
                         >
                             Delete

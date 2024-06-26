@@ -12,13 +12,14 @@ import { getAllTrucksAction, updateTruckAction } from "../../../../../redux/acti
 const EditTruck = ({ onClose, singleTruck }) => {
     const [imageSrc, setImageSrc] = useState(singleTruck?.image?.url);
     const [isLoading, setIsLoading] = useState(false);
+
     const dispatch = useDispatch();
 
     const initialValues = {
         truckName: singleTruck?.truckName,
         fleetNumber: singleTruck?.fleetNumber,
         plateNumber: singleTruck?.plateNumber,
-        deviceID: singleTruck?.deviceID ? singleTruck?.deviceID : "",
+        deviceID: singleTruck?.deviceId ? singleTruck?.deviceId : "",
         image: "",
     };
 
@@ -51,9 +52,6 @@ const EditTruck = ({ onClose, singleTruck }) => {
             reader.readAsDataURL(file);
         }
     };
-
-    // show message and errors
-    // useShowMessageError(message, clearTruckMessage, error, clearTruckError);
 
     return (
         <Fragment>
@@ -97,11 +95,8 @@ const EditTruck = ({ onClose, singleTruck }) => {
                                         label="Truck Name"
                                         value={values.truckName}
                                         onChange={handleChange}
-                                        // onBlur={handleBlur}
                                         fullWidth
                                         name="truckName"
-                                        // error={touched.truckName && Boolean(errors.truckName)}
-                                        // helperText={touched.truckName && errors.truckName}
                                     />
                                 </Grid>
                                 <Grid item xs="12" lg="6">
@@ -110,11 +105,8 @@ const EditTruck = ({ onClose, singleTruck }) => {
                                         label="Fleet Number"
                                         value={values.fleetNumber}
                                         onChange={handleChange}
-                                        // onBlur={handleBlur}
                                         fullWidth
                                         name="fleetNumber"
-                                        error={touched.fleetNumber && Boolean(errors.fleetNumber)}
-                                        // helperText={touched.fleetNumber && errors.fleetNumber}
                                     />
                                 </Grid>
                                 <Grid item xs="12" lg="6">
@@ -123,11 +115,8 @@ const EditTruck = ({ onClose, singleTruck }) => {
                                         label="Plate Number"
                                         value={values.plateNumber}
                                         onChange={handleChange}
-                                        // onBlur={handleBlur}
                                         fullWidth
                                         name="plateNumber"
-                                        error={touched.plateNumber && Boolean(errors.plateNumber)}
-                                        // helperText={touched.plateNumber && errors.plateNumber}
                                     />
                                 </Grid>
                                 <Grid item xs="12" lg="6">
@@ -136,11 +125,8 @@ const EditTruck = ({ onClose, singleTruck }) => {
                                         label="Device ID"
                                         value={values.deviceID}
                                         onChange={handleChange}
-                                        // onBlur={handleBlur}
                                         fullWidth
                                         name="deviceID"
-                                        error={touched.deviceID && Boolean(errors.deviceID)}
-                                        // helperText={touched.deviceID && errors.deviceID}
                                     />
                                 </Grid>
                             </Grid>

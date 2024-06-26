@@ -1,63 +1,58 @@
 /* eslint-disable react/prop-types */
-import { Box, Button, Grid, Typography, styled, TextField } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Box, Button, Grid, TextField, Typography, styled } from "@mui/material";
 import { useFormik } from "formik";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CameraIcon from "../../../../../assets/svgs/modal/CameraIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import { addNewEmployAction } from "../../../../../redux/actions/employees.action";
 import { getAllTrucksAction } from "../../../../../redux/actions/truck.actions";
-import InputField from "./InputField";
 import { addEmployeeSchema } from "../../../../../schemas";
 
 const AddEmployee = ({ onClose }) => {
     const dispatch = useDispatch();
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [role, setRole] = useState("");
-    const [image, setImage] = useState("");
     const [profile, setProfile] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleImageSrc = (e) => {
-        const file = e.target.files[0];
-        setImage(file);
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfile(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
+    const initialValues = {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+        image: "",
+        role: "",
     };
 
-    const initialValues = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        image: ''
-    }
-
-    const {values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue} = useFormik({
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } = useFormik({
         initialValues,
         validationSchema: addEmployeeSchema,
+
         onSubmit: async (values) => {
-            setIsLoading(true);
+            console.log(values), setIsLoading(true);
             const formData = new FormData();
             formData.append("file", values.image);
             formData.append("firstName", values.firstName);
             formData.append("lastName", values.lastName);
             formData.append("email", values.email);
-            formData.append("phoneNumber", values.phone);
-            formData.append("role", role);
+            formData.append("phoneNumber", values.phoneNumber);
+            formData.append("role", values.role);
             await dispatch(addNewEmployAction(formData));
             setIsLoading(false);
+        },
+    });
+
+    const handleImageSrc = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfile(reader.result);
+                setFieldValue("image", file);
+            };
+            reader.readAsDataURL(file);
         }
-    })
+    };
 
     useEffect(() => {
         dispatch(getAllTrucksAction());
@@ -166,12 +161,18 @@ const AddEmployee = ({ onClose }) => {
                             />
                         </Grid>
                         <Grid item xs="12" lg="6">
-                            <InputField
+                            <TextField
                                 type="text"
                                 label="Role"
                                 maxLength="30"
-                                value={role}
-                                change={(e) => setRole(e.target.value)}
+                                fullWidth
+                                name="role"
+                                id="role"
+                                value={values.role}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={touched.role && Boolean(errors.role)}
+                                helperText={touched.role && errors.role}
                             />
                         </Grid>
                         <Grid item xs="12" lg="6" display="flex" flexDirection="column" alignItems="flex-end">
@@ -190,8 +191,10 @@ const AddEmployee = ({ onClose }) => {
                                 <FileInput type="file" onChange={handleImageSrc} />
                             </ChangeButton>
                             {touched.image && errors.image && (
-                                <Typography sx={{fontSize: '12px', mb:2}} color="error">{errors.image}</Typography>
-                            ) }
+                                <Typography sx={{ fontSize: "12px", mb: 2 }} color="error">
+                                    {errors.image}
+                                </Typography>
+                            )}
                             <Box
                                 sx={{
                                     display: "flex",

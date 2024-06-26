@@ -10,42 +10,27 @@ import {
     Typography,
     styled,
 } from "@mui/material";
+import { useFormik } from "formik";
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { boolean } from "yup";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CameraIcon from "../../../../../assets/svgs/modal/CameraIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
 import { addDriverAction } from "../../../../../redux/actions/driver.actions";
-import InputField from "./InputField";
-import { useFormik } from "formik";
-import { addDriverSchema } from "../../../../../schemas";
 import { getAllTrucksAction } from "../../../../../redux/actions/truck.actions";
-import { boolean } from "yup";
+import { addDriverSchema } from "../../../../../schemas";
 
 // eslint-disable-next-line react/prop-types
 const AddDriver = ({ onClose }) => {
     const dispatch = useDispatch();
     const [profile, setProfile] = useState("");
-    const [image, setImage] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [fleetNumber, setFleetNumber] = useState("");
-    const [phone, setPhone] = useState("");
-    const [licenseExpiry, setLicenseExpiry] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [truckId, setTruckId] = useState("");
     const { trucks } = useSelector((state) => state.truck);
 
-    const handleImageSrc = (e) => {
-        const file = e.target.files[0];
-        setImage(file);
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => setProfile(reader.result);
-            reader.readAsDataURL(file);
-        }
-    };
+    const [selectedTrucks, setSelectedTrucks] = useState([]);
 
     const initialValues = {
         firstName: "",
@@ -53,9 +38,8 @@ const AddDriver = ({ onClose }) => {
         fleetNumber: "",
         licenseExpiry: "",
         phoneNumber: "",
-        image: '',
+        image: "",
     };
-
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } = useFormik({
         initialValues,
         validationSchema: addDriverSchema,
@@ -65,7 +49,7 @@ const AddDriver = ({ onClose }) => {
             formData.append("firstName", values.firstName);
             formData.append("lastName", values.lastName);
             formData.append("fleetNumber", values.fleetNumber);
-            formData.append("phoneNumber", values.phone);
+            formData.append("phoneNumber", values.phoneNumber);
             formData.append("licenseExpiry", values.licenseExpiry);
             formData.append("file", values.image);
             if (truckId) formData.append("assignedTruck", truckId);
@@ -74,9 +58,28 @@ const AddDriver = ({ onClose }) => {
         },
     });
 
+    const handleImageSrc = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfile(reader.result);
+                setFieldValue("image", file);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     useEffect(() => {
         dispatch(getAllTrucksAction());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (trucks) {
+            const newTrucks = trucks.filter((truck) => truck.status !== "connected");
+            setSelectedTrucks(newTrucks);
+        }
+    }, [trucks, setSelectedTrucks]);
 
     return (
         <Fragment>
@@ -190,7 +193,7 @@ const AddDriver = ({ onClose }) => {
                                         error={touched.licenseExpiry && Boolean(errors.licenseExpiry)}
                                         helperText={touched.licenseExpiry && errors.licenseExpiry}
                                         InputLabelProps={{
-                                            shrink: true
+                                            shrink: true,
                                         }}
                                     />
                                 </Grid>
@@ -204,11 +207,17 @@ const AddDriver = ({ onClose }) => {
                                             onChange={(e) => setTruckId(e.target.value)}
                                             sx={{ width: "100%" }}
                                         >
-                                            {trucks?.map((truck) => (
-                                                <MenuItem key={truck?._id} value={truck?._id}>
-                                                    {truck?.truckName}
+                                            {selectedTrucks?.length > 0 ? (
+                                                selectedTrucks?.map((truck) => (
+                                                    <MenuItem key={truck?._id} value={truck?._id}>
+                                                        {truck?.truckName}
+                                                    </MenuItem>
+                                                ))
+                                            ) : (
+                                                <MenuItem key="notTruck" value="">
+                                                    Not Any Truck Available
                                                 </MenuItem>
-                                            ))}
+                                            )}
                                         </Select>
                                     </FormControl>
                                 </Grid>
@@ -287,7 +296,9 @@ const AddDriver = ({ onClose }) => {
                                 <FileInput type="file" onChange={handleImageSrc} />
                             </ChangeButton>
                             {touched.image && errors.image && (
-                                <Typography sx={{fontSize: '12px'}} color="error">{errors.image}</Typography>
+                                <Typography sx={{ fontSize: "12px" }} color="error">
+                                    {errors.image}
+                                </Typography>
                             )}
                         </Grid>
                     </Grid>
