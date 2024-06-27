@@ -117,7 +117,7 @@ const Aside = ({ toggleNav }) => {
         {
           icon: <SettingIcon isActivePage={isActivePage} />,
           title: 'Settings',
-          route: '/dashboard/setting/alert',
+        //   route: '/dashboard/setting/alert',
           page: 'settings',
           subPages: [
             {

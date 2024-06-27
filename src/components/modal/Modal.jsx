@@ -42,7 +42,7 @@ const ModalInner = styled('div')({
     borderRadius: '24px',
     maxWidth: '100%',
     overflow: 'auto',
-    height: '100%',
+    height: 'fit-content',
     display: 'flex',
     flexDirection: 'column',
     '&::-webkit-scrollbar': {

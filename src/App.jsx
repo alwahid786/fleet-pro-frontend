@@ -29,10 +29,12 @@ const RealTimeMap = lazy(
 const SubscriptionPlan = lazy(
     () => import('./pages/dashboard/plans/subscriptionPlan/SubscriptionPlan'),
   )
-  const SubscriptionHistory = lazy(
-    () =>
-      import('./pages/dashboard/plans/subscriptionHistory/SubscriptionHistory'),
-  )
+const SubscriptionHistory = lazy(
+() =>
+    import('./pages/dashboard/plans/subscriptionHistory/SubscriptionHistory'),
+)
+const TruckDetail = lazy(() => import('./pages/dashboard/settings/trucks/components/TruckDetail'))
+
 
 function App() {
     const loader = <GlobalLoader />;
@@ -175,6 +177,11 @@ function App() {
                         </Suspense>
                         }
                     />
+                    <Route path="truck-detail/:truckId" element={
+                        <Suspense fallback={loader}>
+                            <TruckDetail />
+                        </Suspense>
+                    } />
                 </Route>
             </Routes>
             <ToastContainer />

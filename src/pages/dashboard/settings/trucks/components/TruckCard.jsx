@@ -2,9 +2,11 @@
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Avatar, Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardActions, CardContent, Typography, styled } from "@mui/material";
 import Loader from "../../../../../assets/svgs/Loader";
 import { Fragment } from "react";
+import { Link } from "react-router-dom";
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
     const { truckName, fleetNumber, plateNumber, status, image, assignedTo, _id, updatedAt } = truck;
@@ -276,7 +278,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                Device Id
+                                Created At
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -289,12 +291,11 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                {truck.deviceId}
+                                {truck.createdAt.split('T')[0]}
                             </Typography>
                         </Box>
                     </Box>
                 </CardContent>
-
                 <CardActions>
                     <Box
                         sx={{
@@ -336,6 +337,11 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                         </Button>
                     </Box>
                 </CardActions>
+                <DetailPageLink>
+                    <Link to={`/dashboard/truck-detail/${_id}`}>
+                        <InfoRoundedIcon sx={{color: '#006BCE'}} />
+                    </Link>
+                </DetailPageLink>
             </Card>
         </Fragment>
     ) : (
@@ -344,3 +350,10 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
 };
 
 export default TruckCard;
+
+const DetailPageLink = styled(Box)({
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    cursor: 'pointer'
+})

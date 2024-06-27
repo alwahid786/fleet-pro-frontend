@@ -1,84 +1,168 @@
-import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
-import DeleteIcon from '../../../../../assets/svgs/settings/DeleteIcon'
+import { Box, Button, CardActions, Typography } from "@mui/material";
+import React from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const DeviceCard = ({ device, handleDeleteDevice }) => {
+
+const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
   return (
     <>
-      <Box sx={{
-        flexGrow: '1',
-        background: 'rgba(255, 255, 255, 1)',
-        borderRadius: '12px',
-        padding: {
-          xs: '1rem',
-          md: '2rem'
-        }
-      }}>
-        <Typography sx={{
-          textAlign: 'center',
-          color: 'rgba(70, 66, 85, 1)',
-          fontSize: '18px',
-          fontWeight: 500
-        }}>
-          {device.id}
+      <Box
+        sx={{
+          flexGrow: "1",
+          background: "rgba(255, 255, 255, 1)",
+          borderRadius: "12px",
+          padding: {
+            xs: "1rem",
+            md: "2rem",
+          },
+        }}
+      >
+        <Typography
+          sx={{
+            textAlign: "center",
+            color: "rgba(70, 66, 85, 1)",
+            fontSize: "18px",
+            fontWeight: 500,
+          }}
+        >
+          {device._id}
         </Typography>
-        <Box sx={{
-          marginTop: '1.5rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          gap: '1rem'
-        }}>
-           <Box>
-            <Typography sx={{
-              color: 'rgba(127, 127, 146, 1)',
-              fontSize: '12px',
-            }}>
+        <Box
+          sx={{
+            marginTop: "1.5rem",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "1rem",
+          }}
+        >
+          <Box>
+            <Typography
+              sx={{
+                color: "rgba(127, 127, 146, 1)",
+                fontSize: "12px",
+              }}
+            >
               Date/time creation
             </Typography>
-            <Typography sx={{
-              color: 'rgba(0, 107, 206, 1)',
-              fontSize: '16px',
-            }}>
-              {device.dateTimeCreation}
+            <Typography
+              sx={{
+                color: "rgba(0, 107, 206, 1)",
+                fontSize: "16px",
+              }}
+            >
+              {device.createdAt}
             </Typography>
-           </Box>
-           <Box>
-            <Typography sx={{
-              color: 'rgba(127, 127, 146, 1)',
-              fontSize: '12px',
-            }}>
-              device Id
+          </Box>
+          <Box>
+            <Typography
+              sx={{
+                color: "rgba(127, 127, 146, 1)",
+                fontSize: "12px",
+              }}
+            >
+              Device Name
             </Typography>
-            <Typography sx={{
-              color: 'rgba(0, 107, 206, 1)',
-              fontSize: '16px',
-            }}>
-              {device.deviceId}
+            <Typography
+              sx={{
+                color: "rgba(0, 107, 206, 1)",
+                fontSize: "16px",
+              }}
+            >
+              {device.name}
             </Typography>
-           </Box>
+          </Box>
         </Box>
-        <Button onClick={() => handleDeleteDevice(device.id)} sx={{
-          marginTop: {
-            xs: '1rem',
-            md: '2rem'
-          },
-          width: '100%',
-          background: 'rgba(255, 204, 198, 1)',
-          borderRadius: '6px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          color: 'rgba(255, 25, 0, 1)',
-          '&:hover': {
-            background: 'rgba(255, 204, 198, 0.8)'
-          }
-        }}>
-          <DeleteIcon />
-          Delete
-        </Button>
+        <Box
+          sx={{
+            marginTop: "1.5rem",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "1rem",
+          }}
+        >
+          <Box>
+            <Typography
+              sx={{
+                color: "rgba(127, 127, 146, 1)",
+                fontSize: "12px",
+              }}
+            >
+              Device Type
+            </Typography>
+            <Typography
+              sx={{
+                color: "rgba(0, 107, 206, 1)",
+                fontSize: "16px",
+              }}
+            >
+              {device.type}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography
+              sx={{
+                color: "rgba(127, 127, 146, 1)",
+                fontSize: "12px",
+              }}
+            >
+              Assigned To
+            </Typography>
+            <Typography
+              sx={{
+                color: "rgba(0, 107, 206, 1)",
+                fontSize: "16px",
+              }}
+            >
+              {device.assignedTo.truckName}
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            gap: "10px",
+            mt:2
+          }}
+        >
+          <Button
+            onClick={handleOpenEditModal}
+            size="small"
+            fullWidth
+            sx={{
+              background: "#006BCE33",
+              minWidth: "127px",
+              "&:hover": {
+                background: "transparent",
+              },
+            }}
+            startIcon={<EditIcon sx={{ color: "#006BCE" }} />}
+          >
+            Edit
+          </Button>
+          <Button
+            onClick={() => handleDeleteDevice(device._id)}
+            size="small"
+            fullWidth
+            color="error"
+            sx={{
+              background: "#FFCCC6",
+              minWidth: "127px",
+              "&:hover": {
+                background: "transparent",
+              },
+            }}
+            startIcon={<DeleteIcon sx={{ color: "#FF1900" }} />}
+          >
+            Delete
+          </Button>
+        </Box>
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default DeviceCard
+export default DeviceCard;

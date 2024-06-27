@@ -54,7 +54,7 @@ const Form = () => {
                     <Typography variant="subtitle1" sx={{ mb: 2 }}>
                         Welcome to Fleet Master
                     </Typography>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} style={{width:'100%', display: 'flex', justifyContent: 'center'}}>
                         <Box
                             sx={{
                                 display: "flex",

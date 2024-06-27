@@ -12,6 +12,7 @@ import { deleteTruckAction, getAllTrucksAction } from "../../../../redux/actions
 import AddTruck from "./components/AddTruck";
 import EditTruck from "./components/EditTruck";
 import { clearTruckError, clearTruckMessage } from "../../../../redux/slices/truck.slice";
+import { Link } from "react-router-dom";
 
 const Trucks = () => {
     const [modalType, setModalType] = useState(null);
@@ -108,12 +109,14 @@ const Trucks = () => {
                     }}
                 >
                     {trucks?.map((truck, i) => (
-                        <TruckCard
-                            key={i}
-                            truck={truck}
-                            deleteTruckHandler={deleteTruckHandler}
-                            handleOpenEditModal={handleOpenEditModal}
-                        />
+                        // <Link to={'truck-detail'}>
+                            <TruckCard
+                                key={i}
+                                truck={truck}
+                                deleteTruckHandler={deleteTruckHandler}
+                                handleOpenEditModal={handleOpenEditModal}
+                            />
+                        // </Link>
                     ))}
                 </Box>
             </Box>

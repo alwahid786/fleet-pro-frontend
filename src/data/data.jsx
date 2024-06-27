@@ -147,44 +147,64 @@ export const drivers = [
 
   export const devices = [
     {
-      id: '23923002',
-      dateTimeCreation: '05/24/2024 - 12:06',
-      deviceId: '23234233',
+      _id: '23923002',
+      createdAt: '05/24/2024 - 12:06',
+      name: 'tracker one',
+      type: 'gps',
+      assignedTo: {
+        _id: '123123',
+        truckName: 'truck three'
+      }
     },
     {
-      id: '23923003',
-      dateTimeCreation: '05/24/2024 - 12:07',
-      deviceId: '23234234',
+      _id: '34523455',
+      createdAt: '05/24/2024 - 12:06',
+      name: 'tracker one',
+      type: 'gps',
+      assignedTo: {
+        _id: '123123',
+        truckName: 'truck four'
+      }
     },
     {
-      id: '23923004',
-      dateTimeCreation: '05/24/2024 - 12:08',
-      deviceId: '23234235',
+      _id: '34534666',
+      createdAt: '05/24/2024 - 12:06',
+      name: 'tracker one',
+      type: 'gps',
+      assignedTo: {
+        _id: '123123',
+        truckName: 'truck five'
+      }
     },
     {
-      id: '23923005',
-      dateTimeCreation: '05/24/2024 - 12:09',
-      deviceId: '23234236',
+      _id: '08707897',
+      createdAt: '05/24/2024 - 12:06',
+      name: 'tracker one',
+      type: 'gps',
+      assignedTo: {
+        _id: '123123',
+        truckName: 'truck six'
+      }
     },
     {
-      id: '23923006',
-      dateTimeCreation: '05/24/2024 - 12:10',
-      deviceId: '23234237',
+      _id: '78977878',
+      createdAt: '05/24/2024 - 12:06',
+      name: 'tracker one',
+      type: 'gps',
+      assignedTo: {
+        _id: '123123',
+        truckName: 'truck seven'
+      }
     },
     {
-      id: '23923007',
-      dateTimeCreation: '05/24/2024 - 12:11',
-      deviceId: '23234238',
-    },
-    {
-      id: '23923008',
-      dateTimeCreation: '05/24/2024 - 12:12',
-      deviceId: '23234239',
-    },
-    {
-      id: '23923009',
-      dateTimeCreation: '05/24/2024 - 12:13',
-      deviceId: '23234240',
+      _id: '567567567',
+      createdAt: '05/24/2024 - 12:06',
+      name: 'tracker one',
+      type: 'gps',
+      assignedTo: {
+        _id: '123123',
+        truckName: 'truck eight'
+      }
     },
   ];
 
