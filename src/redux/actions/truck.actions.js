@@ -15,6 +15,9 @@ import {
     getAllTrucksFailure,
     getAllTrucksStart,
     getAllTrucksSuccess,
+    getSingleTruckFailure,
+    getSingleTruckStart,
+    getSingleTruckSuccess,
     updateTruckFailure,
     updateTruckStart,
     updateTruckSuccess,
@@ -59,6 +62,24 @@ const deleteTruckAction = (truckId) => async (dispatch) => {
     } catch (error) {
         console.log(error);
         dispatch(deleteTruckFailure(error?.response?.data?.message || "Error ocurred while deleting truck"));
+    }
+};
+
+// get single truck
+// ---------------
+const getSingleTruckAction = (truckId) => async (dispatch) => {
+    dispatch(getSingleTruckStart());
+    try {
+        const response = await customAxios.get(`/truck/single/${truckId}`);
+        console.log("truck get single api response ", response);
+        dispatch(getSingleTruckSuccess(response.data));
+    } catch (error) {
+        console.log(error);
+        dispatch(
+            getSingleTruckFailure(
+                error?.response?.data?.message || "Error ocurred while getting single truck"
+            )
+        );
     }
 };
 
@@ -120,4 +141,5 @@ export {
     getAllTrucksAction,
     attachDeviceToTruckAction,
     detachDeviceFromTruckAction,
+    getSingleTruckAction,
 };

@@ -65,11 +65,11 @@ export const addEmployeeSchema = Yup.object({
 });
 
 export const attachModalSchema = Yup.object({
-    deviceName: Yup.string().required('Device name is required'),
-    deviceType: Yup.string().required('Device type is required'),
-})
+    deviceId: Yup.string().required("Device name is required"),
+    // deviceType: Yup.string().required('Device type is required'),
+});
 
 export const addDeviceSchema = Yup.object({
-    deviceName: Yup.string().required('Device name is required and unique'),
-    deviceType: Yup.string().required('Device type is required'),
-})
+    deviceName: Yup.string().required("Device name is required and unique"),
+    deviceType: Yup.string().required("Device type is required"),
+});

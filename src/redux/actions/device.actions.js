@@ -1,4 +1,4 @@
-import { customAxios, customFormAxios } from "../../utils/customAxios";
+import { customAxios } from "../../utils/customAxios";
 import {
     addDeviceFailure,
     addDeviceStart,
@@ -16,10 +16,10 @@ import {
 
 // add device
 // -----------
-const addDevice = (formData) => async (dispatch) => {
+const addDeviceAction = (name, type) => async (dispatch) => {
     dispatch(addDeviceStart());
     try {
-        const response = await customFormAxios.post("/device/create", formData);
+        const response = await customAxios.post("/device/create", { name, type });
         console.log("truck create api response ", response);
         dispatch(addDeviceSuccess(response.data));
     } catch (error) {
@@ -30,10 +30,10 @@ const addDevice = (formData) => async (dispatch) => {
 
 // update device
 // -------------
-const updateDevice = (deviceId, formData) => async (dispatch) => {
+const updateDeviceAction = (deviceId, data) => async (dispatch) => {
     dispatch(updateDeviceStart());
     try {
-        const response = await customFormAxios.put(`/device/single/${deviceId}`, formData);
+        const response = await customAxios.put(`/device/single/${deviceId}`, data);
         console.log("update device api response ", response);
         dispatch(updateDeviceSuccess(response.data));
     } catch (error) {
@@ -46,7 +46,7 @@ const updateDevice = (deviceId, formData) => async (dispatch) => {
 
 // delete device
 // -----------
-const deleteDevice = (deviceId) => async (dispatch) => {
+const deleteDeviceAction = (deviceId) => async (dispatch) => {
     dispatch(deleteDeviceStart());
     try {
         const response = await customAxios.delete(`/device/single/${deviceId}`);
@@ -62,7 +62,7 @@ const deleteDevice = (deviceId) => async (dispatch) => {
 
 // get all devices
 // -------------
-const getAllDevices = () => async (dispatch) => {
+const getAllDevicesAction = () => async (dispatch) => {
     dispatch(getAllDevicesStart());
     try {
         const response = await customAxios.get("/device/all");
@@ -76,4 +76,4 @@ const getAllDevices = () => async (dispatch) => {
     }
 };
 
-export { addDevice, updateDevice, deleteDevice, getAllDevices };
+export { addDeviceAction, deleteDeviceAction, getAllDevicesAction, updateDeviceAction };

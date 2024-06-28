@@ -26,7 +26,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                         fontWeight: 500,
                     }}
                 >
-                    {device._id}
+                    {device?._id}
                 </Typography>
                 <Box
                     sx={{
@@ -51,7 +51,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                                 fontSize: "16px",
                             }}
                         >
-                            {device.createdAt}
+                            {device?.createdAt?.split("T")[0]}
                         </Typography>
                     </Box>
                     <Box>
@@ -69,7 +69,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                                 fontSize: "16px",
                             }}
                         >
-                            {device.name}
+                            {device?.name}
                         </Typography>
                     </Box>
                 </Box>
@@ -96,7 +96,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                                 fontSize: "16px",
                             }}
                         >
-                            {device.type}
+                            {device?.type}
                         </Typography>
                     </Box>
                     <Box>
@@ -114,7 +114,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                                 fontSize: "16px",
                             }}
                         >
-                            {device.assignedTo.truckName}
+                            {device?.assignedTo ? device?.assignedTo?.truckName : "Not Assigned"}
                         </Typography>
                     </Box>
                 </Box>
@@ -129,7 +129,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                     }}
                 >
                     <Button
-                        onClick={handleOpenEditModal}
+                        onClick={() => handleOpenEditModal(device)}
                         size="small"
                         fullWidth
                         sx={{
@@ -144,7 +144,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                         Edit
                     </Button>
                     <Button
-                        onClick={() => handleDeleteDevice(device._id)}
+                        onClick={() => handleDeleteDevice(device?._id)}
                         size="small"
                         fullWidth
                         color="error"

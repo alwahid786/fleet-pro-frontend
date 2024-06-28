@@ -60,7 +60,7 @@ const deviceSlice = createSlice({
         },
         getAllDevicesSuccess: (state, action) => {
             state.loading = false;
-            state.devices = action.payload.devices;
+            state.devices = action.payload.data;
         },
         getAllDevicesFailure: (state, action) => {
             state.loading = false;

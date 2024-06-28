@@ -5,6 +5,7 @@ const initialState = {
     error: null,
     message: null,
     trucks: [],
+    truck: null,
 };
 
 const truckSlice = createSlice({
@@ -47,6 +48,20 @@ const truckSlice = createSlice({
             state.message = action.payload.message;
         },
         deleteTruckFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
+        // get single truck
+        // -----------
+        getSingleTruckStart: (state) => {
+            state.loading = true;
+        },
+        getSingleTruckSuccess: (state, action) => {
+            state.loading = false;
+            state.truck = action.payload.truck;
+        },
+        getSingleTruckFailure: (state, action) => {
             state.loading = false;
             state.error = action.payload;
         },
@@ -125,5 +140,8 @@ export const {
     detachDeviceFromTruckStart,
     detachDeviceFromTruckSuccess,
     detachDeviceFromTruckFailure,
+    getSingleTruckStart,
+    getSingleTruckSuccess,
+    getSingleTruckFailure,
 } = truckSlice.actions;
 export default truckSlice;

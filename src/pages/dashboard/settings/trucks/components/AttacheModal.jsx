@@ -1,101 +1,106 @@
-import { Box, Button, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, styled } from "@mui/material";
+import {
+    Box,
+    Button,
+    FormControl,
+    FormHelperText,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    styled,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
-import { deviceData } from '../../../../../data/data'
+import { deviceData } from "../../../../../data/data";
 import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
 import { useFormik } from "formik";
 import { attachModalSchema } from "../../../../../schemas";
+import { attachDeviceToTruckAction } from "../../../../../redux/actions/truck.actions";
+import { getAllDevicesAction } from "../../../../../redux/actions/device.actions";
+import { useDispatch, useSelector } from "react-redux";
 
+const AttacheModal = ({ onClose, truckId }) => {
+    const dispatch = useDispatch();
+    const [deviceTypes, setDeviceTypes] = useState([]);
+    const { devices } = useSelector((state) => state.device);
+    const devicesData = devices.filter((device) => !device.assignedTruck);
+    useEffect(() => {
+        dispatch(getAllDevicesAction());
+    }, [dispatch]);
 
-const AttacheModal = ({ onClose }) => {
-  
-const [deviceTypes,setDeviceTypes]=useState([])
+    const initialValues = {
+        deviceId: "",
+    };
 
-useEffect(() => {
-  const newTypes=[]
-  deviceData.forEach(item => {
-    if(!newTypes.includes(item.type)){
-      newTypes.push(item.type)
-    }
-  });
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+        initialValues,
+        validationSchema: attachModalSchema,
+        onSubmit: (values) => {
+            dispatch(attachDeviceToTruckAction(truckId, values.deviceId));
+        },
+    });
 
-  setDeviceTypes(newTypes)
-}, [deviceData])
-
-const initialValues = {
-  deviceName: '',
-  deviceType: ''
-}
-
-const {values, errors, touched, handleBlur, handleChange, handleSubmit} = useFormik({
-  initialValues,
-  validationSchema: attachModalSchema,
-  onSubmit: (() => {
-    console.log('values:', values)
-  })
-})
-
-  return (
-    <>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-            color: "rgba(17, 17, 17, 1)",
-            fontSize: { xs: "1rem", md: "1.5rem" },
-            fontWeight: 600,
-          }}
-        >
-          <Box sx={{ cursor: "pointer", height: "25px" }} onClick={onClose}>
-            <BackIcon />
-          </Box>
-          ATTACH DEVICE
-        </Box>
-        <Box sx={{ cursor: "pointer" }} onClick={onClose}>
-          <CloseIcon />
-        </Box>
-      </Box>
-      <form onSubmit={handleSubmit}>
-        <Grid container mt={2} spacing={2}>
-          <Grid item xs={12} md={6}>
-            <FormControl fullWidth error={touched.deviceName && !!errors.deviceName}>
-              <InputLabel id="device-name">Select Device</InputLabel>
-              <Select
-                labelId="device-name"
-                label="Select Device"
-                name="deviceName"
-                value={values.deviceName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                sx={{ width: "100%" }}
-              >
-                {deviceData?.length > 0 ? (
-                  deviceData?.map((device) => (
-                    <MenuItem key={device._d} value={device.name}>
-                      {device.name}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem key="notDevice" value="">
-                    Not Any Device Available
-                  </MenuItem>
-                )}
-              </Select>
-              {touched.deviceName && errors.deviceName && (
-                <FormHelperText>{errors.deviceName}</FormHelperText>
-              )}
-            </FormControl>
-          </Grid>
-          {/* <Grid item xs={12} md={6}>
+    return (
+        <>
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                }}
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "16px",
+                        color: "rgba(17, 17, 17, 1)",
+                        fontSize: { xs: "16px", md: "24px" },
+                        fontWeight: 600,
+                    }}
+                >
+                    <Box sx={{ cursor: "pointer", height: "1.5625rem" }} onClick={onClose}>
+                        <BackIcon />
+                    </Box>
+                    ATTACH DEVICE
+                </Box>
+                <Box sx={{ cursor: "pointer" }} onClick={onClose}>
+                    <CloseIcon />
+                </Box>
+            </Box>
+            <form onSubmit={handleSubmit}>
+                <Grid container mt={2} spacing={2}>
+                    <Grid item xs={12} md={6}>
+                        <FormControl fullWidth error={touched.deviceName && !!errors.deviceName}>
+                            <InputLabel id="deviceId">Select Device</InputLabel>
+                            <Select
+                                labelId="device-name"
+                                label="Select Device"
+                                name="deviceId"
+                                value={values.deviceId}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                sx={{ width: "100%" }}
+                            >
+                                {devicesData?.length > 0 ? (
+                                    devicesData?.map((device) => (
+                                        <MenuItem key={device?._id} value={device?._id}>
+                                            {device?.name}
+                                        </MenuItem>
+                                    ))
+                                ) : (
+                                    <MenuItem key="notDevice" value="">
+                                        Not Any Device Available
+                                    </MenuItem>
+                                )}
+                            </Select>
+                            {touched.deviceId && errors.deviceId && (
+                                <FormHelperText>{errors.deviceId}</FormHelperText>
+                            )}
+                        </FormControl>
+                    </Grid>
+                    {/* <Grid item xs={12} md={6}>
             <FormControl fullWidth error={touched.deviceType && !!errors.deviceType}>
               <InputLabel id="device-type">Select Device Type</InputLabel>
               <Select
@@ -124,49 +129,49 @@ const {values, errors, touched, handleBlur, handleChange, handleSubmit} = useFor
               )}
             </FormControl>
           </Grid> */}
-          <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1rem",
-                  width: "255px",
-                  justifyContent: "center",
-                }}
-              >
-                <CancelBtn onClick={onClose}>Cancel</CancelBtn>
-                <Button
-                  type="submit"
-                  startIcon={<SaveIcon />}
-                  sx={{
-                    color: "#fff",
-                    borderRadius: "16px",
-                    width: "157px",
-                    padding: "16px",
-                    "&:disabled": {
-                      color: "#fff",
-                      opacity: "0.3",
-                      cursor: "not-allowed",
-                    },
-                  }}
-                  // disabled={isLoading}
-                >
-                  {/* {isLoading ? "Saving..." : "Save"} */}
-                  Save Device
-                </Button>
-              </Box>
-            </Grid>
-        </Grid>
-      </form>
-    </>
-  );
+                    <Grid item xs={12} md={6}>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "16px",
+                                width: "15.9375rem",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <CancelBtn onClick={onClose}>Cancel</CancelBtn>
+                            <Button
+                                type="submit"
+                                startIcon={<SaveIcon />}
+                                sx={{
+                                    color: "#fff",
+                                    borderRadius: "1rem",
+                                    width: "9.8125rem",
+                                    padding: "1rem",
+                                    "&:disabled": {
+                                        color: "#fff",
+                                        opacity: "0.3",
+                                        cursor: "not-allowed",
+                                    },
+                                }}
+                                // disabled={isLoading}
+                            >
+                                {/* {isLoading ? "Saving..." : "Save"} */}
+                                Save Device
+                            </Button>
+                        </Box>
+                    </Grid>
+                </Grid>
+            </form>
+        </>
+    );
 };
 
 export default AttacheModal;
 
 const CancelBtn = styled("span")({
-  fontSize: "16px",
-  fontWeight: 600,
-  color: "rgba(17, 17, 17, 1)",
-  cursor: "pointer",
+    fontSize: "1rem",
+    fontWeight: 600,
+    color: "rgba(17, 17, 17, 1)",
+    cursor: "pointer",
 });
