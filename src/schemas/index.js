@@ -63,3 +63,8 @@ export const addEmployeeSchema = Yup.object({
             (value) => value && value.size <= 1024 * 1024 // 1MB limit
         ),
 });
+
+export const attachModalSchema = Yup.object({
+    deviceName: Yup.string().required('Device name is required'),
+    deviceType: Yup.string().required('Device type is required'),
+})

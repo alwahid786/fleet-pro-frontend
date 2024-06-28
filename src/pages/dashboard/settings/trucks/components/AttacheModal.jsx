@@ -1,9 +1,11 @@
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, styled } from "@mui/material";
+import { Box, Button, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, styled } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import { deviceData } from '../../../../../data/data'
 import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
+import { useFormik } from "formik";
+import { attachModalSchema } from "../../../../../schemas";
 
 
 const AttacheModal = ({ onClose }) => {
@@ -20,6 +22,19 @@ useEffect(() => {
 
   setDeviceTypes(newTypes)
 }, [deviceData])
+
+const initialValues = {
+  deviceName: '',
+  deviceType: ''
+}
+
+const {values, errors, touched, handleBlur, handleChange, handleSubmit} = useFormik({
+  initialValues,
+  validationSchema: attachModalSchema,
+  onSubmit: (() => {
+    console.log('values:', values)
+  })
+})
 
   return (
     <>
@@ -49,15 +64,18 @@ useEffect(() => {
           <CloseIcon />
         </Box>
       </Box>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Grid container mt={2} spacing={2}>
           <Grid item xs={12} md={6}>
-            <FormControl fullWidth>
+            <FormControl fullWidth error={touched.deviceName && !!errors.deviceName}>
               <InputLabel id="device-name">Select Device</InputLabel>
               <Select
                 labelId="device-name"
                 label="Select Device"
-                // value={truckId}
+                name="deviceName"
+                value={values.deviceName}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 sx={{ width: "100%" }}
               >
                 {deviceData?.length > 0 ? (
@@ -72,15 +90,21 @@ useEffect(() => {
                   </MenuItem>
                 )}
               </Select>
+              {touched.deviceName && errors.deviceName && (
+                <FormHelperText>{errors.deviceName}</FormHelperText>
+              )}
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <FormControl fullWidth>
+          {/* <Grid item xs={12} md={6}>
+            <FormControl fullWidth error={touched.deviceType && !!errors.deviceType}>
               <InputLabel id="device-type">Select Device Type</InputLabel>
               <Select
                 labelId="device-type"
                 label="Select Device Type"
-                // value={truckId}
+                name="deviceType"
+                value={values.deviceType}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 sx={{ width: "100%" }}
               >
                 {deviceTypes?.length > 0 ? (
@@ -95,9 +119,12 @@ useEffect(() => {
                   </MenuItem>
                 )}
               </Select>
+              {touched.deviceType && errors.deviceType && (
+                <FormHelperText>{errors.deviceType}</FormHelperText>
+              )}
             </FormControl>
-          </Grid>
-          <Grid item xs={12}>
+          </Grid> */}
+          <Grid item xs={12} md={6}>
               <Box
                 sx={{
                   display: "flex",
