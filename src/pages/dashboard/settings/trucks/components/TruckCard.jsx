@@ -2,7 +2,7 @@
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Avatar, Box, Button, Card, CardActions, CardContent, Typography, styled } from "@mui/material";
+import { Avatar, Box, Button, Card, CardActions, CardContent, Tooltip, Typography, styled } from "@mui/material";
 import Loader from "../../../../../assets/svgs/Loader";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
@@ -339,7 +339,9 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                 </CardActions>
                 <DetailPageLink>
                     <Link to={`/dashboard/truck-detail/${_id}`}>
-                        <InfoRoundedIcon sx={{color: '#006BCE'}} />
+                        <Tooltip title='Device Info'>
+                            <InfoRoundedIcon sx={{color: '#006BCE'}} />
+                        </Tooltip>
                     </Link>
                 </DetailPageLink>
             </Card>

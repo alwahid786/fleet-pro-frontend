@@ -321,4 +321,32 @@ export const drivers = [
     },
   ]
   
+  export const deviceData = [
+    {
+      _id: '23423',
+      name: 'device 1',
+      type: 'gps',
+    },
+    {
+      _id: '45644',
+      name: 'device 2',
+      type: 'video',
+    },
+    {
+      _id: '64534',
+      name: 'device 3',
+      type: 'gps',
+    },
+    {
+      _id: '25324',
+      name: 'device 4',
+      type: 'video',
+    },
+    {
+      _id: '234223',
+      name: 'device 5',
+      type: 'gps',
+    },
+  ]
+
   

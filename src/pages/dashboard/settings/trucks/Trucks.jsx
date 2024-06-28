@@ -109,14 +109,12 @@ const Trucks = () => {
                     }}
                 >
                     {trucks?.map((truck, i) => (
-                        // <Link to={'truck-detail'}>
-                            <TruckCard
-                                key={i}
-                                truck={truck}
-                                deleteTruckHandler={deleteTruckHandler}
-                                handleOpenEditModal={handleOpenEditModal}
-                            />
-                        // </Link>
+                        <TruckCard
+                            key={i}
+                            truck={truck}
+                            deleteTruckHandler={deleteTruckHandler}
+                            handleOpenEditModal={handleOpenEditModal}
+                        />
                     ))}
                 </Box>
             </Box>

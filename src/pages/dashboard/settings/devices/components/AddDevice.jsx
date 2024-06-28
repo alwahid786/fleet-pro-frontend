@@ -66,7 +66,7 @@ import {
               <TextField
                 fullWidth
                 type="text"
-                label="Device Name"
+                label="Enter a Unique Device Name"
                 maxLength="20"
               />
             </Grid>
