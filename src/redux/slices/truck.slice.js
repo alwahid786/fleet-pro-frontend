@@ -65,6 +65,34 @@ const truckSlice = createSlice({
             state.error = action.payload;
         },
 
+        // attach device
+        // ---------------
+        attachDeviceToTruckStart: (state) => {
+            state.loading = true;
+        },
+        attachDeviceToTruckSuccess: (state, action) => {
+            state.loading = false;
+            state.message = action.payload.message;
+        },
+        attachDeviceToTruckFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
+        // detach device
+        // ---------------
+        detachDeviceFromTruckStart: (state) => {
+            state.loading = true;
+        },
+        detachDeviceFromTruckSuccess: (state, action) => {
+            state.loading = false;
+            state.message = action.payload.message;
+        },
+        detachDeviceFromTruckFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
         // clear error and message
         // ------------------------
         clearTruckMessage: (state) => {
@@ -91,5 +119,11 @@ export const {
     getAllTrucksStart,
     getAllTrucksSuccess,
     getAllTrucksFailure,
+    attachDeviceToTruckStart,
+    attachDeviceToTruckSuccess,
+    attachDeviceToTruckFailure,
+    detachDeviceFromTruckStart,
+    detachDeviceFromTruckSuccess,
+    detachDeviceFromTruckFailure,
 } = truckSlice.actions;
 export default truckSlice;

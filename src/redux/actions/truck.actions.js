@@ -3,9 +3,15 @@ import {
     addTruckFailure,
     addTruckStart,
     addTruckSuccess,
+    attachDeviceToTruckFailure,
+    attachDeviceToTruckStart,
+    attachDeviceToTruckSuccess,
     deleteTruckFailure,
     deleteTruckStart,
     deleteTruckSuccess,
+    detachDeviceFromTruckFailure,
+    detachDeviceFromTruckStart,
+    detachDeviceFromTruckSuccess,
     getAllTrucksFailure,
     getAllTrucksStart,
     getAllTrucksSuccess,
@@ -72,4 +78,46 @@ const getAllTrucksAction = () => async (dispatch) => {
     }
 };
 
-export { addTruckAction, updateTruckAction, deleteTruckAction, getAllTrucksAction };
+// attach device
+// ---------------
+const attachDeviceToTruckAction = (truckId, deviceId) => async (dispatch) => {
+    dispatch(attachDeviceToTruckStart());
+    try {
+        const response = await customAxios.put(`/truck/${truckId}/attach-device`, { deviceId });
+        console.log("truck attach device api success ", response);
+        dispatch(attachDeviceToTruckSuccess(response.data));
+    } catch (error) {
+        console.log("truck attach device api error ", error);
+        dispatch(
+            attachDeviceToTruckFailure(
+                error?.response?.data?.message || "Error ocurred while attaching device"
+            )
+        );
+    }
+};
+
+// detach device
+// ---------------
+const detachDeviceFromTruckAction = (truckId, deviceId) => async (dispatch) => {
+    dispatch(detachDeviceFromTruckStart());
+    try {
+        const response = await customAxios.put(`/truck/${truckId}/detach-device`, { deviceId });
+        console.log("truck detach device api success ", response);
+        dispatch(detachDeviceFromTruckSuccess(response.data));
+    } catch (error) {
+        console.log("truck detach device api error ", error);
+        dispatch(
+            detachDeviceFromTruckFailure(
+                error?.response?.data?.message || "Error ocurred while detaching device"
+            )
+        );
+    }
+};
+export {
+    addTruckAction,
+    updateTruckAction,
+    deleteTruckAction,
+    getAllTrucksAction,
+    attachDeviceToTruckAction,
+    detachDeviceFromTruckAction,
+};
