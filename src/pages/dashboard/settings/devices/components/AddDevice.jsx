@@ -1,109 +1,158 @@
-import { Box, Button, Grid, TextField, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
 import { Fragment } from "react";
+import { useFormik } from "formik";
+import { addDeviceSchema } from "../../../../../schemas";
+import { boolean } from "yup";
 
 const AddDevice = ({ onClose }) => {
-    return (
-        <Fragment>
-            <Box
+  const initialValues = {
+    deviceName: "",
+    deviceType: "",
+  };
+
+  const { values, touched, errors, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema: addDeviceSchema,
+      onSubmit: () => {
+        console.log("values:", values);
+      },
+    });
+
+  return (
+    <Fragment>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+            color: "rgba(17, 17, 17, 1)",
+            fontSize: {
+              xs: "1rem",
+              md: "1.5rem",
+            },
+            fontWeight: 600,
+          }}
+        >
+          <Box sx={{ cursor: "pointer", height: "25px" }} onClick={onClose}>
+            <BackIcon />
+          </Box>
+          ADD DEVICE
+        </Box>
+        <Box sx={{ cursor: "pointer" }} onClick={onClose}>
+          <CloseIcon onClick={onClose} />
+        </Box>
+      </Box>
+      {/* Form  */}
+      <Box
+        sx={{
+          marginTop: {
+            xs: "1rem",
+            lg: "2.5rem",
+          },
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: "20px",
+            marginBottom: "2rem",
+          }}
+        >
+          General Info
+        </Typography>
+        <form onSubmit={handleSubmit}>
+            <Grid container spacing="14">
+            <Grid item xs="12" lg="6">
+                <TextField
+                fullWidth
+                type="text"
+                name="deviceName"
+                value={values.deviceName}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={touched.deviceName && Boolean(errors.deviceName)}
+                helperText={touched.deviceName && errors.deviceName}
+                label="Device Name"
+                maxLength="20"
+                />
+            </Grid>
+            <Grid item xs="12" lg="6">
+                <TextField
+                fullWidth
+                type="text"
+                label="Device Type"
+                maxLength="30"
+                name="deviceType"
+                id="deviceType"
+                value={values.deviceType}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={touched.deviceType && Boolean(errors.deviceType)}
+                helperText={touched.deviceType && errors.deviceType}
+                />
+            </Grid>
+            <Grid item xs="12" mt={3}>
+                <Box
                 sx={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "space-between",
+                    gap: "1rem",
+                    width: "255px",
+                    justifyContent: "center",
                 }}
-            >
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "1rem",
-                        color: "rgba(17, 17, 17, 1)",
-                        fontSize: {
-                            xs: "1rem",
-                            md: "1.5rem",
-                        },
-                        fontWeight: 600,
-                    }}
                 >
-                    <Box sx={{ cursor: "pointer", height: "25px" }} onClick={onClose}>
-                        <BackIcon />
-                    </Box>
-                    ADD DEVICE
-                </Box>
-                <Box sx={{ cursor: "pointer" }} onClick={onClose}>
-                    <CloseIcon onClick={onClose} />
-                </Box>
-            </Box>
-            {/* Form  */}
-            <Box
-                sx={{
-                    marginTop: {
-                        xs: "1rem",
-                        lg: "2.5rem",
+                <CancelBtn onClick={onClose}>Cancel</CancelBtn>
+                <Button
+                    type="submit"
+                    startIcon={<SaveIcon />}
+                    sx={{
+                    color: "#fff",
+                    borderRadius: "16px",
+                    width: "157px",
+                    padding: "16px",
+                    "&:disabled": {
+                        opacity: "0.3",
+                        color: "white",
+                        cursor: "not-allowed",
                     },
-                }}
-            >
-                <Typography
-                    sx={{
-                        fontWeight: 700,
-                        fontSize: "20px",
-                        marginBottom: "2rem",
                     }}
+                    // disabled={isLoading}
                 >
-                    General Info
-                </Typography>
-                <Grid container spacing="14">
-                    <Grid item xs="12" lg="6">
-                        <TextField fullWidth type="text" label="Enter a Unique Device Name" maxLength="20" />
-                    </Grid>
-                    <Grid item xs="12" lg="6">
-                        <TextField fullWidth type="text" label="Device Type" maxLength="30" />
-                    </Grid>
-                    <Grid item xs="12" mt={3}>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "1rem",
-                                width: "255px",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <CancelBtn onClick={onClose}>Cancel</CancelBtn>
-                            <Button
-                                // onClick={handleSave}
-                                startIcon={<SaveIcon />}
-                                sx={{
-                                    color: "#fff",
-                                    borderRadius: "16px",
-                                    width: "157px",
-                                    padding: "16px",
-                                    "&:disabled": {
-                                        opacity: "0.3",
-                                        color: "white",
-                                        cursor: "not-allowed",
-                                    },
-                                }}
-                                // disabled={isLoading}
-                            >
-                                {/* {isLoading ? "Saving..." : "SAVE Device"} */}
-                                Save Device
-                            </Button>
-                        </Box>
-                    </Grid>
-                </Grid>
-            </Box>
-        </Fragment>
-    );
+                    {/* {isLoading ? "Saving..." : "SAVE Device"} */}
+                    Save Device
+                </Button>
+                </Box>
+            </Grid>
+            </Grid>
+        </form>
+      </Box>
+    </Fragment>
+  );
 };
 
 export default AddDevice;
 
 const CancelBtn = styled("span")({
-    fontsize: "16px",
-    fontWeight: 600,
-    color: "rgba(17, 17, 17, 1)",
-    cursor: "pointer",
+  fontsize: "16px",
+  fontWeight: 600,
+  color: "rgba(17, 17, 17, 1)",
+  cursor: "pointer",
 });
