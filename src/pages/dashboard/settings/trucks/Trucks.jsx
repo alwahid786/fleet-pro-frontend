@@ -9,10 +9,9 @@ import DownloadIcon from "../../../../assets/svgs/reports/DownloadIcon";
 import AddIcon from "../../../../assets/svgs/settings/AddIcon";
 import Modal from "../../../../components/modal/Modal";
 import { deleteTruckAction, getAllTrucksAction } from "../../../../redux/actions/truck.actions";
+import { clearTruckError, clearTruckMessage } from "../../../../redux/slices/truck.slice";
 import AddTruck from "./components/AddTruck";
 import EditTruck from "./components/EditTruck";
-import { clearTruckError, clearTruckMessage } from "../../../../redux/slices/truck.slice";
-import { Link } from "react-router-dom";
 
 const Trucks = () => {
     const [modalType, setModalType] = useState(null);
@@ -99,7 +98,9 @@ const Trucks = () => {
                     </Box>
                     <DownloadIcon />
                 </Box>
-                <Grid container spacing={2}
+                <Grid
+                    container
+                    spacing={2}
                     style={{
                         marginTop: "50px",
                         display: "flex",

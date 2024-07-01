@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
     Box,
     Button,
@@ -9,22 +10,21 @@ import {
     Select,
     styled,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
-import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
-import { deviceData } from "../../../../../data/data";
-import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
 import { useFormik } from "formik";
-import { attachModalSchema } from "../../../../../schemas";
-import { attachDeviceToTruckAction } from "../../../../../redux/actions/truck.actions";
-import { getAllDevicesAction } from "../../../../../redux/actions/device.actions";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
+import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
+import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
+import { getAllDevicesAction } from "../../../../../redux/actions/device.actions";
+import { attachDeviceToTruckAction } from "../../../../../redux/actions/truck.actions";
+import { attachModalSchema } from "../../../../../schemas";
 
 const AttacheModal = ({ onClose, truckId }) => {
     const dispatch = useDispatch();
-    const [deviceTypes, setDeviceTypes] = useState([]);
     const { devices } = useSelector((state) => state.device);
-    const devicesData = devices.filter((device) => !device.assignedTruck);
+    const devicesData = devices.filter((device) => !device.assignedTo?._id);
+
     useEffect(() => {
         dispatch(getAllDevicesAction());
     }, [dispatch]);
@@ -36,13 +36,14 @@ const AttacheModal = ({ onClose, truckId }) => {
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues,
         validationSchema: attachModalSchema,
-        onSubmit: (values) => {
-            dispatch(attachDeviceToTruckAction(truckId, values.deviceId));
+        onSubmit: async (values) => {
+            await dispatch(attachDeviceToTruckAction(truckId, values.deviceId));
+            onClose();
         },
     });
 
     return (
-        <>
+        <React.Fragment>
             <Box
                 sx={{
                     display: "flex",
@@ -163,7 +164,7 @@ const AttacheModal = ({ onClose, truckId }) => {
                     </Grid>
                 </Grid>
             </form>
-        </>
+        </React.Fragment>
     );
 };
 

@@ -14,13 +14,21 @@ const AddDevice = ({ onClose }) => {
     const initialValues = {
         deviceName: "",
         deviceType: "",
+        ipAddress: "",
+        uniqueId: "",
     };
 
     const { values, touched, errors, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues,
         validationSchema: addDeviceSchema,
         onSubmit: (values) => {
-            dispatch(addDeviceAction(values.deviceName, values.deviceType));
+            const data = {
+                name: values.deviceName,
+                type: values.deviceType,
+                ip: values.ipAddress,
+                uniqueId: values.uniqueId,
+            };
+            dispatch(addDeviceAction(data));
         },
     });
 
@@ -112,11 +120,11 @@ const AddDevice = ({ onClose }) => {
                                 maxLength="30"
                                 name="uniqueId"
                                 id="uniqueId"
-                                // value={values.uniqueId}
-                                // onBlur={handleBlur}
-                                // onChange={handleChange}
-                                // error={touched.uniqueId && Boolean(errors.uniqueId)}
-                                // helperText={touched.uniqueId && errors.uniqueId}
+                                value={values.uniqueId}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                error={touched.uniqueId && Boolean(errors.uniqueId)}
+                                helperText={touched.uniqueId && errors.uniqueId}
                             />
                         </Grid>
                         <Grid item xs="12" lg="6">
@@ -127,11 +135,11 @@ const AddDevice = ({ onClose }) => {
                                 maxLength="30"
                                 name="ipAddress"
                                 id="ipAddress"
-                                // value={values.ipAddress}
-                                // onBlur={handleBlur}
-                                // onChange={handleChange}
-                                // error={touched.ipAddress && Boolean(errors.ipAddress)}
-                                // helperText={touched.ipAddress && errors.ipAddress}
+                                value={values.ipAddress}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                error={touched.ipAddress && Boolean(errors.ipAddress)}
+                                helperText={touched.ipAddress && errors.ipAddress}
                             />
                         </Grid>
                         <Grid item xs="12" mt={3}>

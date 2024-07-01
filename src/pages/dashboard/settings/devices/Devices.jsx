@@ -33,7 +33,7 @@ const Devices = () => {
     const handleDeleteDevice = (deviceId) => {
         confirmAlert({
             title: "Confirm to delete",
-            message: "Are you sure you want to delete the user?",
+            message: "Are you sure you want to detach device?",
             buttons: [
                 {
                     label: "Yes",

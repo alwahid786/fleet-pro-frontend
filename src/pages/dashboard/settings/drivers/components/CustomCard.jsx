@@ -3,7 +3,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { Avatar, Box, Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material";
-import { Fragment } from "react";
 
 const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
     return (
@@ -69,7 +68,7 @@ const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
                                 fontWeight: "500",
                             }}
                         >
-                            {driver?.firstName} {driver?.lastName}
+                            {driver?._id}
                         </Typography>
                     </Box>
                     <Box
@@ -122,7 +121,7 @@ const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                Driver ID
+                                Driver Name
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -135,7 +134,7 @@ const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
                                     fontWeight: "400",
                                 }}
                             >
-                                {driver?._id}
+                                {driver?.firstName} {driver?.lastName}
                             </Typography>
                         </Box>
                     </Box>

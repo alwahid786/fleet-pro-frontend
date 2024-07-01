@@ -2,7 +2,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { Fragment } from "react";
 
 const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
     return (
@@ -50,7 +49,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                                 fontSize: "16px",
                             }}
                         >
-                            {device?.ipAddress}
+                            {device?.ip}
                         </Typography>
                     </Box>
                     <Box>

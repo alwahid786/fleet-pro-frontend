@@ -16,10 +16,10 @@ import {
 
 // add device
 // -----------
-const addDeviceAction = (name, type) => async (dispatch) => {
+const addDeviceAction = (data) => async (dispatch) => {
     dispatch(addDeviceStart());
     try {
-        const response = await customAxios.post("/device/create", { name, type });
+        const response = await customAxios.post("/device/create", data);
         console.log("truck create api response ", response);
         dispatch(addDeviceSuccess(response.data));
     } catch (error) {

@@ -1,16 +1,20 @@
 /* eslint-disable react/prop-types */
-import { Avatar, Box, Button, Grid, Tooltip, Typography, styled } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import profilePic from "../../../../../assets/images/settings/vehicle-pic.png";
-import CancelIcon from "@mui/icons-material/Cancel";
 import AddLinkIcon from "@mui/icons-material/AddLink";
-import Modal from "../../../../../components/modal/Modal";
-import AttacheModal from "./AttacheModal";
-import { useParams } from "react-router-dom";
+import CancelIcon from "@mui/icons-material/Cancel";
+import { Avatar, Box, Grid, Tooltip, Typography, styled } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleTruckAction } from "../../../../../redux/actions/truck.actions";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { clearDeviceError, clearDeviceMessage } from "../../../../../redux/slices/device.slice";
+import profilePic from "../../../../../assets/images/settings/vehicle-pic.png";
+import Modal from "../../../../../components/modal/Modal";
+import {
+    detachDeviceFromTruckAction,
+    getSingleTruckAction,
+} from "../../../../../redux/actions/truck.actions";
+import { clearTruckError, clearTruckMessage } from "../../../../../redux/slices/truck.slice";
+import AttacheModal from "./AttacheModal";
 
 const TruckDetail = () => {
     const dispatch = useDispatch();
@@ -32,17 +36,17 @@ const TruckDetail = () => {
     useEffect(() => {
         if (message) {
             toast.success(message);
-            dispatch(clearDeviceMessage());
+            dispatch(clearTruckMessage());
         }
         if (error) {
             toast.error(error);
-            dispatch(clearDeviceError());
+            dispatch(clearTruckError());
         }
 
         dispatch(getSingleTruckAction(truckId));
     }, [dispatch, message, error, truckId]);
     return (
-        <>
+        <React.Fragment>
             <TruckContainer container sx={{ padding: { xs: "16px", md: "24px" } }}>
                 <Grid item xs={11}>
                     <Avatar
@@ -82,13 +86,33 @@ const TruckDetail = () => {
                     <AttacheModal onClose={handleCloseModal} truckId={truckForAttach} />
                 </Modal>
             )}
-        </>
+        </React.Fragment>
     );
 };
 
 export default TruckDetail;
 
 const DeviceCard = ({ device, truck }) => {
+    const dispatch = useDispatch();
+    const deleteDeviceHandle = (truckId, deviceId) => {
+        confirmAlert({
+            title: "Confirm to delete",
+            message: "Are you sure you want to detach device?",
+            buttons: [
+                {
+                    label: "Yes",
+                    onClick: async () => {
+                        await dispatch(detachDeviceFromTruckAction(truckId, deviceId));
+                    },
+                },
+                {
+                    label: "No",
+                    onClick: () => toast.info("Delete action cancelled"),
+                },
+            ],
+        });
+    };
+
     return (
         <Grid item xs={12} md={6} lg={4} xl={3}>
             <Box
@@ -202,7 +226,14 @@ const DeviceCard = ({ device, truck }) => {
                         </Typography>
                     </Box>
                 </Box>
-                <CancelBtn />
+                <Box
+                    onClick={() => deleteDeviceHandle(truck._id, device._id)}
+                    sx={{ position: "absolute", top: 8, right: 8, cursor: "pointer" }}
+                >
+                    <Tooltip title="Detach Device">
+                        <CancelIcon style={{ color: "#d30000" }} />
+                    </Tooltip>
+                </Box>
             </Box>
         </Grid>
     );
@@ -214,13 +245,3 @@ const TruckContainer = styled(Grid)({
     // height: "100%",
     marginTop: "-4rem",
 });
-
-const CancelBtn = () => {
-    return (
-        <Box sx={{ position: "absolute", top: 8, right: 8, cursor: "pointer" }}>
-            <Tooltip title="Detache Device">
-                <CancelIcon style={{ color: "#d30000" }} />
-            </Tooltip>
-        </Box>
-    );
-};
