@@ -19,7 +19,7 @@ const EditTruck = ({ onClose, singleTruck }) => {
         truckName: singleTruck?.truckName,
         fleetNumber: singleTruck?.fleetNumber,
         plateNumber: singleTruck?.plateNumber,
-        deviceID: singleTruck?.deviceId ? singleTruck?.deviceId : "",
+        // deviceID: singleTruck?.deviceId ? singleTruck?.deviceId : "",
         image: "",
     };
 
@@ -31,7 +31,7 @@ const EditTruck = ({ onClose, singleTruck }) => {
             formData.append("truckName", values.truckName);
             formData.append("fleetNumber", values.fleetNumber);
             formData.append("plateNumber", values.plateNumber);
-            formData.append("deviceID", values.deviceID);
+            // formData.append("deviceID", values.deviceID);
             if (values.image) formData.append("file", values.image);
             await dispatch(updateTruckAction(singleTruck?._id, formData));
             await dispatch(getAllTrucksAction());
@@ -119,7 +119,7 @@ const EditTruck = ({ onClose, singleTruck }) => {
                                         name="plateNumber"
                                     />
                                 </Grid>
-                                <Grid item xs="12" lg="6">
+                                {/* <Grid item xs="12" lg="6">
                                     <TextField
                                         type="number"
                                         label="Device ID"
@@ -128,7 +128,7 @@ const EditTruck = ({ onClose, singleTruck }) => {
                                         fullWidth
                                         name="deviceID"
                                     />
-                                </Grid>
+                                </Grid> */}
                             </Grid>
                         </Grid>
                         <Grid item xs="12" lg="4">

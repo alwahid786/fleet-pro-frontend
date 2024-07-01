@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Tabs, Tab, Box, Typography, Divider } from '@mui/material'
+import { Tabs, Tab, Box, Typography, Divider, Grid } from '@mui/material'
 import { planCards } from '../../../../data/data'
 import PlanCard from './components/PlanCard'
 import ReviewCard from './components/ReviewCard'
@@ -37,7 +37,10 @@ const SubscriptionPlan = () => {
               display: 'none',
             },
             '& .MuiTab-root': {
-              minWidth: '150px',
+              minWidth: {
+                xs: '118px',
+                md: '150px'
+              },
               borderRadius: '10px',
               backgroundColor: '#e3f2fd',
               color: 'black',
@@ -74,7 +77,7 @@ const SubscriptionPlan = () => {
       <Typography sx={{ color: '#000', fontSize: '20px', fontWeight: 600, marginTop: '3rem' }}>
         {selectedTab === 'plans' ? 'Choose Plan' : 'Review Order'}
       </Typography>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', columnGap: '20px', rowGap: '3rem', marginTop: '1rem' }}>
+      <Grid container spacing={2} sx={{ display: 'flex', rowGap: '3rem', marginTop: '1rem' }}>
         {selectedTab === 'plans' &&
           planCards.map((card, i) => (
             <PlanCard
@@ -91,7 +94,7 @@ const SubscriptionPlan = () => {
         {selectedTab === 'reviews' && (
           <ReviewCard card={selectedCard} />
         )}
-      </Box>
+      </Grid>
     </Box>
   )
 }

@@ -175,7 +175,7 @@ const AddDriver = ({ onClose }) => {
                                         value={values.fleetNumber}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        error={touched.fleetNumber && boolean(errors.fleetNumber)}
+                                        error={touched.fleetNumber && Boolean(errors.fleetNumber)}
                                         helperText={touched.fleetNumber && errors.fleetNumber}
                                     />
                                 </Grid>
