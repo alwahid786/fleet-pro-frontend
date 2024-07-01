@@ -2,7 +2,7 @@
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Avatar, Box, Button, Card, CardActions, CardContent, Tooltip, Typography, styled } from "@mui/material";
+import { Avatar, Box, Button, Card, CardActions, CardContent, Grid, Tooltip, Typography, styled } from "@mui/material";
 import Loader from "../../../../../assets/svgs/Loader";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
@@ -11,12 +11,11 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
     const { truckName, fleetNumber, plateNumber, status, image, assignedTo, _id, updatedAt } = truck;
     return truck ? (
-        <Fragment>
+        <Grid item xs={12} md={4} lg={3}>
             <Card
                 sx={{
                     position: "relative",
                     overflow: "visible",
-                    flexGrow: "1",
                     border: "none",
                     boxShadow: "none",
                     borderRadius: "12px",
@@ -345,7 +344,7 @@ const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
                     </Link>
                 </DetailPageLink>
             </Card>
-        </Fragment>
+        </Grid>
     ) : (
         <Loader />
     );

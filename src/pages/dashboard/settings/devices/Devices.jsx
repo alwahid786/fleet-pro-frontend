@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { useDispatch, useSelector } from "react-redux";
@@ -84,13 +84,7 @@ const Devices = () => {
                     </Box>
                     <DownloadIcon />
                 </Box>
-                <Box
-                    style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: "0.8rem",
-                    }}
-                >
+                <Grid container spacing={2}>
                     {devices?.map((device, i) => (
                         <DeviceCard
                             key={i}
@@ -99,7 +93,7 @@ const Devices = () => {
                             handleOpenEditModal={handleOpenEditModal}
                         />
                     ))}
-                </Box>
+                </Grid>
             </Box>
             {modalType === "edit" && (
                 <Modal onClose={handleCloseModal}>

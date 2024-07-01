@@ -84,7 +84,7 @@ const EditDevice = ({ onClose, device }) => {
                             onChange={(e) => setDeviceName(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs="12" lg="6">
+                    {/* <Grid item xs="12" lg="6">
                         <TextField
                             fullWidth
                             type="text"
@@ -92,6 +92,26 @@ const EditDevice = ({ onClose, device }) => {
                             maxLength="30"
                             value={deviceType}
                             onChange={(e) => setDeviceType(e.target.value)}
+                        />
+                    </Grid> */}
+                    <Grid item xs="12" lg="6">
+                        <TextField
+                            fullWidth
+                            type="text"
+                            label="Unique Id"
+                            maxLength="30"
+                            // value={uniqueId}
+                            // onChange={(e) => setDeviceType(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs="12" lg="6">
+                        <TextField
+                            fullWidth
+                            type="text"
+                            label="Ip Address"
+                            maxLength="30"
+                            // value={ipAddress}
+                            // onChange={(e) => setDeviceType(e.target.value)}
                         />
                     </Grid>
                     <Grid item xs="12" mt={3}>

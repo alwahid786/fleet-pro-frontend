@@ -2,17 +2,16 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import { Avatar, Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material";
 import { Fragment } from "react";
 
 const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
     return (
-        <Fragment>
+        <Grid item xs={12} md={4} lg={3}>
             <Card
                 sx={{
                     position: "relative",
                     overflow: "visible",
-                    flexGrow: "1",
                     border: "none",
                     boxShadow: "none",
                     borderRadius: "12px",
@@ -274,7 +273,7 @@ const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
                     </Box>
                 </CardActions>
             </Card>
-        </Fragment>
+        </Grid>
     );
 };
 

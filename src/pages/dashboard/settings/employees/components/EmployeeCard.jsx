@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Card, CardContent, CardActions, Button, Typography, Avatar, Box } from "@mui/material";
+import { Card, CardContent, CardActions, Button, Typography, Avatar, Box, Grid } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
@@ -7,12 +7,11 @@ import { Fragment } from "react";
 
 const EmployeeCard = ({ employ, handleOpenEditModal, handleDeleteUser }) => {
     return (
-        <Fragment>
+        <Grid item xs={12} md={4} lg={3}>
             <Card
                 sx={{
                     position: "relative",
                     overflow: "visible",
-                    flexGrow: "1",
                     border: "none",
                     boxShadow: "none",
                     borderRadius: "12px",
@@ -271,7 +270,7 @@ const EmployeeCard = ({ employ, handleOpenEditModal, handleDeleteUser }) => {
                     </Box>
                 </CardActions>
             </Card>
-        </Fragment>
+        </Grid>
     );
 };
 

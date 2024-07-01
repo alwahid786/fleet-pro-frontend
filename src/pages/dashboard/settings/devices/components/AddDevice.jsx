@@ -104,6 +104,36 @@ const AddDevice = ({ onClose }) => {
                                 helperText={touched.deviceType && errors.deviceType}
                             />
                         </Grid>
+                        <Grid item xs="12" lg="6">
+                            <TextField
+                                fullWidth
+                                type="text"
+                                label="Unique Id"
+                                maxLength="30"
+                                name="uniqueId"
+                                id="uniqueId"
+                                // value={values.uniqueId}
+                                // onBlur={handleBlur}
+                                // onChange={handleChange}
+                                // error={touched.uniqueId && Boolean(errors.uniqueId)}
+                                // helperText={touched.uniqueId && errors.uniqueId}
+                            />
+                        </Grid>
+                        <Grid item xs="12" lg="6">
+                            <TextField
+                                fullWidth
+                                type="text"
+                                label="Ip Address"
+                                maxLength="30"
+                                name="ipAddress"
+                                id="ipAddress"
+                                // value={values.ipAddress}
+                                // onBlur={handleBlur}
+                                // onChange={handleChange}
+                                // error={touched.ipAddress && Boolean(errors.ipAddress)}
+                                // helperText={touched.ipAddress && errors.ipAddress}
+                            />
+                        </Grid>
                         <Grid item xs="12" mt={3}>
                             <Box
                                 sx={{

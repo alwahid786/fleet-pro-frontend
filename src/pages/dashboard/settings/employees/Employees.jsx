@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import AddIcon from "../../../../assets/svgs/settings/AddIcon";
 import EmployeeCard from "./components/EmployeeCard";
 import Modal from "../../../../components/modal/Modal";
@@ -71,12 +71,10 @@ const Employees = () => {
                         <AddIcon />
                     </Box>
                 </Box>
-                <Box
+                <Grid container spacing={2}
                     style={{
                         marginTop: "50px",
                         display: "flex",
-                        flexWrap: "wrap",
-                        columnGap: "1rem",
                         rowGap: "4rem",
                     }}
                 >
@@ -88,7 +86,7 @@ const Employees = () => {
                             handleDeleteUser={handleDeleteUser}
                         />
                     ))}
-                </Box>
+                </Grid>
             </Box>
             {modalType === "edit" && (
                 <Modal onClose={handleCloseModal}>

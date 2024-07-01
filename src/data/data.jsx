@@ -151,61 +151,74 @@ export const drivers = [
       createdAt: '05/24/2024 - 12:06',
       name: 'tracker one',
       type: 'gps',
+      uniqueId: '23423423',
+      ipAddress: '2342342423',
       assignedTo: {
         _id: '123123',
         truckName: 'truck three'
       }
     },
     {
-      _id: '34523455',
+      _id: '232342234',
       createdAt: '05/24/2024 - 12:06',
       name: 'tracker one',
       type: 'gps',
+      uniqueId: '23423423',
+      ipAddress: '2342342423',
       assignedTo: {
         _id: '123123',
-        truckName: 'truck four'
+        truckName: 'truck three'
       }
     },
     {
-      _id: '34534666',
+      _id: '234234232',
       createdAt: '05/24/2024 - 12:06',
       name: 'tracker one',
       type: 'gps',
+      uniqueId: '23423423',
+      ipAddress: '2342342423',
       assignedTo: {
         _id: '123123',
-        truckName: 'truck five'
+        truckName: 'truck three'
       }
     },
     {
-      _id: '08707897',
+      _id: '2342342',
       createdAt: '05/24/2024 - 12:06',
       name: 'tracker one',
       type: 'gps',
+      uniqueId: '23423423',
+      ipAddress: '2342342423',
       assignedTo: {
         _id: '123123',
-        truckName: 'truck six'
+        truckName: 'truck three'
       }
     },
     {
-      _id: '78977878',
+      _id: '23423423',
       createdAt: '05/24/2024 - 12:06',
       name: 'tracker one',
       type: 'gps',
+      uniqueId: '23423423',
+      ipAddress: '2342342423',
       assignedTo: {
         _id: '123123',
-        truckName: 'truck seven'
+        truckName: 'truck three'
       }
     },
     {
-      _id: '567567567',
+      _id: '23423234',
       createdAt: '05/24/2024 - 12:06',
       name: 'tracker one',
       type: 'gps',
+      uniqueId: '23423423',
+      ipAddress: '2342342423',
       assignedTo: {
         _id: '123123',
-        truckName: 'truck eight'
+        truckName: 'truck three'
       }
     },
+
   ];
 
   export const users = [

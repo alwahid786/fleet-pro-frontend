@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import TruckCard from "./components/TruckCard";
 // import { trucks } from "../../../../data/data";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { confirmAlert } from "react-confirm-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -99,12 +99,10 @@ const Trucks = () => {
                     </Box>
                     <DownloadIcon />
                 </Box>
-                <Box
+                <Grid container spacing={2}
                     style={{
                         marginTop: "50px",
                         display: "flex",
-                        flexWrap: "wrap",
-                        columnGap: "0.3rem",
                         rowGap: "3.4rem",
                     }}
                 >
@@ -116,7 +114,7 @@ const Trucks = () => {
                             handleOpenEditModal={handleOpenEditModal}
                         />
                     ))}
-                </Box>
+                </Grid>
             </Box>
             {modalType && (
                 <Modal onClose={handleCloseModal}>

@@ -1,15 +1,14 @@
 /* eslint-disable react/prop-types */
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { Fragment } from "react";
 
 const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
     return (
-        <Fragment>
+        <Grid item xs={12} md={4} lg={3}>
             <Box
                 sx={{
-                    flexGrow: "1",
                     background: "rgba(255, 255, 255, 1)",
                     borderRadius: "12px",
                     padding: {
@@ -26,7 +25,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                         fontWeight: 500,
                     }}
                 >
-                    {device?._id}
+                    {device?.uniqueId}
                 </Typography>
                 <Box
                     sx={{
@@ -43,7 +42,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                                 fontSize: "12px",
                             }}
                         >
-                            Date/time creation
+                            Ip Address
                         </Typography>
                         <Typography
                             sx={{
@@ -51,7 +50,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                                 fontSize: "16px",
                             }}
                         >
-                            {device?.createdAt?.split("T")[0]}
+                            {device?.ipAddress}
                         </Typography>
                     </Box>
                     <Box>
@@ -161,7 +160,7 @@ const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
                     </Button>
                 </Box>
             </Box>
-        </Fragment>
+        </Grid>
     );
 };
 

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { useDispatch, useSelector } from "react-redux";
@@ -95,12 +95,10 @@ const Drivers = () => {
                     </Box>
                     <DownloadIcon />
                 </Box>
-                <Box
+                <Grid container spacing={2}
                     style={{
                         marginTop: "50px",
                         display: "flex",
-                        flexWrap: "wrap",
-                        columnGap: "1rem",
                         rowGap: "4rem",
                     }}
                 >
@@ -112,7 +110,7 @@ const Drivers = () => {
                             onDelete={handleDeleteDriver}
                         />
                     ))}
-                </Box>
+                </Grid>
             </Box>
             {modalType === "edit" && (
                 <Modal onClose={handleCloseModal}>
