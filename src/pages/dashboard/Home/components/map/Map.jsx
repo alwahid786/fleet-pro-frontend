@@ -17,7 +17,7 @@ const Map = () => {
   const [hasCrossedBoundary, setHasCrossedBoundary] = useState(false);
 
   useEffect(() => {
-    let interval;
+    let interval; 
 
     if (truckPosition && drawnLayer) {
       interval = setInterval(() => {
@@ -89,7 +89,7 @@ const Map = () => {
               polygon: true,
               rectangle: false,
               circle: true,
-              polyline: true,
+              polyline: false,
               marker: false,
               circlemarker: false,
             }}

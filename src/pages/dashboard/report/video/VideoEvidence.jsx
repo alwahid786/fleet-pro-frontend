@@ -7,6 +7,7 @@ import VideoRecordIcon from "../../../../assets/svgs/home/VideoRecordIcon";
 import PlayIcon from "../../../../assets/svgs/home/PlayIcon";
 import Modal from "../../../../components/modal/Modal";
 import ModalMap from './components/ModalMap'
+import SdCardModal from "./components/sdCardRemoval/SdCardModal";
 
 
 const VideoEvidence = () => {
@@ -150,7 +151,7 @@ const VideoEvidence = () => {
           <Box sx={{ cursor: 'pointer' }}>
             <VideoRecordIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }}>
+          <Box sx={{ cursor: 'pointer' }} onClick={() => handleOpenVideosModal()}>
             <PlayIcon />
           </Box>
         </Box>
@@ -243,6 +244,11 @@ const VideoEvidence = () => {
       {modalType === 'map' && (
         <Modal onClose={handleCloseModal}>
           <ModalMap onClose={handleCloseModal} />
+        </Modal>
+      )}
+      {modalType === 'videos' && (
+        <Modal onClose={handleCloseModal}>
+          <SdCardModal onClose={handleCloseModal} />
         </Modal>
       )}
     </Box>
