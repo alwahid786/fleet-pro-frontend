@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
@@ -10,6 +10,9 @@ import GlobalLoader from "./components/loader/Loader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import io from "socket.io-client";
+import { getDeviceDataAction } from "./redux/actions/device.actions";
+import { useDispatch } from "react-redux";
 
 const Login = lazy(() => import("./pages/auth/login"));
 const Home = lazy(() => import("./pages/dashboard/Home/Home"));
@@ -22,23 +25,30 @@ const Drivers = lazy(() => import("./pages/dashboard/settings/drivers/Drivers"))
 const Trucks = lazy(() => import("./pages/dashboard/settings/trucks/Trucks"));
 const Devices = lazy(() => import("./pages/dashboard/settings/devices/Devices"));
 const Employees = lazy(() => import("./pages/dashboard/settings/employees/Employees"));
-const GeoFence = lazy(() => import('./pages/dashboard/dashboardPages/geofence/GeoFence'))
-const RealTimeMap = lazy(
-    () => import('./pages/dashboard/dashboardPages/RealTimeMap/RealTimeMap'),
-  )
-const SubscriptionPlan = lazy(
-    () => import('./pages/dashboard/plans/subscriptionPlan/SubscriptionPlan'),
-  )
+const GeoFence = lazy(() => import("./pages/dashboard/dashboardPages/geofence/GeoFence"));
+const RealTimeMap = lazy(() => import("./pages/dashboard/dashboardPages/RealTimeMap/RealTimeMap"));
+const SubscriptionPlan = lazy(() => import("./pages/dashboard/plans/subscriptionPlan/SubscriptionPlan"));
 const SubscriptionHistory = lazy(
-() =>
-    import('./pages/dashboard/plans/subscriptionHistory/SubscriptionHistory'),
-)
-const TruckDetail = lazy(() => import('./pages/dashboard/settings/trucks/components/TruckDetail'))
-
+    () => import("./pages/dashboard/plans/subscriptionHistory/SubscriptionHistory")
+);
+const TruckDetail = lazy(() => import("./pages/dashboard/settings/trucks/components/TruckDetail"));
 
 function App() {
-    const loader = <GlobalLoader />;
+    const dispatch = useDispatch();
+    // console.log(socketD);
+    const socket = io("http://localhost:4000", {
+        withCredentials: true,
+    });
+    useEffect(() => {
+        socket.on("connect", () => {
+            console.log(socket.id);
+        });
+        socket.on("SENSORS_DATA", (data) => {
+            dispatch(getDeviceDataAction(data));
+        });
+    }, [socket, dispatch]);
 
+    const loader = <GlobalLoader />;
     return (
         <Router>
             <Routes>
@@ -148,40 +158,43 @@ function App() {
                     <Route
                         path="real-time-map"
                         element={
-                        <Suspense fallback={loader}>
-                            <RealTimeMap />
-                        </Suspense>
+                            <Suspense fallback={loader}>
+                                <RealTimeMap />
+                            </Suspense>
                         }
                     />
                     <Route
                         path="geofence"
                         element={
-                        <Suspense fallback={loader}>
-                            <GeoFence />
-                        </Suspense>
+                            <Suspense fallback={loader}>
+                                <GeoFence />
+                            </Suspense>
                         }
                     />
                     <Route
                         path="plans/subscription-plan"
                         element={
-                        <Suspense fallback={loader}>
-                            <SubscriptionPlan />
-                        </Suspense>
+                            <Suspense fallback={loader}>
+                                <SubscriptionPlan />
+                            </Suspense>
                         }
                     />
                     <Route
                         path="plans/subscription-history"
                         element={
-                        <Suspense fallback={loader}>
-                            <SubscriptionHistory />
-                        </Suspense>
+                            <Suspense fallback={loader}>
+                                <SubscriptionHistory />
+                            </Suspense>
                         }
                     />
-                    <Route path="truck-detail/:truckId" element={
-                        <Suspense fallback={loader}>
-                            <TruckDetail />
-                        </Suspense>
-                    } />
+                    <Route
+                        path="truck-detail/:truckId"
+                        element={
+                            <Suspense fallback={loader}>
+                                <TruckDetail />
+                            </Suspense>
+                        }
+                    />
                 </Route>
             </Routes>
             <ToastContainer />

@@ -9,6 +9,9 @@ import {
     getAllDevicesFailure,
     getAllDevicesStart,
     getAllDevicesSuccess,
+    getDeviceDataFailure,
+    getDeviceDataStart,
+    getDeviceDataSuccess,
     updateDeviceFailure,
     updateDeviceStart,
     updateDeviceSuccess,
@@ -76,4 +79,14 @@ const getAllDevicesAction = () => async (dispatch) => {
     }
 };
 
-export { addDeviceAction, deleteDeviceAction, getAllDevicesAction, updateDeviceAction };
+// get device data
+// -------------
+const getDeviceDataAction = (data) => (dispatch) => {
+    if (!data) {
+        dispatch(getDeviceDataFailure("Error While Getting Device Data"));
+    }
+    dispatch(getDeviceDataStart());
+    dispatch(getDeviceDataSuccess(data));
+};
+
+export { addDeviceAction, deleteDeviceAction, getAllDevicesAction, updateDeviceAction, getDeviceDataAction };

@@ -5,6 +5,7 @@ const initialState = {
     error: null,
     message: null,
     devices: [],
+    devicesData: {},
 };
 
 const deviceSlice = createSlice({
@@ -67,6 +68,20 @@ const deviceSlice = createSlice({
             state.error = action.payload;
         },
 
+        // get device data
+        // ------------
+        getDeviceDataStart: (state) => {
+            state.loading = true;
+        },
+        getDeviceDataSuccess: (state, action) => {
+            state.loading = false;
+            state.devicesData = action.payload;
+        },
+        getDeviceDataFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
         // clear error and message
         // ------------------------
         clearDeviceMessage: (state) => {
@@ -93,5 +108,8 @@ export const {
     getAllDevicesStart,
     getAllDevicesSuccess,
     getAllDevicesFailure,
+    getDeviceDataStart,
+    getDeviceDataSuccess,
+    getDeviceDataFailure,
 } = deviceSlice.actions;
 export default deviceSlice;
