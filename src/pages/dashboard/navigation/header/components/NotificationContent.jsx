@@ -1,6 +1,7 @@
 import { Box, Menu, Typography } from '@mui/material'
 import React from 'react'
 import NotificationItem from './NotificationItem'
+import { Link } from 'react-router-dom'
 
 const NotificationContent = ({ notiOpen, handleNotificationClose }) => {
   return (
@@ -54,8 +55,10 @@ const NotificationInnerContent = () => {
             <NotificationItem type='sdcard-removal' name='SD card removal' time='5 min' />
             <NotificationItem type='headway-monitoring' name='Headway Monitoring System' time='5 min' />
             <NotificationItem type='in-fence' name='In-fence' time='5 min' />
-            <Box sx={{
+            <Link to='notification' style={{
+                padding: '12px 0',
                 textAlign: 'center',
+                display: 'block',
                 color: 'rgba(0, 107, 206, 1)',
                 fontSize: '12px',
                 fontWeight: 500,
@@ -63,7 +66,7 @@ const NotificationInnerContent = () => {
                 cursor: 'pointer'
             }}>
                 SEE ALL NOTIFICATIONS
-            </Box>
+            </Link>
         </Box>
     )
 }

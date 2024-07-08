@@ -11,7 +11,7 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 const TruckCard = ({ truck, handleOpenEditModal, deleteTruckHandler }) => {
     const { truckName, fleetNumber, plateNumber, status, image, assignedTo, _id, updatedAt } = truck;
     return truck ? (
-        <Grid item xs={12} md={4} lg={3}>
+        <Grid item xs={12} md={4}>
             <Card
                 sx={{
                     position: "relative",

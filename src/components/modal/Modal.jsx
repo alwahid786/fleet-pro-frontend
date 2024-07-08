@@ -15,6 +15,9 @@ const Modal = ({ children, onClose }) => {
                     sm: '600px',
                     lg: '900px',
                     xl: '1000px'
+                },
+                '@media (max-height:1000px)': {
+                    height: '100%'
                 }
             }}>
                 {children}

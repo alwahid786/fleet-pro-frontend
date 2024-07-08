@@ -114,7 +114,7 @@ const DeviceCard = ({ device, truck }) => {
     };
 
     return (
-        <Grid item xs={12} md={6} lg={4} xl={3}>
+        <Grid item xs={12} md={4}>
             <Box
                 sx={{
                     position: "relative",

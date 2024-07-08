@@ -1,121 +1,147 @@
 import React, { useEffect, useState } from "react";
 import L from "leaflet";
 import TruckIcon from "../../../../../assets/images/truck.png";
-import { MapContainer, TileLayer, Marker, Popup, FeatureGroup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  FeatureGroup,
+} from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllTrucksAction } from "../../../../../redux/actions/truck.actions";
+import TruckModal from "./TruckModal"; // Adjust the import path as needed
 
 const truckIcon = new L.Icon({
-    iconUrl: TruckIcon,
-    iconSize: [45, 45],
+  iconUrl: TruckIcon,
+  iconSize: [45, 45],
 });
 
 const Map = () => {
-    const [truckPosition, setTruckPosition] = useState(null);
-    const [drawnLayer, setDrawnLayer] = useState(null);
-    const [hasCrossedBoundary, setHasCrossedBoundary] = useState(false);
+  const [truckPositions, setTruckPositions] = useState([]);
+  const [drawnLayers, setDrawnLayers] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [inPolygonTrucks, setInPolygonTrucks] = useState([]);
+  const [trucksForPolygon, setTrucksForPolygon] = useState();
+  const [currentPolygon, setCurrentPolygon] = useState(null);
+  const dispatch = useDispatch();
 
-    const { devicesData } = useSelector((state) => state.device);
+  const { trucks } = useSelector((state) => state.truck);
+  const { devicesData } = useSelector((state) => state.device);
 
-    useEffect(() => {
-        let interval;
+  // Run this when the user draws a shape
+  useEffect(() => {
+    if (currentPolygon) {
+      dispatch(getAllTrucksAction());
+      setShowModal(true);
+    }
+  }, [currentPolygon, dispatch]);
 
-        if (truckPosition && drawnLayer) {
-            interval = setInterval(() => {
-                const newPosition = [truckPosition[0] + 0.001, truckPosition[1] + 0.001];
-                setTruckPosition(newPosition);
+  // Change the position of the truck when data is received from the socket
+  useEffect(() => {
+    if (devicesData?.payload) {
+      const latitude = devicesData?.payload?.gps?.latitude;
+      const longitude = devicesData?.payload?.gps?.longitude;
+      setTruckPositions((prevPositions) =>
+        prevPositions.map((pos) =>
+          pos.id === currentPolygon.id
+            ? { ...pos, position: [latitude, longitude] }
+            : pos
+        )
+      );
+    }
+  }, [devicesData, currentPolygon]);
 
-                if (drawnLayer.getBounds) {
-                    if (!drawnLayer.getBounds().contains(newPosition)) {
-                        if (!hasCrossedBoundary) {
-                            alert("Truck has crossed the boundary!");
-                            setHasCrossedBoundary(true);
-                        }
-                    } else {
-                        setHasCrossedBoundary(false);
-                    }
-                } else if (drawnLayer.getLatLng) {
-                    const center = drawnLayer.getLatLng();
-                    const radius = drawnLayer.getRadius();
-                    const distance = center.distanceTo(newPosition);
-                    if (distance > radius) {
-                        if (!hasCrossedBoundary) {
-                            alert("Truck has crossed the boundary!");
-                            setHasCrossedBoundary(true);
-                        }
-                    } else {
-                        setHasCrossedBoundary(false);
-                    }
-                }
-            }, 1000);
-        }
+  // When a shape is drawn
+  const _created = (e) => {
+    const type = e.layerType;
+    const layer = e.layer;
+    const id = Date.now();
+    setCurrentPolygon({ id, layer });
+    setDrawnLayers([...drawnLayers, { id, layer }]);
+  };
 
-        return () => {
-            clearInterval(interval);
-        };
-    }, [truckPosition, drawnLayer, hasCrossedBoundary]);
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
-    useEffect(() => {
-        if (devicesData?.payload) {
-            const latitude = devicesData?.payload?.gps?.latitude;
-            const longitude = devicesData?.payload?.gps?.longitude;
-            setTruckPosition([latitude, longitude]);
-            console.log("here is new device data", devicesData);
-        }
-    }, [devicesData]);
+  const handleSelectTruck = (truck) => {
+    setInPolygonTrucks((pre) => [...pre, truck]);
+    console.log("Selected truck:", truck);
+    const bounds = currentPolygon.layer.getBounds();
+    const center = bounds.getCenter();
+    setTruckPositions((prevPositions) => [
+      ...prevPositions,
+      {
+        id: currentPolygon.id,
+        name: truck.truckName,
+        position: [center.lat, center.lng],
+      },
+    ]);
+    setShowModal(false);
+  };
 
-    const _created = (e) => {
-        const type = e.layerType;
-        const layer = e.layer;
+  // use effect for filtering trucks
+  useEffect(() => {
+    if (trucks && trucks.length > 0) {
+      const newTrucks = trucks.filter((truck) => truck?.devices?.length > 0);
 
-        setDrawnLayer(layer);
-        setHasCrossedBoundary(false);
+      const selectedTrucksArrayIds = new Set(
+        inPolygonTrucks.map((item) => item._id)
+      );
 
-        if (type === "polygon" || type === "rectangle") {
-            const bounds = layer.getBounds();
-            const center = bounds.getCenter();
-            setTruckPosition([center.lat, center.lng]);
-        } else if (type === "circle") {
-            const center = layer.getLatLng();
-            setTruckPosition([center.lat, center.lng]);
-        } else {
-            setTruckPosition(null); // If the user draws a polyline or marker, don't move the truck
-        }
-    };
+      const filteredArray = newTrucks.filter(
+        (item) => !selectedTrucksArrayIds.has(item._id)
+      );
+      setTrucksForPolygon(filteredArray);
+    }
+  }, [trucks]);
 
-    return (
-        <React.Fragment>
-            <MapContainer center={[25.276987, 55.296249]} zoom={13} style={{ height: "100%", width: "100%" }}>
-                <FeatureGroup>
-                    <EditControl
-                        position="topright"
-                        onCreated={_created}
-                        draw={{
-                            polygon: true,
-                            rectangle: false,
-                            circle: true,
-                            polyline: false,
-                            marker: false,
-                            circlemarker: false,
-                        }}
-                    />
-                </FeatureGroup>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                {truckPosition && (
-                    <Marker position={truckPosition} icon={truckIcon}>
-                        <Popup>
-                            Truck is here: <pre>{JSON.stringify(truckPosition, null, 2)}</pre>
-                        </Popup>
-                    </Marker>
-                )}
-            </MapContainer>
-        </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <MapContainer
+        center={[25.276987, 55.296249]}
+        zoom={13}
+        style={{ height: "100%", width: "100%", zIndex: 0 }}
+      >
+        <FeatureGroup>
+          <EditControl
+            position="topright"
+            onCreated={_created}
+            draw={{
+              polygon: true,
+              rectangle: false,
+              circle: true,
+              polyline: false,
+              marker: false,
+              circlemarker: false,
+            }}
+          />
+        </FeatureGroup>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {truckPositions.map((truck) => (
+          <Marker key={truck.id} position={truck.position} icon={truckIcon}>
+            <Popup>
+              {truck.name} is here:{" "}
+              <pre>{JSON.stringify(truck.position, null, 2)}</pre>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+      <TruckModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        trucks={trucksForPolygon}
+        handleSelect={handleSelectTruck}
+      />
+    </React.Fragment>
+  );
 };
 
 export default Map;

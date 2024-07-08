@@ -5,7 +5,7 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 
 const DeviceCard = ({ device, handleDeleteDevice, handleOpenEditModal }) => {
     return (
-        <Grid item xs={12} md={4} lg={3}>
+        <Grid item xs={12} md={4}>
             <Box
                 sx={{
                     background: "rgba(255, 255, 255, 1)",

@@ -6,7 +6,7 @@ import { Avatar, Box, Button, Card, CardActions, CardContent, Grid, Typography }
 
 const CustomCard = ({ driver, handleOpenEditModal, onDelete }) => {
     return (
-        <Grid item xs={12} md={4} lg={3}>
+        <Grid item xs={12} md={4}>
             <Card
                 sx={{
                     position: "relative",

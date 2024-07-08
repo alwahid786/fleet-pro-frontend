@@ -1,50 +1,24 @@
-import React from 'react'
+import React from "react";
 
 const VideoRecordIcon = () => {
   return (
     <>
       <svg
-        width="17"
-        height="17"
-        viewBox="0 0 17 17"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect
-          x="0.928314"
-          y="0.635254"
-          width="15.5009"
-          height="15.5009"
-          rx="2"
-          fill="#F89822"
+        <rect width="20" height="20" rx="10" fill="#F89822" />
+        <path d="M16.4664 12.5L12.6055 9.5L16.4664 6.5V12.5Z" fill="white" />
+        <path
+          d="M12.7005 6H4.75371C4.07966 6 3.5332 6.61287 3.5332 7.36883V12.6312C3.5332 13.3871 4.07966 14 4.75371 14H12.7005C13.3746 14 13.921 13.3871 13.921 12.6312V7.36883C13.921 6.61287 13.3746 6 12.7005 6ZM5.30961 8.79844C4.98756 8.79844 4.72653 8.50569 4.72653 8.1445C4.72653 7.78331 4.98756 7.49057 5.30961 7.49057C5.55257 7.49057 10.4452 7.42974 12.3332 7.66667C13.1332 8 12.7332 8.66667 12.3332 8.66667C12.3334 9.02786 5.63166 8.79844 5.30961 8.79844Z"
+          fill="white"
         />
-        <g clipPath="url(#clip0_152_2444)">
-          <path
-            d="M14.2044 5.87415L10.688 8.38586L14.2044 10.8976V5.87415Z"
-            stroke="white"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M9.68327 4.86951H4.15749C3.60262 4.86951 3.1528 5.31932 3.1528 5.87419V10.8976C3.1528 11.4525 3.60262 11.9023 4.15749 11.9023H9.68327C10.2381 11.9023 10.688 11.4525 10.688 10.8976V5.87419C10.688 5.31932 10.2381 4.86951 9.68327 4.86951Z"
-            stroke="white"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </g>
-        <defs>
-          <clipPath id="clip0_152_2444">
-            <rect
-              width="12.0562"
-              height="12.0562"
-              fill="white"
-              transform="translate(2.65045 2.35779)"
-            />
-          </clipPath>
-        </defs>
       </svg>
     </>
-  )
-}
+  );
+};
 
-export default VideoRecordIcon
+export default VideoRecordIcon;
