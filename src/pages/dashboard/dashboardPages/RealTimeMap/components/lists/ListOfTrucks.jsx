@@ -10,37 +10,30 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AlertIcon from "../../../../../../assets/svgs/map/AlertIcon";
 import RingIcon from "../../../../../../assets/svgs/map/RingIcon";
 import SearchIcon from "../../../../../../assets/svgs/map/SearchIcon";
 import LocationIcon from "../../../../../../assets/svgs/home/LocationIcon";
 import PlayIcon from "../../../../../../assets/svgs/home/PlayIcon";
 import VideoRecordIcon from "../../../../../../assets/svgs/home/VideoRecordIcon";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllTrucksAction } from "../../../../../../redux/actions/truck.actions";
 
 const ListOfTrucks = () => {
+  const dispatch = useDispatch();
   const [searchTruck, setSearchTruck] = useState("");
+  const { trucks } = useSelector((state) => state.truck);
 
-  const createData = (fleetNumber, status) => {
-    return { fleetNumber, status };
-  };
-
-  const listOfTrucks = [
-    createData("1234atr", "ok"),
-    createData("234234g", "ok"),
-    createData("2342344", "not ok"),
-    createData("5325236", "ok"),
-    createData("sdf2342", "ok"),
-    createData("2342332", "ok"),
-    createData("sdfsd23", "ok"),
-    createData("sd23232", "ok"),
-    createData("sdf3233", "ok"),
-    createData("sdf2333", "ok"),
-  ];
-
-  const filteredTrucks = listOfTrucks.filter((truck) =>
-    truck.fleetNumber.toLowerCase().includes(searchTruck.toLowerCase())
+  const filteredTrucks = trucks?.filter((truck) =>
+    String(truck.fleetNumber)
+      ?.toLowerCase()
+      .includes(searchTruck.toLowerCase())
   );
+
+  useEffect(() => {
+    dispatch(getAllTrucksAction());
+  }, [dispatch]);
 
   return (
     <Box sx={{ mt: 2 }}>
@@ -63,7 +56,7 @@ const ListOfTrucks = () => {
         placeholder="Search"
         onChange={(e) => setSearchTruck(e.target.value)}
         InputProps={{
-            endAdornment: (
+          endAdornment: (
             <InputAdornment>
               <SearchIcon />
             </InputAdornment>
@@ -83,16 +76,16 @@ const ListOfTrucks = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredTrucks.map((list, i) => (
+          {filteredTrucks?.map((truck, i) => (
             <TableRow key={i}>
-              <BodyTableCell>{list.fleetNumber}</BodyTableCell>
+              <BodyTableCell>{truck?.fleetNumber}</BodyTableCell>
               <BodyTableCell>
                 <Typography
                   sx={{
                     width: "16px",
                     height: "16px",
                     background:
-                      list.status === "ok"
+                      truck.status === "connected"
                         ? "rgba(58, 163, 87, 1)"
                         : "rgba(255, 101, 84, 1)",
                     borderRadius: "50%",

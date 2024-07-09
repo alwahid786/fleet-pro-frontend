@@ -46,7 +46,7 @@ const Alerts = () => {
           textTransform: 'uppercase',
         }}
       >
-        LISTS OF TRUCKS
+        LISTS OF ALERTS
       </Typography>
       <Box sx={{ marginTop: '16px' }}>
         <Table>

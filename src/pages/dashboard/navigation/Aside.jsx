@@ -296,36 +296,38 @@ const Aside = ({ toggleNav }) => {
                         ))}
                     </Box>
                 </Stack>
-                <AsideTruckSec>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "12px",
-                            cursor: "pointer",
-                        }}
-                    >
-                        <Typography
-                            variant="h5"
+                <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', gap: '1rem'}}>
+                    <AsideTruckSec>
+                        <Box
                             sx={{
-                                fontSize: "14px",
-                                fontWeight: "500",
-                                color: "#ffffff",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "12px",
+                                cursor: "pointer",
                             }}
                         >
-                            Fleet Management
-                        </Typography>
-                        <ChevronRightIcon />
-                    </Box>
-                    <Box
-                        sx={{
-                            position: "absolute",
-                            top: "-24%",
-                        }}
-                    >
-                        <AsideTruckIcon />
-                    </Box>
-                    <Button
+                            <Typography
+                                variant="h5"
+                                sx={{
+                                    fontSize: "14px",
+                                    fontWeight: "500",
+                                    color: "#ffffff",
+                                }}
+                            >
+                                Fleet Management
+                            </Typography>
+                            <ChevronRightIcon />
+                        </Box>
+                        <Box
+                            sx={{
+                                position: "absolute",
+                                top: "-24%",
+                            }}
+                        >
+                            <AsideTruckIcon />
+                        </Box>
+                    </AsideTruckSec>
+                    <Button size="large"
                         sx={{
                             color: "#fff",
                         }}
@@ -334,7 +336,7 @@ const Aside = ({ toggleNav }) => {
                     >
                         {isLoading ? "Logging out..." : "Logout"}
                     </Button>
-                </AsideTruckSec>
+                </Box>
             </Asidemain>
         </>
     );

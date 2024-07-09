@@ -56,7 +56,7 @@ const Home = () => {
           <Box sx={{
             background: '#fff',
             borderRadius: '12px',
-            height: '100%'
+            height: '300px'
           }}>
            <Map />
           </Box>

@@ -23,6 +23,7 @@ const Dashboard = () => {
           <AsideGrid item xl={2.1}>
             <Box
               sx={{
+                height: '100%',
                 display: {
                   xs: 'none',
                   xl: 'block',

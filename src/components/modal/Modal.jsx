@@ -37,7 +37,8 @@ const ModalOuter = styled('div')({
     justifyContent: 'center',
     alignItems: 'center',
     overflowY: 'scroll',
-    padding: '30px 16px'
+    padding: '30px 16px',
+    zIndex: 1,
 })
 
 const ModalInner = styled('div')({
