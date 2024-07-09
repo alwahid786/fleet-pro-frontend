@@ -71,24 +71,15 @@ const ModalView = ({
         Details
       </Box>
       <Box sx={{ padding: "12px" }}>
-        <Box sx={{ borderRadius: "12px" }}>
-          {/* <Typography
-            variant="h4"
-            sx={{
-              color: "#fff",
-              fontSize: "16px",
-              background: "rgba(0, 51, 101, 1)",
-              padding: "14px",
-              borderRadius: "10px 10px 0 0",
-            }}
-          >
-            Fence Info
-          </Typography> */}
+        <Box>
           <Box
             sx={{
               background: "rgba(223, 239, 255, 0.5)",
               padding: "1rem",
-              borderRadius: "12px"
+              borderRadius: "12px",
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.5rem',
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -103,6 +94,76 @@ const ModalView = ({
                 sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
               >
                 {name}
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                variant="h6"
+                sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
+              >
+                Status
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
+              >
+                {status}
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                variant="h6"
+                sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
+              >
+                Alert
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
+              >
+                {alert}
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                variant="h6"
+                sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
+              >
+                Start Time
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
+              >
+                {startTime}
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                variant="h6"
+                sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
+              >
+                End Time
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
+              >
+                {endTime}
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                variant="h6"
+                sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
+              >
+                Area
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ color: "#000", fontSize: "14px", flexBasis: "50%" }}
+              >
+                {area}
               </Typography>
             </Box>
           </Box>

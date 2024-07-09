@@ -8,6 +8,7 @@ import DeleteIcon from '../../../../assets/svgs/geofence/DeleteIcon'
 import Modal from '../../../../components/modal/Modal'
 import AddFence from './components/AddFence'
 import ViewFence from './components/ViewFence'
+import EditFence from './components/EditFence'
 
 const rows = [
   {
@@ -73,13 +74,6 @@ const GeoFence = () => {
   }
 
   const columns = [
-  {
-    field: 'group',
-    headerName: 'GROUP',
-    headerAlign: 'center',
-    align: 'center',
-    width: 140,
-  },
   {
     field: 'geofenceName',
     headerName: 'GEOFENCE NAME',
@@ -238,7 +232,7 @@ const GeoFence = () => {
       )}
       {modalType === 'edit' && (
         <Modal onClose={handleCloseModal}>
-          edit
+          <EditFence onClose={handleCloseModal} />
         </Modal>
       )}
     </Box>
