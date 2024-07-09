@@ -5,6 +5,7 @@ import truckSlice from "./slices/truck.slice";
 import driverSlice from "./slices/driver.slice";
 import employeesSlice from "./slices/employees.slice";
 import deviceSlice from "./slices/device.slice";
+import geofenceSlice from "./slices/geofence.slice";
 
 const baseUrl = getEnv("VITE_SERVER_URL");
 
@@ -15,6 +16,7 @@ const store = configureStore({
         [driverSlice.name]: driverSlice.reducer,
         [employeesSlice.name]: employeesSlice.reducer,
         [deviceSlice.name]: deviceSlice.reducer,
+        [geofenceSlice.name]: geofenceSlice.reducer,
     },
 });
 

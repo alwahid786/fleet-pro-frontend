@@ -57,7 +57,6 @@ const Map = () => {
 
     // When a shape is drawn
     const _created = (e) => {
-        const type = e.layerType;
         const layer = e.layer;
         const id = Date.now();
         setCurrentPolygon({ id, layer });
