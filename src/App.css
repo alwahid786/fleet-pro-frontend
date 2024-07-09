@@ -22,3 +22,8 @@ a {
     background: rgba(0, 107, 206, 1) !important;
     color: #fff !important;
 }
+
+.geofencePopup .leaflet-popup-content {
+    margin: 0 !important;
+    width: unset !important;
+}
