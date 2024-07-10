@@ -122,7 +122,7 @@ const addTruckAndAreaInGeofenceAction = (geofenceId, trucks, area) => async (dis
 const removeTruckFromGeofenceAction = (geofenceId, truckId) => async (dispatch) => {
     dispatch(removeTruckFromGeofenceStart());
     try {
-        const response = await customAxios.post(`/geofence/remove-truck/${geofenceId}`, { truckId });
+        const response = await customAxios.put(`/geofence/remove-truck/${geofenceId}`, { truckId });
         console.log("remove truck from geofence api response ", response);
         dispatch(removeTruckFromGeofenceSuccess(response.data));
     } catch (error) {

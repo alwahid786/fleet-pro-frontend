@@ -8,18 +8,39 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import EditMap from "./EditMap";
 import TruckList from "./TruckList";
+import { useDispatch, useSelector } from "react-redux";
+import { getSingleGeofenceAction } from "../../../../../redux/actions/geofence.action";
 
 const EditFence = ({ onClose, editSelectedRow }) => {
-  const [name, setName] = useState(editSelectedRow?.name );
-  const [alert, setAlert] = useState(editSelectedRow?.alert);
-  const [status, setStatus] = useState(editSelectedRow?.status);
-  const [startDate, setStartDate] = useState(editSelectedRow?.startDate?.split("T")[0]);
-  const [endDate, setEndDate] = useState(editSelectedRow?.endDate?.split("T")[0]);
+  const dispatch=useDispatch()
+  const {geofence}=useSelector((state)=>state.geofence)
+  const [name, setName] = useState(geofence?.name );
+  const [alert, setAlert] = useState(geofence?.alert);
+  const [status, setStatus] = useState(geofence?.status);
+  const [startDate, setStartDate] = useState(geofence?.startDate?.split("T")[0]);
+  const [endDate, setEndDate] = useState(geofence?.endDate?.split("T")[0]);
+  const [trucks,setTrucks]=useState(geofence?.trucks)
+
+
+  useEffect(() => {
+    dispatch(getSingleGeofenceAction(editSelectedRow?._id))
+  }, [editSelectedRow?._id])
+  useEffect(() => {
+    if(geofence){
+      setName(geofence?.name)
+      setAlert(geofence?.alert)
+      setStatus(geofence?.status)
+      setStartDate(geofence?.startDate)
+      setEndDate(geofence?.endDate)
+      setTrucks(geofence?.trucks||[])
+    }
+  }, [editSelectedRow,dispatch,geofence])
+  
   return (
     <>
       <Box
@@ -154,7 +175,7 @@ const EditFence = ({ onClose, editSelectedRow }) => {
       </Typography>
       <Grid container mt={2}>
         <Grid items xs={12} md={12}>
-          <TruckList />
+          <TruckList geofenceId={geofence?._id} trucks={trucks} />
         </Grid>
       </Grid>
     </>

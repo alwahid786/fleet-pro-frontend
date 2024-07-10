@@ -34,7 +34,7 @@ const geofenceSlice = createSlice({
         },
         getSingleGeofenceSuccess: (state, action) => {
             state.loading = false;
-            state.geofence = action.payload;
+            state.geofence = action.payload.geoFence;
         },
         getSingleGeofenceFailure: (state, action) => {
             state.loading = false;

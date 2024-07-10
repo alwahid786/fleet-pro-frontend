@@ -1,134 +1,134 @@
 import { DataGrid } from "@mui/x-data-grid";
-import React from "react";
+import React, { useState } from "react";
+import DeleteIcon from "../../../../../assets/svgs/geofence/DeleteIcon";
+import { Box } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllGeofenceAction,
+  removeTruckFromGeofenceAction,
+} from "../../../../../redux/actions/geofence.action";
 
-const rows = [
-  {
-    id: 1,
-    owner: "Mr. Cao",
-    unitName: "SZTEST33843",
-    imei: "923823C",
-    deviceType: "Wired",
-    status: "Offline",
-  },
-  {
-    id: 2,
-    owner: "Mr. Cao",
-    unitName: "SZTEST33843",
-    imei: "923823C",
-    deviceType: "Wired",
-    status: "Offline",
-  },
-  {
-    id: 3,
-    owner: "Jainbao",
-    unitName: "SZTEST32342342",
-    imei: "2342343C",
-    deviceType: "Wiredless",
-    status: "Online",
-  },
-];
-const columns = [
-  {
-    field: "owner",
-    headerName: "OWNER",
-    headerAlign: "center",
-    align: "center",
-    width: 130,
-  },
-  {
-    field: "unitName",
-    headerName: "UNIT NAME",
-    headerAlign: "center",
-    align: "center",
-    width: 130,
-  },
-  {
-    field: "imei",
-    headerName: "IMEI",
-    headerAlign: "center",
-    align: "center",
-    width: 130,
-  },
-  {
-    field: "deviceType",
-    headerName: "DEVICE TYPE",
-    headerAlign: "center",
-    align: "center",
-    width: 130,
-  },
-  {
-    field: "status",
-    headerName: "STATUS",
-    headerAlign: "center",
-    align: "center",
-    width: 130,
-  },
-];
+const TruckList = ({ trucks, geofenceId }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
-const TruckList = () => {
+
+  const handleDeleteList = async (row) => {
+    setIsLoading(true);
+    await dispatch(removeTruckFromGeofenceAction(geofenceId, row._id));
+    await dispatch(getAllGeofenceAction());
+    setIsLoading(false);
+  };
+
+  const columns = [
+    {
+      field: "truckName",
+      headerName: " TRUCK NAME",
+      headerAlign: "center",
+      align: "center",
+      width: 200,
+    },
+    {
+      field: "fleetNumber",
+      headerName: "FLEET NUMBER",
+      headerAlign: "center",
+      align: "center",
+      width: 200,
+    },
+    {
+      field: "status",
+      headerName: "STATUS",
+      headerAlign: "center",
+      align: "center",
+      width: 200,
+    },
+    {
+      field: "plateNumber",
+      headerName: "PLATE NUMBER",
+      headerAlign: "center",
+      align: "center",
+      width: 200,
+    },
+    {
+      field: "delete",
+      headerName: "DELETE",
+      headerAlign: "center",
+      align: "center",
+      width: 100,
+      renderCell: (params) => (
+        <Box
+          sx={{ cursor: isLoading ? "not-allowed" : "pointer" }}
+          onClick={() => handleDeleteList(params.row)}
+        >
+          <DeleteIcon />
+        </Box>
+      ),
+    },
+  ];
   return (
     <>
       <DataGrid
-        rows={rows}
+        rows={trucks}
         columns={columns}
+        getRowId={(row) => row._id}
         pageSize={5}
         rowsPerPageOptions={[5, 10, 20]}
         sx={{
-            "& .MuiDataGrid-row.even-row": {
-              backgroundColor: "#fafafa",
+          "& .MuiDataGrid-row.even-row": {
+            backgroundColor: "#fafafa",
+          },
+          "& .MuiDataGrid-columnHeader .MuiDataGrid-columnHeaderTitle": {
+            fontSize: {
+              xs: "12px",
+              md: "13px",
             },
-            "& .MuiDataGrid-columnHeader .MuiDataGrid-columnHeaderTitle": {
-              fontSize: {
-                xs: "12px",
-                md: "13px",
-              },
-              fontWeight: 600,
-              color: "#111111",
+            fontWeight: 600,
+            color: "#111111",
+          },
+          "& .MuiDataGrid-row .MuiDataGrid-cell": {
+            fontSize: {
+              xs: "12px",
+              md: "13px",
             },
-            "& .MuiDataGrid-row .MuiDataGrid-cell": {
-              fontSize: {
-                xs: "12px",
-                md: "13px",
-              },
-              background: "#fafafa",
-              fontWeight: 400,
-              color: "rgba(17, 17, 17, 0.6)",
+            background: "#fafafa",
+            fontWeight: 400,
+            color: "rgba(17, 17, 17, 0.6)",
+          },
+          "& .MuiDataGrid-root": {
+            borderTopLeftRadius: "24px !important",
+            borderTopRightRadius: "24px !important",
+            border: "0 !important",
+            overflow: "hidden",
+            width: "100%",
+          },
+          "& .MuiDataGrid-main": {
+            borderTopLeftRadius: "24px",
+            borderTopRightRadius: "24px",
+            width: "100%",
+            padding: "0px",
+          },
+          "& .MuiDataGrid-overlay": {
+            borderTopLeftRadius: "24px",
+            borderTopRightRadius: "24px",
+          },
+          "& .MuiDataGrid-footerContainer": {
+            display: "none",
+          },
+          "& .MuiDataGrid-scrollbar": {
+            "&::-webkit-scrollbar": {
+              width: "6px",
+              height: "6px",
             },
-            "& .MuiDataGrid-root": {
-              borderTopLeftRadius: "24px !important",
-              borderTopRightRadius: "24px !important",
-              border: "0 !important",
-              overflow: "hidden",
-              width: "100%",
+            "&::-webkit-scrollbar-track": {
+              background: "#00193333",
+              borderRadius: "6px",
             },
-            "& .MuiDataGrid-main": {
-              borderTopLeftRadius: "24px",
-              borderTopRightRadius: "24px",
-              width: "100%",
-              padding: "0px",
+            "&::-webkit-scrollbar-thumb": {
+              background: "#006bce",
+              borderRadius: "10px",
             },
-            "& .MuiDataGrid-overlay": {
-              borderTopLeftRadius: "24px",
-              borderTopRightRadius: "24px",
-            },
-            "& .MuiDataGrid-footerContainer": {
-              display: "none",
-            },
-            "& .MuiDataGrid-scrollbar": {
-              "&::-webkit-scrollbar": {
-                width: "6px",
-                height: "6px",
-              },
-              "&::-webkit-scrollbar-track": {
-                background: "#00193333",
-                borderRadius: "6px",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                background: "#006bce",
-                borderRadius: "10px",
-              },
-            },
-          }}
+          },
+        }}
       />
     </>
   );

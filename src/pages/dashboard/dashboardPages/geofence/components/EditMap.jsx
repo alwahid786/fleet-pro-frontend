@@ -17,39 +17,50 @@ const truckIcon = new L.Icon({
 
 const EditMap = () => {
     const [truckPositions, setTruckPositions] = useState([]);
+    const [drawnLayers, setDrawnLayers] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [inPolygonTrucks, setInPolygonTrucks] = useState([]);
-    const [trucksForPolygon, setTrucksForPolygon] = useState([]);
+    const [trucksForPolygon, setTrucksForPolygon] = useState();
     const [currentPolygon, setCurrentPolygon] = useState(null);
-    const [drawControlEnabled, setDrawControlEnabled] = useState(true);
     const dispatch = useDispatch();
 
     const { trucks } = useSelector((state) => state.truck);
     const { devicesData } = useSelector((state) => state.device);
 
+    // Run this when the user draws a shape
     useEffect(() => {
         if (currentPolygon) {
             dispatch(getAllTrucksAction());
             setShowModal(true);
-            setDrawControlEnabled(false); // Disable drawing control
         }
     }, [currentPolygon, dispatch]);
 
+    // Change the position of the truck when data is received from the socket
     useEffect(() => {
         if (devicesData) {
-            const { latitude, longitude, truckId } = devicesData;
-            setTruckPositions((prev) =>
-                prev.map((truck) =>
-                    truck.id === truckId ? { ...truck, position: [latitude, longitude] } : truck
-                )
-            );
+            const latitude = devicesData?.latitude;
+            const longitude = devicesData?.longitude;
+            const truckId = devicesData?.truckId;
+            setTruckPositions((prev) => {
+                return prev.map((truck) => {
+                    if (truck.id === truckId) {
+                        return {
+                            ...truck,
+                            position: [latitude, longitude],
+                        };
+                    }
+                    return truck;
+                });
+            });
         }
-    }, [devicesData]);
+    }, [devicesData, currentPolygon]);
 
-    const handleCreated = (e) => {
+    // When a shape is drawn
+    const handleCreated  = (e) => {
         const layer = e.layer;
         const id = Date.now();
         setCurrentPolygon({ id, layer });
+        setDrawnLayers([...drawnLayers,{ id, layer }]);
     };
 
     const handleCloseModal = () => {
@@ -57,20 +68,24 @@ const EditMap = () => {
     };
 
     const handleSelectTruck = (truck) => {
-        setInPolygonTrucks((prev) => [...prev, truck]);
+        setInPolygonTrucks((pre) => [...pre, truck]);
+        console.log("Selected truck:", truck);
         const bounds = currentPolygon.layer.getBounds();
         const center = bounds.getCenter();
-        setTruckPositions((prevPositions) => [
-            ...prevPositions,
-            {
-                id: truck._id,
-                name: truck.truckName,
-                position: [center.lat, center.lng],
-            },
-        ]);
+        // setTruckPositions((prevPositions) => [
+        //     ...prevPositions,
+        //     {
+        //         id: currentPolygon.id,
+        //         name: truck.truckName,
+        //         position: [center.lat, center.lng],
+        //     },
+        // ]);
+        // send truck id in server with socket
         socket.emit("WANT_TRACKING_DATA", truck._id);
+        setShowModal(false);
     };
 
+    // use effect for filtering trucks
     useEffect(() => {
         if (trucks && trucks.length > 0) {
             const newTrucks = trucks.filter((truck) => truck?.devices?.length > 0);
@@ -85,7 +100,7 @@ const EditMap = () => {
             <MapContainer
                 center={[25.276987, 55.296249]}
                 zoom={13}
-                style={{ height: "400px", width: "100%", zIndex: 0, borderRadius: "20px" }}
+                style={{ height: "400px", width: "100%", zIndex: 0, borderRadius: '20px' }}
                 attributionControl={false}
             >
                 <FeatureGroup>
@@ -93,9 +108,9 @@ const EditMap = () => {
                         position="topright"
                         onCreated={handleCreated}
                         draw={{
-                            polygon: drawControlEnabled,
+                            polygon: true,
                             rectangle: false,
-                            circle: drawControlEnabled,
+                            circle: false,
                             polyline: false,
                             marker: false,
                             circlemarker: false,
