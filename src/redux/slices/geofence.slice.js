@@ -84,7 +84,7 @@ const geofenceSlice = createSlice({
         },
 
         // addTrucksAdnArea in geofence
-        // ------------
+        // ----------------------------
         addTrucksAndAreaStart: (state) => {
             state.loading = true;
         },
@@ -93,6 +93,20 @@ const geofenceSlice = createSlice({
             state.message = action.payload.message;
         },
         addTrucksAndAreaFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
+        // remove truck from geofence
+        // --------------------------
+        removeTruckFromGeofenceStart: (state) => {
+            state.loading = true;
+        },
+        removeTruckFromGeofenceSuccess: (state, action) => {
+            state.loading = false;
+            state.message = action.payload.message;
+        },
+        removeTruckFromGeofenceFailure: (state, action) => {
             state.loading = false;
             state.error = action.payload;
         },
@@ -129,5 +143,8 @@ export const {
     getSingleGeofenceStart,
     getSingleGeofenceSuccess,
     getSingleGeofenceFailure,
+    removeTruckFromGeofenceStart,
+    removeTruckFromGeofenceSuccess,
+    removeTruckFromGeofenceFailure,
 } = geofenceSlice.actions;
 export default geofenceSlice;

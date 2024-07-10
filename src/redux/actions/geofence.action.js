@@ -15,6 +15,9 @@ import {
     getSingleGeofenceFailure,
     getSingleGeofenceStart,
     getSingleGeofenceSuccess,
+    removeTruckFromGeofenceFailure,
+    removeTruckFromGeofenceStart,
+    removeTruckFromGeofenceSuccess,
     updateGeofenceFailure,
     updateGeofenceStart,
     updateGeofenceSuccess,
@@ -100,23 +103,37 @@ const getAllGeofenceAction = () => async (dispatch) => {
 };
 
 // add truck and area
-const addTruckAndAreaInGeofenceAction =
-    ({ geofenceId, trucks, area }) =>
-    async (dispatch) => {
-        dispatch(addTrucksAndAreaStart());
-        try {
-            const response = await customAxios.post(`/geofence/add-truck/${geofenceId}`, { trucks, area });
-            console.log("add truck and area api response ", response);
-            dispatch(addTrucksAndAreaSuccess(response.data));
-        } catch (error) {
-            console.log("add truck and area api error", error);
-            dispatch(
-                addTrucksAndAreaFailure(
-                    error?.response?.data?.message || "Error ocurred while adding truck and area"
-                )
-            );
-        }
-    };
+const addTruckAndAreaInGeofenceAction = (geofenceId, trucks, area) => async (dispatch) => {
+    dispatch(addTrucksAndAreaStart());
+    try {
+        const response = await customAxios.post(`/geofence/add-truck/${geofenceId}`, { trucks, area });
+        console.log("add truck and area api response ", response);
+        dispatch(addTrucksAndAreaSuccess(response.data));
+    } catch (error) {
+        console.log("add truck and area api error", error);
+        dispatch(
+            addTrucksAndAreaFailure(
+                error?.response?.data?.message || "Error ocurred while adding truck and area"
+            )
+        );
+    }
+};
+
+const removeTruckFromGeofenceAction = (geofenceId, truckId) => async (dispatch) => {
+    dispatch(removeTruckFromGeofenceStart());
+    try {
+        const response = await customAxios.post(`/geofence/remove-truck/${geofenceId}`, { truckId });
+        console.log("remove truck from geofence api response ", response);
+        dispatch(removeTruckFromGeofenceSuccess(response.data));
+    } catch (error) {
+        console.log("remove truck from geofence api error", error);
+        dispatch(
+            removeTruckFromGeofenceFailure(
+                error?.response?.data?.message || "Error ocurred while removing truck from geofence"
+            )
+        );
+    }
+};
 
 export {
     createGeofenceAction,
@@ -125,4 +142,5 @@ export {
     getSingleGeofenceAction,
     getAllGeofenceAction,
     addTruckAndAreaInGeofenceAction,
+    removeTruckFromGeofenceAction,
 };
