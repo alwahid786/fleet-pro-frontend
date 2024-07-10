@@ -10,30 +10,47 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import SaveIcon from "../../../../../assets/svgs/settings/SaveIcon";
-import {addFenceSchema} from '../../../../../schemas'
+import { addFenceSchema } from "../../../../../schemas";
 import { useFormik } from "formik";
-
+import { useDispatch } from "react-redux";
+import { createGeofenceAction, getAllGeofenceAction } from "../../../../../redux/actions/geofence.action";
 
 const AddFence = ({ onClose }) => {
+  const [isLoading,setIsLoading]=useState(false)
+  const dispatch = useDispatch();
 
-    const initialValues = {
-        name: '',
-        status: '',
-        alert: '',
-        startDate: '',
-        endDate: ''
-    }
+  const initialValues = {
+    name: "",
+    status: "",
+    alert: "",
+    startDate: "",
+    endDate: "",
+  };
 
-    const {values, errors, touched, handleBlur, handleChange, handleSubmit} = useFormik({
-        initialValues,
-        validationSchema: addFenceSchema,
-        onSubmit: (() => console.log('values', values))
-    })
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema: addFenceSchema,
+      onSubmit: async(values) => {
+        setIsLoading(true)
+        const data = {
+          name: values.name,
+          status: values.status,
+          alert: values.alert,
+          startDate: values.startDate,
+          endDate: values.endDate,
+        };
+       await dispatch(createGeofenceAction(data))
+       setIsLoading(false)
+       onClose()
+       dispatch(getAllGeofenceAction());
 
+      },
+    });
 
   return (
     <Fragment>
@@ -93,7 +110,10 @@ const AddFence = ({ onClose }) => {
               />
             </Grid>
             <Grid item xs={12} lg={6}>
-              <FormControl fullWidth error={touched.status && Boolean(errors.status)}>
+              <FormControl
+                fullWidth
+                error={touched.status && Boolean(errors.status)}
+              >
                 <InputLabel id="select-status">Select Status</InputLabel>
                 <Select
                   labelId="select-status"
@@ -108,12 +128,17 @@ const AddFence = ({ onClose }) => {
                   <MenuItem value={"active"}>Active</MenuItem>
                 </Select>
                 {touched.alert && errors.alert && (
-                    <Typography color="error" fontSize="12px">{errors.alert}</Typography>
+                  <Typography color="error" fontSize="12px">
+                    {errors.alert}
+                  </Typography>
                 )}
               </FormControl>
             </Grid>
             <Grid item xs={12} lg={6}>
-              <FormControl fullWidth error={touched.alert && Boolean(errors.alert)}>
+              <FormControl
+                fullWidth
+                error={touched.alert && Boolean(errors.alert)}
+              >
                 <InputLabel id="select-fence">Select Fence</InputLabel>
                 <Select
                   labelId="select-fence"
@@ -128,7 +153,9 @@ const AddFence = ({ onClose }) => {
                   <MenuItem value={"outfence"}>Out-Fence</MenuItem>
                 </Select>
                 {touched.status && errors.status && (
-                    <Typography color="error" fontSize="12px">{errors.status}</Typography>
+                  <Typography color="error" fontSize="12px">
+                    {errors.status}
+                  </Typography>
                 )}
               </FormControl>
             </Grid>
@@ -193,10 +220,10 @@ const AddFence = ({ onClose }) => {
                       cursor: "not-allowed",
                     },
                   }}
-                  // disabled={isLoading}
+                  disabled={isLoading}
                 >
-                  {/* {isLoading ? "Saving..." : "SAVE Fence"} */}
-                  SAVE Fence
+                  {isLoading ? "Saving..." : "SAVE Fence"}
+
                 </Button>
               </Box>
             </Grid>

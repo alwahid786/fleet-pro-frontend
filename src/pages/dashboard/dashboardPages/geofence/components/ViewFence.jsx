@@ -18,6 +18,7 @@ const ViewFence = ({ onClose, editModal }) => {
       center={[29.643, 35.122]}
       zoom={6}
       style={{ height: "600px", width: "100%" }}
+      attributionControl={false}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

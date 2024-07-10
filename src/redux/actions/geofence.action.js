@@ -9,6 +9,9 @@ import {
     deleteGeofenceFailure,
     deleteGeofenceStart,
     deleteGeofenceSuccess,
+    getAllGeofencesFailure,
+    getAllGeofencesStart,
+    getAllGeofencesSuccess,
     getSingleGeofenceFailure,
     getSingleGeofenceStart,
     getSingleGeofenceSuccess,
@@ -81,15 +84,15 @@ const deleteGeofenceAction = (geofenceId) => async (dispatch) => {
 
 // get all geofence
 const getAllGeofenceAction = () => async (dispatch) => {
-    dispatch(getSingleGeofenceStart());
+    dispatch(getAllGeofencesStart());
     try {
-        const response = await customAxios.get("/geofences/all");
+        const response = await customAxios.get("/geofence/all");
         console.log("get all geofence api response ", response);
-        dispatch(getSingleGeofenceSuccess(response.data));
+        dispatch(getAllGeofencesSuccess(response.data));
     } catch (error) {
         console.log("get all geofence api error", error);
         dispatch(
-            getSingleGeofenceFailure(
+            getAllGeofencesFailure(
                 error?.response?.data?.message || "Error ocurred while getting all geofence"
             )
         );
