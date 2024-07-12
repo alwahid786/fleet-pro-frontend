@@ -78,6 +78,7 @@ const geofenceSlice = createSlice({
             state.loading = false;
             state.geofences = action.payload.geoFences;
         },
+
         getAllGeofencesFailure: (state, action) => {
             state.loading = false;
             state.error = action.payload;

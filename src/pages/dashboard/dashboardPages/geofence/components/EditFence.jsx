@@ -1,16 +1,17 @@
 /* eslint-disable react/prop-types */
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
+import { getSingleGeofenceAction } from "../../../../../redux/actions/geofence.action";
 import EditMap from "./EditMap";
 import TruckList from "./TruckList";
-import { useDispatch, useSelector } from "react-redux";
-import { getSingleGeofenceAction } from "../../../../../redux/actions/geofence.action";
 
 const EditFence = ({ onClose, editSelectedRow }) => {
     const dispatch = useDispatch();
     const { geofence } = useSelector((state) => state.geofence);
+    const [area, setArea] = useState(geofence?.area || {});
     const [name, setName] = useState(geofence?.name || "");
     const [alert, setAlert] = useState(geofence?.alert || "");
     const [status, setStatus] = useState(geofence?.status || "");
@@ -27,9 +28,10 @@ const EditFence = ({ onClose, editSelectedRow }) => {
             setName(geofence?.name);
             setAlert(geofence?.alert);
             setStatus(geofence?.status);
-            setStartDate(geofence?.startDate);
-            setEndDate(geofence?.endDate);
+            setStartDate(geofence?.startDate.split("T")[0]);
+            setEndDate(geofence?.endDate.split("T")[0]);
             setTrucks(geofence?.trucks || []);
+            setArea(geofence?.area || {});
         }
     }, [editSelectedRow, dispatch, geofence]);
 
@@ -116,7 +118,7 @@ const EditFence = ({ onClose, editSelectedRow }) => {
                         label="startDate"
                         maxLength="30"
                         fullWidth
-                        value={new Date(startDate)}
+                        value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
                         name="startDate"
                         InputLabelProps={{
@@ -130,7 +132,7 @@ const EditFence = ({ onClose, editSelectedRow }) => {
                         label="endDate"
                         maxLength="30"
                         fullWidth
-                        value={new Date(endDate)}
+                        value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
                         name="endDate"
                         InputLabelProps={{
@@ -144,12 +146,18 @@ const EditFence = ({ onClose, editSelectedRow }) => {
                 Location
             </Typography>
             <Box mt={2} sx={{ width: "100%", height: "400px" }}>
-                <EditMap />
+                <EditMap gettedTrucks={trucks} area={area} setArea={setArea} geofenceId={geofence?._id} />
             </Box>
             {/* List */}
+            <Typography
+                mt={6}
+                variant="h3"
+                sx={{ color: "#000", fontSize: "20px", fontWeight: 700 }}
+            ></Typography>
             <Typography mt={2} variant="h3" sx={{ color: "#000", fontSize: "20px", fontWeight: 700 }}>
-                List
+                Truck List
             </Typography>
+            {/* truck list component  */}
             <Grid container mt={2}>
                 <Grid items xs={12} md={12}>
                     <TruckList geofenceId={geofence?._id} trucks={trucks} />

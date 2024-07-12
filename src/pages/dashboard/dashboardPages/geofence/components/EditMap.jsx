@@ -1,106 +1,102 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { Button } from "@mui/material";
 import L from "leaflet";
-import TruckIcon from "../../../../../assets/images/truck.png";
-import { MapContainer, TileLayer, Marker, Popup, FeatureGroup } from "react-leaflet";
-import { EditControl } from "react-leaflet-draw";
-import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
+import "leaflet/dist/leaflet.css";
+import React, { useEffect, useState } from "react";
+import { FeatureGroup, MapContainer, Marker, Polygon, Popup, TileLayer } from "react-leaflet";
+import { EditControl } from "react-leaflet-draw";
 import { useDispatch, useSelector } from "react-redux";
+import TruckIcon from "../../../../../assets/images/truck.png";
+import {
+    addTruckAndAreaInGeofenceAction,
+    getSingleGeofenceAction,
+} from "../../../../../redux/actions/geofence.action";
 import { getAllTrucksAction } from "../../../../../redux/actions/truck.actions";
 import TruckModal from "./TruckModal";
-import { socket } from "../../../../../constants/constants";
 
 const truckIcon = new L.Icon({
     iconUrl: TruckIcon,
     iconSize: [45, 45],
 });
 
-const EditMap = () => {
+const EditMap = ({ gettedTrucks, area, setArea, geofenceId }) => {
     const [truckPositions, setTruckPositions] = useState([]);
     const [drawnLayers, setDrawnLayers] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [inPolygonTrucks, setInPolygonTrucks] = useState([]);
-    const [trucksForPolygon, setTrucksForPolygon] = useState();
-    const [currentPolygon, setCurrentPolygon] = useState(null);
+    const [addModalLoading, setAddModalLoading] = useState(false);
     const dispatch = useDispatch();
 
     const { trucks } = useSelector((state) => state.truck);
-    const { devicesData } = useSelector((state) => state.device);
 
-    // Run this when the user draws a shape
-    useEffect(() => {
-        if (currentPolygon) {
-            dispatch(getAllTrucksAction());
-            setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
+
+    // When a shape is drawn
+    const handleCreated = (e) => {
+        const layer = e.layer;
+        const id = Date.now();
+        const latLngs = layer?.getLatLngs();
+        if (latLngs && latLngs[0]) {
+            const coordinates = latLngs[0].map((latLng) => [latLng.lat, latLng.lng]);
+            setDrawnLayers([...drawnLayers, { id, coordinates, layer }]);
+            setArea({ id, coordinates });
+        } else {
+            console.error("Failed to retrieve coordinates from the created layer");
         }
-    }, [currentPolygon, dispatch]);
+    };
+    const openAddTruckModal = async () => {
+        await dispatch(getAllTrucksAction());
+        setShowModal(true);
+    };
 
+    const handleSelectTruck = async (truckIds) => {
+        setAddModalLoading(true);
+        await dispatch(addTruckAndAreaInGeofenceAction(geofenceId, truckIds, area));
+        await dispatch(getSingleGeofenceAction(geofenceId));
+
+        // socket.emit("WANT_TRACKING_DATA", truck._id);
+        setShowModal(false);
+        setAddModalLoading(false);
+        // onClose();
+    };
+
+    useEffect(() => {
+        if (area?.coordinates) {
+            const layer = L.polygon(area.coordinates);
+            setDrawnLayers([{ ...area, coordinates: area.coordinates, layer }]);
+        } else {
+            setDrawnLayers([]);
+        }
+    }, [area]);
     // Change the position of the truck when data is received from the socket
     useEffect(() => {
-        if (devicesData) {
-            const latitude = devicesData?.latitude;
-            const longitude = devicesData?.longitude;
-            const truckId = devicesData?.truckId;
-            setTruckPositions((prev) => {
-                return prev.map((truck) => {
-                    if (truck.id === truckId) {
-                        return {
-                            ...truck,
-                            position: [latitude, longitude],
-                        };
+        setTruckPositions([]);
+        if (gettedTrucks) {
+            gettedTrucks.forEach((truck) => {
+                setTruckPositions((prev) => {
+                    const truckExists = prev.some((existingTruck) => existingTruck.id === truck._id);
+                    if (!truckExists) {
+                        return [
+                            ...prev,
+                            {
+                                id: truck._id,
+                                name: truck.truckName,
+                                position: [truck.latitude, truck.longitude],
+                            },
+                        ];
                     }
-                    return truck;
+                    return prev;
                 });
             });
         }
-    }, [devicesData, currentPolygon]);
-
-    // When a shape is drawn
-    const handleCreated  = (e) => {
-        const layer = e.layer;
-        const id = Date.now();
-        setCurrentPolygon({ id, layer });
-        setDrawnLayers([...drawnLayers,{ id, layer }]);
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
-
-    const handleSelectTruck = (truck) => {
-        setInPolygonTrucks((pre) => [...pre, truck]);
-        console.log("Selected truck:", truck);
-        const bounds = currentPolygon.layer.getBounds();
-        const center = bounds.getCenter();
-        // setTruckPositions((prevPositions) => [
-        //     ...prevPositions,
-        //     {
-        //         id: currentPolygon.id,
-        //         name: truck.truckName,
-        //         position: [center.lat, center.lng],
-        //     },
-        // ]);
-        // send truck id in server with socket
-        socket.emit("WANT_TRACKING_DATA", truck._id);
-        setShowModal(false);
-    };
-
-    // use effect for filtering trucks
-    useEffect(() => {
-        if (trucks && trucks.length > 0) {
-            const newTrucks = trucks.filter((truck) => truck?.devices?.length > 0);
-            const selectedTrucksArrayIds = new Set(inPolygonTrucks.map((item) => item._id));
-            const filteredArray = newTrucks.filter((item) => !selectedTrucksArrayIds.has(item._id));
-            setTrucksForPolygon(filteredArray);
-        }
-    }, [inPolygonTrucks, trucks]);
+    }, [gettedTrucks]);
 
     return (
         <React.Fragment>
             <MapContainer
                 center={[25.276987, 55.296249]}
                 zoom={13}
-                style={{ height: "400px", width: "100%", zIndex: 0, borderRadius: '20px' }}
+                style={{ height: "400px", width: "100%", zIndex: 0, borderRadius: "20px" }}
                 attributionControl={false}
             >
                 <FeatureGroup>
@@ -121,8 +117,14 @@ const EditMap = () => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                {truckPositions.map((truck) => (
-                    <Marker key={truck.id} position={truck.position} icon={truckIcon}>
+                {drawnLayers?.map((layerData) => (
+                    <Polygon key={layerData?.id} positions={layerData?.coordinates}>
+                        <Popup>Polygon ID: {layerData?.id}</Popup>
+                    </Polygon>
+                ))}
+
+                {truckPositions?.map((truck) => (
+                    <Marker key={truck?.id} position={truck?.position} icon={truckIcon}>
                         <Popup>
                             {truck.name} is here: <pre>{JSON.stringify(truck.position, null, 2)}</pre>
                         </Popup>
@@ -132,9 +134,18 @@ const EditMap = () => {
             <TruckModal
                 show={showModal}
                 handleClose={handleCloseModal}
-                trucks={trucksForPolygon}
+                trucks={trucks}
+                addModalLoading={addModalLoading}
+                gettedTrucks={gettedTrucks}
                 handleSelect={handleSelectTruck}
             />
+            <Button
+                onClick={openAddTruckModal}
+                variant="contained"
+                sx={{ width: "100%", alignSelf: "end", margin: "10px" }}
+            >
+                Add Trucks
+            </Button>
         </React.Fragment>
     );
 };

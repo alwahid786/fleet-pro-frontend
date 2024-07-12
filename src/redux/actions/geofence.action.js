@@ -106,7 +106,7 @@ const getAllGeofenceAction = () => async (dispatch) => {
 const addTruckAndAreaInGeofenceAction = (geofenceId, trucks, area) => async (dispatch) => {
     dispatch(addTrucksAndAreaStart());
     try {
-        const response = await customAxios.post(`/geofence/add-truck/${geofenceId}`, { trucks, area });
+        const response = await customAxios.put(`/geofence/add-truck/${geofenceId}`, { trucks, area });
         console.log("add truck and area api response ", response);
         dispatch(addTrucksAndAreaSuccess(response.data));
     } catch (error) {

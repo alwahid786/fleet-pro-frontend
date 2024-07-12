@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import DeleteIcon from "../../../../assets/svgs/geofence/DeleteIcon";
@@ -13,7 +14,6 @@ import { clearGeofenceError, clearGeofenceMessage } from "../../../../redux/slic
 import AddFence from "./components/AddFence";
 import EditFence from "./components/EditFence";
 import ViewFence from "./components/ViewFence";
-import { confirmAlert } from "react-confirm-alert";
 
 const GeoFence = () => {
     const dispatch = useDispatch();
@@ -39,16 +39,15 @@ const GeoFence = () => {
         confirmAlert({
             title: "Confirm delete",
             message: "Are you sure you want to delete this Geofence?",
+            closeOnClickOutside: false,
             buttons: [
                 {
                     label: "Yes",
                     onClick: async () => {
-                        if (row?.id) {
-                            setIsDelLoading(true);
-                            await dispatch(deleteGeofenceAction(row._id));
-                            await dispatch(getAllGeofenceAction());
-                            setIsDelLoading(false);
-                        }
+                        setIsDelLoading(true);
+                        await dispatch(deleteGeofenceAction(row._id));
+                        await dispatch(getAllGeofenceAction());
+                        setIsDelLoading(false);
                     },
                 },
                 {
@@ -143,7 +142,6 @@ const GeoFence = () => {
     }, [error, message, dispatch]);
 
     // useEffect for getting geofences
-
     useEffect(() => {
         dispatch(getAllGeofenceAction());
     }, [dispatch]);
