@@ -4,9 +4,11 @@ import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
+import { socket, socketEvent } from "../../../../../constants/constants";
 import { getSingleGeofenceAction } from "../../../../../redux/actions/geofence.action";
 import EditMap from "./EditMap";
 import TruckList from "./TruckList";
+import { isTruckInPolygon } from "../../../../../utils/isTruckInPolygon";
 
 const EditFence = ({ onClose, editSelectedRow }) => {
     const dispatch = useDispatch();
@@ -22,6 +24,29 @@ const EditFence = ({ onClose, editSelectedRow }) => {
     useEffect(() => {
         dispatch(getSingleGeofenceAction(editSelectedRow?._id));
     }, [dispatch, editSelectedRow?._id]);
+
+    // useEffect for socket event
+    useEffect(() => {
+        socket.on(socketEvent.GEOFENCE_TRUCKS_DATA, (data) => {
+            console.log(data);
+            dispatch(getSingleGeofenceAction(editSelectedRow?._id));
+        });
+    }, [dispatch, editSelectedRow?._id]);
+
+    // if truck is out of fence
+    useEffect(() => {
+        if (trucks && area) {
+            trucks.forEach((truck) => {
+                const { truckName, latitude, longitude } = truck;
+                const isInside = isTruckInPolygon([latitude, longitude], area?.coordinates);
+                if (!isInside && alert === "outfence") {
+                    console.log(`Truck ${truckName} is out of the polygon.`);
+                } else if (isInside && alert === "infence") {
+                    console.log(`Truck ${truckName} is inside the polygon`);
+                }
+            });
+        }
+    }, [trucks, area, alert]);
 
     useEffect(() => {
         if (geofence) {

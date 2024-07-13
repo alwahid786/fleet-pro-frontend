@@ -2,6 +2,7 @@
 import { Box, Button, Typography, Checkbox, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import Modal from "../../../../../components/modal/Modal";
+import { socket } from "../../../../../constants/constants";
 
 const TruckModal = ({ show, handleClose, trucks = [], handleSelect, gettedTrucks = [], addModalLoading }) => {
     const [selectedTrucks, setSelectedTrucks] = useState(gettedTrucks);
@@ -22,6 +23,10 @@ const TruckModal = ({ show, handleClose, trucks = [], handleSelect, gettedTrucks
 
     const handleAddTruck = () => {
         handleSelect(selectedTrucks.map((truck) => truck._id));
+        socket.emit(
+            "WANT_TRACKING_DATA",
+            selectedTrucks.map((truck) => truck._id)
+        );
         console.log("selected trucks", selectedTrucks);
     };
 

@@ -7,6 +7,7 @@ const socket = io(import.meta.env.VITE_SOCKET_URL, {
 const socketEvent = {
     SENSORS_DATA: "SENSORS_DATA",
     WANT_TRACKING_DATA: "WANT_TRACKING_DATA",
+    GEOFENCE_TRUCKS_DATA: "GEOFENCE_TRUCKS_DATA",
 };
 
 export { socket, socketEvent };

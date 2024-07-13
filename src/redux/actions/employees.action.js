@@ -20,10 +20,10 @@ const addNewEmployAction = (formData) => async (dispatch) => {
     dispatch(addEmployeeStart());
     try {
         const res = await customFormAxios.post("/employ/create", formData);
-        console.log("add new employ success", res.data);
+        // console.log("add new employ success", res.data);
         dispatch(addEmployeeSuccess(res.data));
     } catch (error) {
-        console.log("add new employ failure", error);
+        // console.log("add new employ failure", error);
         dispatch(addEmployeeFailure(error?.response?.data?.message || "Error While Adding Employee"));
     }
 };
@@ -34,10 +34,10 @@ const updateEmployAction = (id, formData) => async (dispatch) => {
     dispatch(updateEmployeeStart());
     try {
         const res = await customFormAxios.put(`/employ/single/${id}`, formData);
-        console.log("update employ success", res.data);
+        // console.log("update employ success", res.data);
         dispatch(updateEmployeeSuccess(res.data));
     } catch (error) {
-        console.log("update employ failure", error);
+        // console.log("update employ failure", error);
         dispatch(updateEmployeeFailure(error?.response?.data?.message || "Error While Updating Employee"));
     }
 };
@@ -48,10 +48,10 @@ const deleteEmployAction = (id) => async (dispatch) => {
     dispatch(deleteEmployeeStart());
     try {
         const res = await customAxios.delete(`/employ/single/${id}`);
-        console.log("delete employ success", res.data);
+        // console.log("delete employ success", res.data);
         dispatch(deleteEmployeeSuccess(res.data));
     } catch (error) {
-        console.log("delete employ failure", error);
+        // console.log("delete employ failure", error);
         dispatch(deleteEmployeeFailure(error?.response?.data?.message || "Error While Deleting Employee"));
     }
 };
@@ -62,10 +62,10 @@ const getAllEmployeesAction = () => async (dispatch) => {
     dispatch(getAllEmployeesStart());
     try {
         const res = await customAxios.get("/employ/all");
-        console.log("get all employees success", res.data);
+        // console.log("get all employees success", res.data);
         dispatch(getAllEmployeesSuccess(res.data));
     } catch (error) {
-        console.log("get all employees failure", error);
+        // console.log("get all employees failure", error);
         dispatch(
             getAllEmployeesFailure(error?.response?.data?.message || "Error While Getting All Employees")
         );

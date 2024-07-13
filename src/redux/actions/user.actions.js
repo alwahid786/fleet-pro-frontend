@@ -20,10 +20,10 @@ const loginUserAction = (email, password) => async (dispatch) => {
     dispatch(loginUserStart());
     try {
         const response = await customAxios.post("/user/login", { email, password });
-        console.log("user login api response ", response);
+        // console.log("user login api response ", response);
         dispatch(loginUserSuccess(response.data));
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         dispatch(loginUserFailure(error?.response?.data?.message || "Error ocurred while login"));
     }
 };
@@ -33,10 +33,10 @@ const forgetPasswordAction = (email) => async (dispatch) => {
     dispatch(forgetPasswordStart());
     try {
         const response = await customAxios.put("/user/forget-password", { email });
-        console.log("forget password api response ", response);
+        // console.log("forget password api response ", response);
         dispatch(forgetPasswordSuccess(response.data));
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         dispatch(
             forgetPasswordFailure(error?.response?.data?.message || "Error ocurred while forget password")
         );
@@ -51,10 +51,10 @@ const resetPasswordAction = (resetToken, newPassword) => async (dispatch) => {
         const response = await customAxios.post(`/user/reset-password?resetToken=${resetToken}`, {
             newPassword,
         });
-        console.log("reset password api response ", response);
+        // console.log("reset password api response ", response);
         dispatch(resetPasswordSuccess(response?.data));
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         dispatch(
             resetPasswordFailure(error?.response?.data?.message || "Error ocurred while reset password")
         );
@@ -67,10 +67,10 @@ const logoutUserAction = () => async (dispatch) => {
     dispatch(logoutUserStart());
     try {
         const response = await customAxios.get("/user/logout");
-        console.log("logout user api response ", response);
+        // console.log("logout user api response ", response);
         dispatch(logoutUserSuccess(response.data));
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         dispatch(logoutUserFailure(error?.response?.data?.message || "Error ocurred while logout"));
     }
 };
