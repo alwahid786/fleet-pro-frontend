@@ -1,12 +1,11 @@
 import { Box, Button, Grid, TextField, Typography, styled } from "@mui/material";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Icon from "../../../assets/images/login/icon.png";
 import LoginBg from "../../../assets/images/login/loginbg.png";
 import { forgetPasswordAction } from "../../../redux/actions/user.actions";
 import { clearUserError, clearUserMessage } from "../../../redux/slices/user.slice";
-import useShowMessageError from "../../../hooks/useShowMessageError";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState();
@@ -19,9 +18,16 @@ const ForgotPassword = () => {
         dispatch(forgetPasswordAction(email));
     };
 
-    // show message and error
-    useShowMessageError(message, clearUserMessage, error, clearUserError);
-
+    useEffect(() => {
+        if (message) {
+            toast.success(message);
+            dispatch(clearUserMessage());
+        }
+        if (error) {
+            toast.error(error);
+            dispatch(clearUserError());
+        }
+    }, [message, error, dispatch]);
     return (
         <Fragment>
             <Main container>

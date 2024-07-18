@@ -1,15 +1,16 @@
 import { Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import EmailIcon from "../../../assets/svgs/login/EmailIcon";
-import useShowMessageError from "../../../hooks/useShowMessageError";
 import { loginUserAction } from "../../../redux/actions/user.actions";
 import { clearUserError, clearUserMessage } from "../../../redux/slices/user.slice";
 import { loginSchema } from "../../../schemas";
 
 const Form = () => {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const { message, error } = useSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -26,7 +27,18 @@ const Form = () => {
     });
 
     // show message and error
-    useShowMessageError(message, clearUserMessage, error, clearUserError, "/dashboard");
+    useEffect(() => {
+        if (message) {
+            toast.success(message);
+            dispatch(clearUserMessage());
+            return navigate("/dashboard/home");
+        }
+        if (error) {
+            toast.error(error);
+            dispatch(clearUserError());
+        }
+    }, [message, error, dispatch, navigate]);
+
     return (
         <>
             {isLoading ? (
@@ -54,7 +66,10 @@ const Form = () => {
                     <Typography variant="subtitle1" sx={{ mb: 2 }}>
                         Welcome to Fleet Master
                     </Typography>
-                    <form onSubmit={handleSubmit} style={{width:'100%', display: 'flex', justifyContent: 'center'}}>
+                    <form
+                        onSubmit={handleSubmit}
+                        style={{ width: "100%", display: "flex", justifyContent: "center" }}
+                    >
                         <Box
                             sx={{
                                 display: "flex",

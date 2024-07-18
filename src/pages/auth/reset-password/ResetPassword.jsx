@@ -1,5 +1,5 @@
 import { Box, Button, Grid, IconButton, TextField, Typography, styled } from "@mui/material";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -7,7 +7,6 @@ import Icon from "../../../assets/images/login/icon.png";
 import LoginBg from "../../../assets/images/login/loginbg.png";
 import EyeIconCLose from "../../../assets/svgs/login/EyeIconCLose";
 import EyeIconOpen from "../../../assets/svgs/login/EyeIconOpen";
-import useShowMessageError from "../../../hooks/useShowMessageError";
 import { resetPasswordAction } from "../../../redux/actions/user.actions";
 import { clearUserError, clearUserMessage } from "../../../redux/slices/user.slice";
 
@@ -43,9 +42,16 @@ const ResetPassword = () => {
         if (!resetToken) return toast.error("Please Check Your Email And Try Again");
         await dispatch(resetPasswordAction(resetToken, newPassword));
     };
-
-    // show message and error
-    useShowMessageError(resetMessage, clearUserMessage, resetError, clearUserError, "/login");
+    useEffect(() => {
+        if (resetMessage) {
+            toast.success(resetMessage);
+            dispatch(clearUserMessage());
+        }
+        if (resetError) {
+            toast.error(resetError);
+            dispatch(clearUserError());
+        }
+    }, [dispatch, resetMessage, resetError]);
 
     return (
         <Fragment>

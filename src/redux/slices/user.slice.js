@@ -19,9 +19,23 @@ const userSlice = createSlice({
         loginUserSuccess: (state, action) => {
             state.loading = false;
             state.message = action.payload.message;
-            state.user = action.payload.user;
+            state.user = action.payload.data;
         },
         loginUserFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
+        // get my profile
+        // --------------
+        getMyProfileStart: (state) => {
+            state.loading = true;
+        },
+        getMyProfileSuccess: (state, action) => {
+            state.loading = false;
+            state.user = action.payload.user;
+        },
+        getMyProfileFailure: (state, action) => {
             state.loading = false;
             state.error = action.payload;
         },
@@ -62,6 +76,7 @@ const userSlice = createSlice({
         logoutUserSuccess: (state, action) => {
             state.loading = false;
             state.message = action.payload.message;
+            state.user = null;
         },
         logoutUserFailure: (state, action) => {
             state.loading = false;
@@ -83,6 +98,9 @@ export const {
     loginUserStart,
     loginUserSuccess,
     loginUserFailure,
+    getMyProfileStart,
+    getMyProfileSuccess,
+    getMyProfileFailure,
     forgetPasswordStart,
     forgetPasswordSuccess,
     forgetPasswordFailure,

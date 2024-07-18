@@ -1,8 +1,8 @@
 import { lazy, Suspense, useEffect } from "react";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import GlobalLoader from "./components/loader/Loader";
@@ -12,6 +12,9 @@ import Otp from "./pages/auth/otp/Otp";
 import ResetPassword from "./pages/auth/reset-password/ResetPassword";
 import Dashboard from "./pages/dashboard";
 import { getDeviceDataAction } from "./redux/actions/device.actions";
+import ProtectedRoute from "./components/ProtectedRoutes";
+import { getMyProfileAction } from "./redux/actions/user.actions";
+import { clearUserError, clearUserMessage } from "./redux/slices/user.slice";
 
 const Login = lazy(() => import("./pages/auth/login"));
 const Home = lazy(() => import("./pages/dashboard/Home/Home"));
@@ -34,6 +37,8 @@ const TruckDetail = lazy(() => import("./pages/dashboard/settings/trucks/compone
 const Notification = lazy(() => import("./pages/dashboard/navigation/header/components/NotificationDetail"));
 
 function App() {
+    const { user, message, error, loading } = useSelector((state) => state.user);
+
     const dispatch = useDispatch();
     useEffect(() => {
         socket.on("connect", () => {
@@ -45,165 +50,60 @@ function App() {
         });
     }, [dispatch]);
 
-    const loader = <GlobalLoader />;
-    return (
+    useEffect(() => {
+        dispatch(getMyProfileAction());
+    }, [dispatch]);
+
+    // show message and error
+    useEffect(() => {
+        if (message) {
+            toast.success(message);
+            dispatch(clearUserMessage());
+        }
+        if (error) {
+            toast.error(error);
+            dispatch(clearUserError());
+        }
+    }, [message, error, dispatch]);
+    return loading ? (
+        <GlobalLoader />
+    ) : (
         <Router>
-            <Routes>
-                <Route
-                    path="/login"
-                    element={
-                        <Suspense fallback={loader}>
-                            <Login />
-                        </Suspense>
-                    }
-                />
-                <Route path="/verify-otp" element={<Otp />} />
-                <Route path="/forget-password" element={<ForgetPassword />} />
-                <Route path="/reset-password/:reset-token" element={<ResetPassword />} />
-                <Route path="/" element={<Navigate replace to="/login" />} />
-                <Route
-                    path="/dashboard"
-                    element={
-                        // <ProtectedRoute>
-                        <Suspense fallback={loader}>
-                            <Dashboard />
-                        </Suspense>
-                        // </ProtectedRoute>
-                    }
-                >
-                    <Route index element={<Navigate replace to="home" />} />
+            <Suspense fallback={<GlobalLoader />}>
+                <Routes>
                     <Route
-                        path="home"
-                        element={
-                            <Suspense fallback={loader}>
-                                <Home />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="reports/truck-report"
-                        element={
-                            <Suspense fallback={loader}>
-                                <TruckReport />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="reports/operations"
-                        element={
-                            <Suspense fallback={loader}>
-                                <DailyOperations />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="reports/sos"
-                        element={
-                            <Suspense fallback={loader}>
-                                <SOS />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="reports/video"
-                        element={
-                            <Suspense fallback={loader}>
-                                <VideoEvidence />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="setting/alert"
-                        element={
-                            <Suspense fallback={loader}>
-                                <AlertType />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="setting/drivers"
-                        element={
-                            <Suspense fallback={loader}>
-                                <Drivers />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="setting/trucks"
-                        element={
-                            <Suspense fallback={loader}>
-                                <Trucks />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="setting/devices"
-                        element={
-                            <Suspense fallback={loader}>
-                                <Devices />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="setting/employees"
-                        element={
-                            <Suspense fallback={loader}>
-                                <Employees />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="real-time-map"
-                        element={
-                            <Suspense fallback={loader}>
-                                <RealTimeMap />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="geofence"
-                        element={
-                            <Suspense fallback={loader}>
-                                <GeoFence />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="plans/subscription-plan"
-                        element={
-                            <Suspense fallback={loader}>
-                                <SubscriptionPlan />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="plans/subscription-history"
-                        element={
-                            <Suspense fallback={loader}>
-                                <SubscriptionHistory />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="truck-detail/:truckId"
-                        element={
-                            <Suspense fallback={loader}>
-                                <TruckDetail />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="notification"
-                        element={
-                            <Suspense fallback={loader}>
-                                {" "}
-                                <Notification />{" "}
-                            </Suspense>
-                        }
-                    />
-                </Route>
-            </Routes>
-            <ToastContainer />
+                        element={<ProtectedRoute isLogin={user ? false : true} redirect="/dashboard/home" />}
+                    >
+                        <Route path="/login" element={<Login />} />
+                    </Route>
+                    <Route path="/verify-otp" element={<Otp />} />
+                    <Route path="/forget-password" element={<ForgetPassword />} />
+                    <Route path="/reset-password/:reset-token" element={<ResetPassword />} />
+                    <Route path="/" element={<Navigate replace to="/login" />} />
+                    <Route element={<ProtectedRoute isLogin={user ? true : false} />}>
+                        <Route path="/dashboard" element={<Dashboard />}>
+                            <Route index element={<Navigate replace to="home" />} />
+                            <Route path="home" element={<Home />} />
+                            <Route path="reports/truck-report" element={<TruckReport />} />
+                            <Route path="reports/operations" element={<DailyOperations />} />
+                            <Route path="reports/sos" element={<SOS />} />
+                            <Route path="reports/video" element={<VideoEvidence />} />
+                            <Route path="setting/alert" element={<AlertType />} />
+                            <Route path="setting/drivers" element={<Drivers />} />
+                            <Route path="setting/trucks" element={<Trucks />} />
+                            <Route path="setting/devices" element={<Devices />} />
+                            <Route path="setting/employees" element={<Employees />} />
+                            <Route path="real-time-map" element={<RealTimeMap />} />
+                            <Route path="geofence" element={<GeoFence />} />
+                            <Route path="plans/subscription-plan" element={<SubscriptionPlan />} />
+                            <Route path="plans/subscription-history" element={<SubscriptionHistory />} />
+                            <Route path="truck-detail/:truckId" element={<TruckDetail />} />
+                            <Route path="notification" element={<Notification />} />
+                        </Route>
+                    </Route>
+                </Routes>
+                <ToastContainer />
+            </Suspense>
         </Router>
     );
 }

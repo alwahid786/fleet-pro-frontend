@@ -3,6 +3,9 @@ import {
     forgetPasswordFailure,
     forgetPasswordStart,
     forgetPasswordSuccess,
+    getMyProfileFailure,
+    getMyProfileStart,
+    getMyProfileSuccess,
     loginUserFailure,
     loginUserStart,
     loginUserSuccess,
@@ -27,6 +30,23 @@ const loginUserAction = (email, password) => async (dispatch) => {
         dispatch(loginUserFailure(error?.response?.data?.message || "Error ocurred while login"));
     }
 };
+
+// get my profile
+// --------------
+const getMyProfileAction = () => async (dispatch) => {
+    dispatch(getMyProfileStart());
+    try {
+        const response = await customAxios.get("/user/profile");
+        // console.log("get my profile api response ", response);
+        dispatch(getMyProfileSuccess(response.data));
+    } catch (error) {
+        // console.log(error);
+        dispatch(
+            getMyProfileFailure(error?.response?.data?.message || "Error ocurred while getting my profile")
+        );
+    }
+};
+
 // forget password
 // ---------------
 const forgetPasswordAction = (email) => async (dispatch) => {
@@ -75,4 +95,4 @@ const logoutUserAction = () => async (dispatch) => {
     }
 };
 
-export { loginUserAction, forgetPasswordAction, resetPasswordAction, logoutUserAction };
+export { loginUserAction, forgetPasswordAction, resetPasswordAction, logoutUserAction, getMyProfileAction };

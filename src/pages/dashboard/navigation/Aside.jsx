@@ -1,45 +1,46 @@
 /* eslint-disable react/prop-types */
 import { Box, Button, Stack, Typography, styled } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import AsideTruckBgImg from "../../../assets/images/asidetrucksec.png";
 import AsideTruckIcon from "../../../assets/svgs/AsideTruckIcon";
 import ChevronIcon from "../../../assets/svgs/ChevronIcon";
 import ChevronIconUp from "../../../assets/svgs/ChevronIconUp";
 import ChevronRightIcon from "../../../assets/svgs/ChevronRightIcon";
 import DashboardIcon from "../../../assets/svgs/DashboardIcon";
+import GeofenceIcon from "../../../assets/svgs/geofence/GeofenceIcon";
 import HomeIcon from "../../../assets/svgs/HomeIcon";
 import LogoIcon from "../../../assets/svgs/LogoIcon";
+import PlanIcon from "../../../assets/svgs/plans/PlanIcon";
+import PricingIcon from "../../../assets/svgs/plans/PricingIcon";
+import ReceiptIcon from "../../../assets/svgs/plans/ReceiptIcon";
 import RealTimeMapIcon from "../../../assets/svgs/RealTimeMapIcon";
 import ReportNestedIcon from "../../../assets/svgs/ReportNestedIcon";
 import ReportsIcon from "../../../assets/svgs/ReportsIcon";
 import SettingIcon from "../../../assets/svgs/SettingIcon";
 import SettingNestedIcon from "../../../assets/svgs/SettingNestedIcon";
 import { logoutUserAction } from "../../../redux/actions/user.actions";
-import useShowMessageError from "../../../hooks/useShowMessageError";
 import { clearUserError, clearUserMessage } from "../../../redux/slices/user.slice";
-import GeofenceIcon from '../../../assets/svgs/geofence/GeofenceIcon'
-import PricingIcon from "../../../assets/svgs/plans/PricingIcon";
-import PlanIcon from "../../../assets/svgs/plans/PlanIcon";
-import ReceiptIcon from '../../../assets/svgs/plans/ReceiptIcon'
 
 const Aside = ({ toggleNav }) => {
+    const navigate = useNavigate();
     const location = useLocation();
-    let urlArr = location.pathname.split('/');
+    let urlArr = location.pathname.split("/");
     let path = urlArr[2];
     const [openPage, setOpenPage] = useState(null);
     const [isActivePage, setIsActivePage] = useState(path);
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const { message, error } = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
-    
+
     const handlePages = (page) => {
-        if(page.subPages) {
-            setOpenPage(page.page)
+        if (page.subPages) {
+            setOpenPage(page.page);
         } else {
             setOpenPage(openPage === page ? null : page);
         }
@@ -49,129 +50,138 @@ const Aside = ({ toggleNav }) => {
     const handleLogout = () => {
         setIsLoading(true);
         dispatch(logoutUserAction());
+        navigate("/login");
         setIsLoading(false);
     };
 
-    // show message and error
-    useShowMessageError(message, clearUserMessage, error, clearUserError, "/login");
+    useEffect(() => {
+        if (message) {
+            toast.success(message);
+            dispatch(clearUserMessage());
+        }
+        if (error) {
+            toast.error(error);
+            dispatch(clearUserError());
+        }
+    }, [message, error, dispatch]);
 
     const pages = [
         {
-          icon: <HomeIcon isActivePage={isActivePage} />,
-          title: 'Home',
-          route: '/dashboard/home',
-          page: 'home',
+            icon: <HomeIcon isActivePage={isActivePage} />,
+            title: "Home",
+            route: "/dashboard/home",
+            page: "home",
         },
         {
-          icon: <DashboardIcon isActivePage={isActivePage} />,
-          title: 'Dashboard',
-          // route: '/dashboard/map',
-          page: 'dashboard',
-          subPages: [
-            {
-              icon: <RealTimeMapIcon isActivePage={isActivePage} />,
-              title: 'Real Time Map',
-              route: '/dashboard/real-time-map',
-              page: 'real-time-map',
-            },
-            {
-              icon: <GeofenceIcon isActivePage={isActivePage} />,
-              title: 'Geofence',
-              route: '/dashboard/geofence',
-              page: 'geofence',
-            },
-          ],
+            icon: <DashboardIcon isActivePage={isActivePage} />,
+            title: "Dashboard",
+            // route: '/dashboard/map',
+            page: "dashboard",
+            subPages: [
+                {
+                    icon: <RealTimeMapIcon isActivePage={isActivePage} />,
+                    title: "Real Time Map",
+                    route: "/dashboard/real-time-map",
+                    page: "real-time-map",
+                },
+                {
+                    icon: <GeofenceIcon isActivePage={isActivePage} />,
+                    title: "Geofence",
+                    route: "/dashboard/geofence",
+                    page: "geofence",
+                },
+            ],
         },
         {
-          icon: <ReportsIcon isActivePage={isActivePage} />,
-          title: 'Reports',
-          // route: '/dashboard/reports/truckreport',
-          page: 'reports',
-          subPages: [
-            {
-              icon: <ReportNestedIcon />,
-              title: 'Truck Report',
-              route: '/dashboard/reports/truck-report',
-              page: 'truck-report',
-            },
-            {
-              icon: <ReportNestedIcon />,
-              title: 'Daily Operation',
-              route: '/dashboard/reports/operations',
-              page: 'daily-operation',
-            },
-            {
-              icon: <ReportNestedIcon />,
-              title: 'Video Evidence',
-              route: '/dashboard/reports/video',
-              page: 'video-evidence',
-            },
-            {
-              icon: <ReportNestedIcon />,
-              title: 'SOS',
-              route: '/dashboard/reports/sos',
-              page: 'sos',
-            },
-          ],
+            icon: <ReportsIcon isActivePage={isActivePage} />,
+            title: "Reports",
+            // route: '/dashboard/reports/truckreport',
+            page: "reports",
+            subPages: [
+                {
+                    icon: <ReportNestedIcon />,
+                    title: "Truck Report",
+                    route: "/dashboard/reports/truck-report",
+                    page: "truck-report",
+                },
+                {
+                    icon: <ReportNestedIcon />,
+                    title: "Daily Operation",
+                    route: "/dashboard/reports/operations",
+                    page: "daily-operation",
+                },
+                {
+                    icon: <ReportNestedIcon />,
+                    title: "Video Evidence",
+                    route: "/dashboard/reports/video",
+                    page: "video-evidence",
+                },
+                {
+                    icon: <ReportNestedIcon />,
+                    title: "SOS",
+                    route: "/dashboard/reports/sos",
+                    page: "sos",
+                },
+            ],
         },
         {
-          icon: <SettingIcon isActivePage={isActivePage} />,
-          title: 'Settings',
-        //   route: '/dashboard/setting/alert',
-          page: 'settings',
-          subPages: [
-            {
-              icon: <SettingNestedIcon />,
-              title: 'Alerts Type',
-              route: '/dashboard/setting/alert',
-              page: 'alerts-type',
-            },
-            {
-              icon: <SettingNestedIcon />,
-              title: 'Drivers',
-              route: '/dashboard/setting/drivers',
-              page: 'drivers',
-            },
-            {
-              icon: <SettingNestedIcon />,
-              title: 'Trucks',
-              route: '/dashboard/setting/trucks',
-              page: 'trucks',
-            },
-            {
-              icon: <SettingNestedIcon />,
-              title: 'Devices',
-              route: '/dashboard/setting/devices',
-              page: 'devices',
-            },
-            {
-              icon: <SettingNestedIcon />,
-              title: 'Employees',
-              route: '/dashboard/setting/employees',
-              page: 'employees',
-            },
-          ],
+            icon: <SettingIcon isActivePage={isActivePage} />,
+            title: "Settings",
+            //   route: '/dashboard/setting/alert',
+            page: "settings",
+            subPages: [
+                {
+                    icon: <SettingNestedIcon />,
+                    title: "Alerts Type",
+                    route: "/dashboard/setting/alert",
+                    page: "alerts-type",
+                },
+                {
+                    icon: <SettingNestedIcon />,
+                    title: "Drivers",
+                    route: "/dashboard/setting/drivers",
+                    page: "drivers",
+                },
+                {
+                    icon: <SettingNestedIcon />,
+                    title: "Trucks",
+                    route: "/dashboard/setting/trucks",
+                    page: "trucks",
+                },
+                {
+                    icon: <SettingNestedIcon />,
+                    title: "Devices",
+                    route: "/dashboard/setting/devices",
+                    page: "devices",
+                },
+                {
+                    icon: <SettingNestedIcon />,
+                    title: "Employees",
+                    route: "/dashboard/setting/employees",
+                    page: "employees",
+                },
+            ],
         },
         {
-          icon: <PricingIcon isActivePage={isActivePage} />,
-          title: 'Pricing Plan',
-          page: 'plans',
-          subPages: [
-            {
-              icon: <PlanIcon />,
-              title: 'Plans',
-              route: '/dashboard/plans/subscription-plan',
-              page: 'subscription-plan',
-            },
-            {
-              icon: <ReceiptIcon />,
-              title: 'Receipt',
-              route: '/dashboard/plans/subscription-history',
-              page: 'subscription-history',
-            },
-          ],
+            icon: <PricingIcon isActivePage={isActivePage} />,
+            title: "Pricing Plan",
+            page: "plans",
+            subPages: [
+                {
+                    icon: <PlanIcon />,
+                    title: "Plans",
+                    route: "/dashboard/plans/subscription-plan",
+                    page: "subscription-plan",
+                },
+                {
+                    icon: <ReceiptIcon />,
+                    title: "Receipt",
+                    route: "/dashboard/plans/subscription-history",
+                    page: "subscription-history",
+                },
+            ],
         },
-      ]
+    ];
 
     return (
         <>
@@ -296,7 +306,7 @@ const Aside = ({ toggleNav }) => {
                         ))}
                     </Box>
                 </Stack>
-                <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', gap: '1rem'}}>
+                <Box sx={{ display: "flex", flexDirection: "column", width: "100%", gap: "1rem" }}>
                     <AsideTruckSec>
                         <Box
                             sx={{
@@ -327,7 +337,8 @@ const Aside = ({ toggleNav }) => {
                             <AsideTruckIcon />
                         </Box>
                     </AsideTruckSec>
-                    <Button size="large"
+                    <Button
+                        size="large"
                         sx={{
                             color: "#fff",
                         }}
