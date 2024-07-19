@@ -11,6 +11,36 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
+        // register user
+        // --------------
+
+        registerUserStart: (state) => {
+            state.loading = true;
+        },
+        registerUserSuccess: (state, action) => {
+            state.loading = false;
+            state.message = action.payload.message;
+            state.user = action.payload.data;
+        },
+        registerUserFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
+        // send verification token again
+        // -----------------------------
+        resendVerificationTokenStart: (state) => {
+            state.loading = true;
+        },
+        resendVerificationTokenSuccess: (state, action) => {
+            state.loading = false;
+            state.message = action.payload.message;
+        },
+        resendVerificationTokenFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
         // user login
         // -----------
         loginUserStart: (state) => {
@@ -95,6 +125,12 @@ const userSlice = createSlice({
 });
 
 export const {
+    registerUserStart,
+    registerUserSuccess,
+    registerUserFailure,
+    resendVerificationTokenStart,
+    resendVerificationTokenSuccess,
+    resendVerificationTokenFailure,
     loginUserStart,
     loginUserSuccess,
     loginUserFailure,

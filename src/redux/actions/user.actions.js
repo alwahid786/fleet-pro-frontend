@@ -1,4 +1,4 @@
-import { customAxios } from "../../utils/customAxios";
+import { customAxios, customFormAxios } from "../../utils/customAxios";
 import {
     forgetPasswordFailure,
     forgetPasswordStart,
@@ -12,10 +12,48 @@ import {
     logoutUserFailure,
     logoutUserStart,
     logoutUserSuccess,
+    registerUserFailure,
+    registerUserStart,
+    registerUserSuccess,
+    resendVerificationTokenFailure,
+    resendVerificationTokenStart,
+    resendVerificationTokenSuccess,
     resetPasswordFailure,
     resetPasswordStart,
     resetPasswordSuccess,
 } from "../slices/user.slice";
+
+// login Action
+// -----------
+const registerUserAction = (formData) => async (dispatch) => {
+    dispatch(registerUserStart());
+    try {
+        const response = await customFormAxios.post("/user/register", formData);
+        console.log("user login api response ", response);
+        dispatch(registerUserSuccess(response.data));
+    } catch (error) {
+        console.log(error);
+        dispatch(registerUserFailure(error?.response?.data?.message || "Error ocurred while Register"));
+    }
+};
+
+// resend verification token
+// -------------------------
+const resendVerificationTokenAction = () => async (dispatch) => {
+    dispatch(resendVerificationTokenStart());
+    try {
+        const response = await customAxios.get("/user/verification-url");
+        // console.log("resend verification token api response ", response);
+        dispatch(resendVerificationTokenSuccess(response.data));
+    } catch (error) {
+        // console.log(error);
+        dispatch(
+            resendVerificationTokenFailure(
+                error?.response?.data?.message || "Error ocurred while resend verification token"
+            )
+        );
+    }
+};
 
 // login Action
 // -----------
@@ -95,4 +133,12 @@ const logoutUserAction = () => async (dispatch) => {
     }
 };
 
-export { loginUserAction, forgetPasswordAction, resetPasswordAction, logoutUserAction, getMyProfileAction };
+export {
+    registerUserAction,
+    resendVerificationTokenAction,
+    loginUserAction,
+    forgetPasswordAction,
+    resetPasswordAction,
+    logoutUserAction,
+    getMyProfileAction,
+};

@@ -15,6 +15,7 @@ import { getDeviceDataAction } from "./redux/actions/device.actions";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import { getMyProfileAction } from "./redux/actions/user.actions";
 import { clearUserError, clearUserMessage } from "./redux/slices/user.slice";
+import NotVerified from "./components/verification/NotVerified";
 
 const Login = lazy(() => import("./pages/auth/login"));
 const Home = lazy(() => import("./pages/dashboard/Home/Home"));
@@ -35,7 +36,7 @@ const SubscriptionHistory = lazy(
 );
 const TruckDetail = lazy(() => import("./pages/dashboard/settings/trucks/components/TruckDetail"));
 const Notification = lazy(() => import("./pages/dashboard/navigation/header/components/NotificationDetail"));
-const Register = lazy(() => import('./pages/auth/register/Register'))
+const Register = lazy(() => import("./pages/auth/register/Register"));
 
 function App() {
     const { user, message, error, loading } = useSelector((state) => state.user);
@@ -73,16 +74,24 @@ function App() {
             <Suspense fallback={<GlobalLoader />}>
                 <Routes>
                     <Route
-                        element={<ProtectedRoute isLogin={user ? false : true} redirect="/dashboard/home" />}
+                        element={
+                            <ProtectedRoute
+                                isLogin={user ? false : true}
+                                user={user}
+                                redirect="/dashboard/home"
+                            />
+                        }
                     >
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                     </Route>
                     <Route path="/verify-otp" element={<Otp />} />
                     <Route path="/forget-password" element={<ForgetPassword />} />
+                    <Route path="/verify-email" element={<NotVerified isVerified={user?.isVerified} />} />
                     <Route path="/reset-password/:reset-token" element={<ResetPassword />} />
                     <Route path="/" element={<Navigate replace to="/login" />} />
-                    <Route element={<ProtectedRoute isLogin={user ? true : false} />}>
+                    <Route element={<ProtectedRoute user={user} isLogin={user ? true : false} />}>
+                        {/* <Route path="/verify-email" element={<NotVerified isVerified={user?.isVerified} />} /> */}
                         <Route path="/dashboard" element={<Dashboard />}>
                             <Route index element={<Navigate replace to="home" />} />
                             <Route path="home" element={<Home />} />
