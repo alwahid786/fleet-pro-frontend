@@ -35,6 +35,7 @@ const SubscriptionHistory = lazy(
 );
 const TruckDetail = lazy(() => import("./pages/dashboard/settings/trucks/components/TruckDetail"));
 const Notification = lazy(() => import("./pages/dashboard/navigation/header/components/NotificationDetail"));
+const Register = lazy(() => import('./pages/auth/register/Register'))
 
 function App() {
     const { user, message, error, loading } = useSelector((state) => state.user);
@@ -65,7 +66,7 @@ function App() {
             dispatch(clearUserError());
         }
     }, [message, error, dispatch]);
-    return loading ? (
+    return false ? (
         <GlobalLoader />
     ) : (
         <Router>
@@ -75,6 +76,7 @@ function App() {
                         element={<ProtectedRoute isLogin={user ? false : true} redirect="/dashboard/home" />}
                     >
                         <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
                     </Route>
                     <Route path="/verify-otp" element={<Otp />} />
                     <Route path="/forget-password" element={<ForgetPassword />} />

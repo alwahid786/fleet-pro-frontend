@@ -90,3 +90,30 @@ export const addFenceSchema = Yup.object({
     .typeError("End date must be a valid date")
     .min(Yup.ref("startDate"), "End date must be later than start date"),
 });
+
+export const registerSchema = Yup.object({
+  firstName: Yup.string().required("First name is required"),
+  lastName: Yup.string().required("Last name is required"),
+  email: Yup.string().required("Email is required"),
+  phone: Yup.string().required("Phone number is required"),
+  password: Yup.string().min(6).required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Password must match")
+    .min(6)
+    .required("Password is required"),
+  address: Yup.string().required("Address is required"),
+  period: Yup.string().required("Time period is required"),
+  image: Yup.mixed()
+    .required("Image is required")
+    .test(
+      "fileFormat",
+      "Unsupported file format",
+      (value) =>
+        value && ["image/jpeg", "image/png", "image/gif"].includes(value.type)
+    )
+    .test(
+      "fileSize",
+      "File is too large",
+      (value) => value && value.size <= 1024 * 1024 // 1MB limit
+    ),
+});
