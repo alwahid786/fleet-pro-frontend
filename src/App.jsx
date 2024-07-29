@@ -1,3 +1,5 @@
+/* eslint-disable no-constant-condition */
+/* eslint-disable no-unused-vars */
 import { lazy, Suspense, useEffect } from "react";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import GlobalLoader from "./components/loader/Loader";
-import { socket, socketEvent } from "./constants/constants";
+import { socket, socketEvent, stripeLoad } from "./constants/constants";
 import ForgetPassword from "./pages/auth/forget-password/ForgetPassword";
 import Otp from "./pages/auth/otp/Otp";
 import ResetPassword from "./pages/auth/reset-password/ResetPassword";
@@ -16,6 +18,8 @@ import ProtectedRoute from "./components/ProtectedRoutes";
 import { getMyProfileAction } from "./redux/actions/user.actions";
 import { clearUserError, clearUserMessage } from "./redux/slices/user.slice";
 import NotVerified from "./components/verification/NotVerified";
+import { Elements } from "@stripe/react-stripe-js";
+import { getAllNotificationsAction } from "./redux/actions/notification.actions";
 
 const Login = lazy(() => import("./pages/auth/login"));
 const Home = lazy(() => import("./pages/dashboard/Home/Home"));
@@ -54,6 +58,7 @@ function App() {
 
     useEffect(() => {
         dispatch(getMyProfileAction());
+        dispatch(getAllNotificationsAction());
     }, [dispatch]);
 
     // show message and error
@@ -70,52 +75,56 @@ function App() {
     return false ? (
         <GlobalLoader />
     ) : (
-        <Router>
-            <Suspense fallback={<GlobalLoader />}>
-                <Routes>
-                    <Route
-                        element={
-                            <ProtectedRoute
-                                isLogin={user ? false : true}
-                                user={user}
-                                redirect="/dashboard/home"
-                            />
-                        }
-                    >
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                    </Route>
-                    <Route path="/verify-otp" element={<Otp />} />
-                    <Route path="/forget-password" element={<ForgetPassword />} />
-                    <Route path="/verify-email" element={<NotVerified isVerified={user?.isVerified} />} />
-                    <Route path="/reset-password/:reset-token" element={<ResetPassword />} />
-                    <Route path="/" element={<Navigate replace to="/login" />} />
-                    <Route element={<ProtectedRoute user={user} isLogin={user ? true : false} />}>
-                        {/* <Route path="/verify-email" element={<NotVerified isVerified={user?.isVerified} />} /> */}
-                        <Route path="/dashboard" element={<Dashboard />}>
-                            <Route index element={<Navigate replace to="home" />} />
-                            <Route path="home" element={<Home />} />
-                            <Route path="reports/truck-report" element={<TruckReport />} />
-                            <Route path="reports/operations" element={<DailyOperations />} />
-                            <Route path="reports/sos" element={<SOS />} />
-                            <Route path="reports/video" element={<VideoEvidence />} />
-                            <Route path="setting/alert" element={<AlertType />} />
-                            <Route path="setting/drivers" element={<Drivers />} />
-                            <Route path="setting/trucks" element={<Trucks />} />
-                            <Route path="setting/devices" element={<Devices />} />
-                            <Route path="setting/employees" element={<Employees />} />
-                            <Route path="real-time-map" element={<RealTimeMap />} />
-                            <Route path="geofence" element={<GeoFence />} />
-                            <Route path="plans/subscription-plan" element={<SubscriptionPlan />} />
-                            <Route path="plans/subscription-history" element={<SubscriptionHistory />} />
-                            <Route path="truck-detail/:truckId" element={<TruckDetail />} />
-                            <Route path="notification" element={<Notification />} />
+        <Elements stripe={stripeLoad}>
+            <Router>
+                <Suspense fallback={<GlobalLoader />}>
+                    <Routes>
+                        <Route
+                            element={
+                                <ProtectedRoute
+                                    isLogin={user ? false : true}
+                                    user={user}
+                                    redirect="/dashboard/home"
+                                />
+                            }
+                        >
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
                         </Route>
-                    </Route>
-                </Routes>
-                <ToastContainer />
-            </Suspense>
-        </Router>
+                        <Route path="/verify-otp" element={<Otp />} />
+                        <Route path="/forget-password" element={<ForgetPassword />} />
+                        <Route
+                            path="/verify-email"
+                            element={<NotVerified user={user} isVerified={user?.isVerified} />}
+                        />
+                        <Route path="/reset-password/:reset-token" element={<ResetPassword />} />
+                        <Route path="/" element={<Navigate replace to="/login" />} />
+                        <Route element={<ProtectedRoute user={user} isLogin={user ? true : false} />}>
+                            <Route path="/dashboard" element={<Dashboard />}>
+                                <Route index element={<Navigate replace to="home" />} />
+                                <Route path="home" element={<Home />} />
+                                <Route path="reports/truck-report" element={<TruckReport />} />
+                                <Route path="reports/operations" element={<DailyOperations />} />
+                                <Route path="reports/sos" element={<SOS />} />
+                                <Route path="reports/video" element={<VideoEvidence />} />
+                                <Route path="setting/alert" element={<AlertType />} />
+                                <Route path="setting/drivers" element={<Drivers />} />
+                                <Route path="setting/trucks" element={<Trucks />} />
+                                <Route path="setting/devices" element={<Devices />} />
+                                <Route path="setting/employees" element={<Employees />} />
+                                <Route path="real-time-map" element={<RealTimeMap />} />
+                                <Route path="geofence" element={<GeoFence />} />
+                                <Route path="plans/subscription-plan" element={<SubscriptionPlan />} />
+                                <Route path="plans/subscription-history" element={<SubscriptionHistory />} />
+                                <Route path="truck-detail/:truckId" element={<TruckDetail />} />
+                                <Route path="notification" element={<Notification />} />
+                            </Route>
+                        </Route>
+                    </Routes>
+                    <ToastContainer />
+                </Suspense>
+            </Router>
+        </Elements>
     );
 }
 

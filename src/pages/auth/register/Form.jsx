@@ -1,3 +1,4 @@
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
     Box,
     Button,
@@ -12,16 +13,15 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import CameraIcon from "../../../assets/svgs/modal/CameraIcon";
-import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { registerSchema } from "../../../schemas";
-import { registerUserAction } from "../../../redux/actions/user.actions";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import CameraIcon from "../../../assets/svgs/modal/CameraIcon";
+import { registerUserAction } from "../../../redux/actions/user.actions";
 import { clearUserError, clearUserMessage } from "../../../redux/slices/user.slice";
+import { registerSchema } from "../../../schemas";
 
 const Form = () => {
     const navigate = useNavigate();
@@ -91,7 +91,7 @@ const Form = () => {
             toast.error(error);
             dispatch(clearUserError());
         }
-    }, [message, error, dispatch, resetForm]);
+    }, [message, error, dispatch, resetForm, navigate]);
 
     return (
         <FormContainer onSubmit={handleSubmit}>

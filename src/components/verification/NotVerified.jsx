@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { resendVerificationTokenAction } from "../../redux/actions/user.actions";
 
-const NotVerified = ({ isVerified = false }) => {
+const NotVerified = ({ isVerified = false, user = false }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -17,11 +17,9 @@ const NotVerified = ({ isVerified = false }) => {
     };
 
     useEffect(() => {
-        if (isVerified) {
-            return navigate("/dashboard/home");
-            // window.location.reload();
-        }
-    }, [isVerified, navigate]);
+        if (isVerified) return navigate("/dashboard/home");
+        if (!user) return navigate("/login");
+    }, [isVerified, navigate, user]);
     return (
         <Container
             maxWidth="md"
@@ -56,10 +54,6 @@ const NotVerified = ({ isVerified = false }) => {
                     >
                         {loading ? <CircularProgress sx={{ color: "white", mx: 1 }} size={20} /> : null}
                         {loading ? "Sending Verification link" : "Resend Verification Link"}
-                    </Button>
-
-                    <Button sx={{ mt: 4, color: "white", padding: "10px 20px" }}>
-                        I Verified My Account
                     </Button>
                 </Box>
             </Box>
