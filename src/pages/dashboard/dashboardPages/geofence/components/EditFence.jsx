@@ -33,6 +33,7 @@ const EditFence = ({ onClose, editSelectedRow }) => {
     const [trucks, setTrucks] = useState(geofence?.trucks || []);
     const [updateGeofenceLoading, setUpdateGeofenceLoading] = useState(false);
 
+    // update geofence logic here
     const updateGeofenceHandler = async () => {
         setUpdateGeofenceLoading(true);
         const geofenceData = {
@@ -48,6 +49,7 @@ const EditFence = ({ onClose, editSelectedRow }) => {
         setUpdateGeofenceLoading(false);
     };
 
+    // get single geofence data on component load
     useEffect(() => {
         dispatch(getSingleGeofenceAction(editSelectedRow?._id));
     }, [dispatch, editSelectedRow?._id]);
