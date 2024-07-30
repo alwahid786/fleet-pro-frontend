@@ -24,7 +24,7 @@ const Notification = ({ notifications }) => {
         <>
             <NotificationBox onClick={handleNotificationOpen}>
                 <NotifictionIcon />
-                {notifications.length > 0 && (
+                {notifications?.length > 0 && (
                     <NotificationNumbers>{notifications.length}</NotificationNumbers>
                 )}
             </NotificationBox>
