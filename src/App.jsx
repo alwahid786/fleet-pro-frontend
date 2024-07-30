@@ -1,5 +1,6 @@
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
+import { Elements } from "@stripe/react-stripe-js";
 import { lazy, Suspense, useEffect } from "react";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,18 +9,17 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import GlobalLoader from "./components/loader/Loader";
+import ProtectedRoute from "./components/ProtectedRoutes";
+import NotVerified from "./components/verification/NotVerified";
 import { socket, socketEvent, stripeLoad } from "./constants/constants";
 import ForgetPassword from "./pages/auth/forget-password/ForgetPassword";
 import Otp from "./pages/auth/otp/Otp";
 import ResetPassword from "./pages/auth/reset-password/ResetPassword";
 import Dashboard from "./pages/dashboard";
 import { getDeviceDataAction } from "./redux/actions/device.actions";
-import ProtectedRoute from "./components/ProtectedRoutes";
+import { getAllNotificationsAction } from "./redux/actions/notification.actions";
 import { getMyProfileAction } from "./redux/actions/user.actions";
 import { clearUserError, clearUserMessage } from "./redux/slices/user.slice";
-import NotVerified from "./components/verification/NotVerified";
-import { Elements } from "@stripe/react-stripe-js";
-import { getAllNotificationsAction } from "./redux/actions/notification.actions";
 
 const Login = lazy(() => import("./pages/auth/login"));
 const Home = lazy(() => import("./pages/dashboard/Home/Home"));
@@ -72,9 +72,7 @@ function App() {
             dispatch(clearUserError());
         }
     }, [message, error, dispatch]);
-    return false ? (
-        <GlobalLoader />
-    ) : (
+    return (
         <Elements stripe={stripeLoad}>
             <Router>
                 <Suspense fallback={<GlobalLoader />}>

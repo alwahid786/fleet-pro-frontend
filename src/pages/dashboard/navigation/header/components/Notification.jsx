@@ -1,13 +1,14 @@
-import { useState } from "react";
-import NotifictionIcon from "../../../../../assets/svgs/NotifictionIcon";
+/* eslint-disable react/prop-types */
 import { Box, styled } from "@mui/material";
-import NotificationContent from "./NotificationContent";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import NotifictionIcon from "../../../../../assets/svgs/NotifictionIcon";
 import { getAllNotificationsAction } from "../../../../../redux/actions/notification.actions";
+import NotificationContent from "./NotificationContent";
 
-const Notification = () => {
+const Notification = ({ notifications }) => {
     const dispatch = useDispatch();
-    const { notifications } = useSelector((state) => state.notification);
+
     const [notiOpen, setNotiOpen] = useState(null);
 
     const handleNotificationOpen = async (e) => {
@@ -15,7 +16,7 @@ const Notification = () => {
         await dispatch(getAllNotificationsAction());
     };
 
-    const handleNotificationClose = (e) => {
+    const handleNotificationClose = () => {
         setNotiOpen(null);
     };
 
@@ -23,7 +24,9 @@ const Notification = () => {
         <>
             <NotificationBox onClick={handleNotificationOpen}>
                 <NotifictionIcon />
-                <NotificationNumbers>{notifications?.length}</NotificationNumbers>
+                {notifications.length > 0 && (
+                    <NotificationNumbers>{notifications.length}</NotificationNumbers>
+                )}
             </NotificationBox>
             <NotificationContent notiOpen={notiOpen} handleNotificationClose={handleNotificationClose} />
         </>

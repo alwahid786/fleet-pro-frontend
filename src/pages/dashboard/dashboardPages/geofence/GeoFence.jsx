@@ -60,7 +60,6 @@ const GeoFence = () => {
     const handleCloseModal = () => {
         setModalType(null);
     };
-
     const columns = [
         {
             field: "name",

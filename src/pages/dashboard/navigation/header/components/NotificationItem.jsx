@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import SDIcon from "../../../../../assets/svgs/notification/SDIcon";
 import FatigueIcon from "../../../../../assets/svgs/notification/FatigueIcon";
 import GeoFencingIcon from "../../../../../assets/svgs/notification/GeoFencingIcon";
@@ -6,7 +6,7 @@ import InFenceIcon from "../../../../../assets/svgs/notification/InFence";
 import HeadwayIcon from "../../../../../assets/svgs/notification/HeadwayIcon";
 import { Box, Typography } from "@mui/material";
 
-const NotificationItem = ({ time, type, message }) => {
+const NotificationItem = ({ createdAt, type, message, isRead }) => {
     const { backgroundColor, icon } = getNotificationDetails(type);
 
     return (
@@ -15,6 +15,7 @@ const NotificationItem = ({ time, type, message }) => {
                 display: "flex",
                 gap: "1rem",
                 p: 2,
+                backgroundColor: isRead ? "rgba(230, 230, 230, 0.8)" : "rgba(255, 255, 255, 1)",
                 borderTop: "1px solid rgba(230, 230, 230, 1)",
                 borderBottom: "1px solid rgba(230, 230, 230, 1)",
             }}
@@ -39,6 +40,14 @@ const NotificationItem = ({ time, type, message }) => {
                 </Typography>
                 <Typography sx={{ color: "rgba(0, 0, 0, 1)", fontSize: "12px", fontWeight: 500 }}>
                     {message}
+                </Typography>
+                <Typography sx={{ color: "gray", textAlign: "right", fontSize: "12px", fontWeight: 500 }}>
+                    {createdAt.split("T")[0].split("-").reverse().join("-") + " "}
+                    {new Date(createdAt).toLocaleString("en-US", {
+                        hour: "numeric",
+                        minute: "numeric",
+                        hour12: true,
+                    })}
                 </Typography>
             </Box>
         </Box>

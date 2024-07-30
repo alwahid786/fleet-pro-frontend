@@ -1,12 +1,10 @@
+/* eslint-disable react/prop-types */
 import { Box, Menu, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-import NotificationItem from "./NotificationItem";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllNotificationsAction } from "../../../../../redux/actions/notification.actions";
+import NotificationItem from "./NotificationItem";
 
 const NotificationContent = ({ notiOpen, handleNotificationClose }) => {
-    const dispatch = useDispatch();
     const { notifications } = useSelector((state) => state.notification);
     console.log("notifications", notifications);
     return (
@@ -51,7 +49,7 @@ const NotificationInnerContent = () => {
             <Box sx={{ display: "flex", gap: "1.3rem", p: 2 }}>
                 <Typography sx={{ fontSize: "10px", color: "rgba(65, 65, 65, 1)" }}>Notifications</Typography>
                 <Typography sx={{ fontSize: "10px", color: "rgba(0, 107, 206, 1)", fontWeight: 500 }}>
-                    12 New
+                    {notifications?.length} Unread
                 </Typography>
             </Box>
 
@@ -60,7 +58,8 @@ const NotificationInnerContent = () => {
                     key={index}
                     type={notification?.type}
                     message={notification?.message}
-                    time={notification?.createdAt}
+                    createdAt={notification?.createdAt}
+                    isRead={notification?.isRead}
                 />
             ))}
             <Link

@@ -1,5 +1,16 @@
 /* eslint-disable react/prop-types */
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    CircularProgress,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
@@ -20,6 +31,11 @@ const EditFence = ({ onClose, editSelectedRow }) => {
     const [startDate, setStartDate] = useState(geofence?.startDate?.split("T")[0] || "");
     const [endDate, setEndDate] = useState(geofence?.endDate?.split("T")[0] || "");
     const [trucks, setTrucks] = useState(geofence?.trucks || []);
+    const [updateGeofenceLoading, setUpdateGeofenceLoading] = useState(false);
+
+    const updateGeofenceHandler = async () => {
+        setUpdateGeofenceLoading(true);
+    };
 
     useEffect(() => {
         dispatch(getSingleGeofenceAction(editSelectedRow?._id));
@@ -164,6 +180,18 @@ const EditFence = ({ onClose, editSelectedRow }) => {
                             shrink: true,
                         }}
                     />
+                </Grid>
+                <Grid item xs="12" lg="6">
+                    <Button
+                        onClick={updateGeofenceHandler}
+                        sx={{ width: "100%", color: "#fff", height: "100%" }}
+                        disabled={updateGeofenceLoading}
+                    >
+                        {!updateGeofenceLoading && (
+                            <CircularProgress sx={{ mx: "10px", color: "white" }} size={25} />
+                        )}
+                        Update Geofence
+                    </Button>
                 </Grid>
             </Grid>
             {/* Map */}

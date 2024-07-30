@@ -65,9 +65,8 @@ const userSlice = createSlice({
             state.loading = false;
             state.user = action.payload.user;
         },
-        getMyProfileFailure: (state, action) => {
+        getMyProfileFailure: (state) => {
             state.loading = false;
-            state.error = action.payload;
         },
 
         // forget password
