@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BackIcon from "../../../../../assets/svgs/modal/BackIcon";
 import CloseIcon from "../../../../../assets/svgs/modal/CloseIcon";
 import { socket, socketEvent } from "../../../../../constants/constants";
-import { getSingleGeofenceAction } from "../../../../../redux/actions/geofence.action";
+import { getSingleGeofenceAction, updateGeofenceAction } from "../../../../../redux/actions/geofence.action";
 import EditMap from "./EditMap";
 import TruckList from "./TruckList";
 import { isTruckInPolygon } from "../../../../../utils/isTruckInPolygon";
@@ -35,6 +35,17 @@ const EditFence = ({ onClose, editSelectedRow }) => {
 
     const updateGeofenceHandler = async () => {
         setUpdateGeofenceLoading(true);
+        const geofenceData = {
+            name,
+            alert,
+            status,
+            startDate,
+            endDate,
+            area,
+        };
+        await dispatch(updateGeofenceAction(geofence?._id, geofenceData));
+        await dispatch(getSingleGeofenceAction(editSelectedRow?._id));
+        setUpdateGeofenceLoading(false);
     };
 
     useEffect(() => {
@@ -184,10 +195,15 @@ const EditFence = ({ onClose, editSelectedRow }) => {
                 <Grid item xs="12" lg="6">
                     <Button
                         onClick={updateGeofenceHandler}
-                        sx={{ width: "100%", color: "#fff", height: "100%" }}
+                        sx={{
+                            width: "100%",
+                            color: "#fff",
+                            height: "100%",
+                            "&:disabled": { color: "white", cursor: "not-allowed" },
+                        }}
                         disabled={updateGeofenceLoading}
                     >
-                        {!updateGeofenceLoading && (
+                        {updateGeofenceLoading && (
                             <CircularProgress sx={{ mx: "10px", color: "white" }} size={25} />
                         )}
                         Update Geofence
